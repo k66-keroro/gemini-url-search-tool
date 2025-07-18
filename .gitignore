@@ -1,0 +1,54 @@
+# Python関連
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# データベース
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+
+# ログ
+logs/
+*.log
+
+# 一時ファイル
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 環境設定
+.env
+.venv
+venv/
+ENV/
+
+# データファイル（必要に応じて調整）
+data/raw/*
+data/sqlite/*
+!data/raw/.gitkeep
+!data/sqlite/.gitkeep
+
+# その他
+.continue/
+.obsidian/

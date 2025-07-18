@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "python-server": {
+      "command": "uvx",
+      "args": [
+        "fastmcp@latest",
+        "run",
+        "--stdio"
+      ],
+      "env": {
+        "FASTMCP_LOG_LEVEL": "DEBUG",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "disabled": false,
+      "autoApprove": [
+        "execute_python"
+      ]
+    }
+  }
+}
