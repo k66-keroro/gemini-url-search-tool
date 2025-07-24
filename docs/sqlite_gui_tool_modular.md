@@ -7,19 +7,22 @@ SQLite GUI Toolをモジュール化し、保守性と拡張性を向上させ�
 ## ディレクトリ構造
 
 ```
-src/core/
-├── sqlite_gui_tool/              # モジュール化されたGUIツール
-│   ├── __init__.py              # パッケージ初期化
-│   ├── app.py                   # メインアプリケーションクラス
-│   ├── base_tab.py              # 基底タブクラス
-│   ├── query_tab.py             # クエリ実行タブ
-│   ├── schema_tab.py            # スキーマ表示タブ
-│   ├── import_tab.py            # データインポートタブ
-│   ├── export_tab.py            # データエクスポートタブ
-│   ├── analyze_tab.py           # データ分析タブ
-│   └── code_converter_tab.py    # コードフィールド変換タブ
-├── sqlite_gui_tool_v2_fixed_modular.py  # エントリーポイント
-└── sqlite_manager_wrapper.py    # SQLiteManager簡易ラッパー
+src/
+├── main.py                      # プロジェクトルートからの実行用エントリーポイント
+└── core/
+    ├── sqlite_gui_tool/         # モジュール化されたGUIツール
+    │   ├── __init__.py          # パッケージ初期化
+    │   ├── app.py               # メインアプリケーションクラス
+    │   ├── base_tab.py          # 基底タブクラス
+    │   ├── query_tab.py         # クエリ実行タブ
+    │   ├── schema_tab.py        # スキーマ表示タブ
+    │   ├── import_tab.py        # データインポートタブ
+    │   ├── export_tab.py        # データエクスポートタブ
+    │   ├── analyze_tab.py       # データ分析タブ
+    │   ├── code_converter_tab.py # コードフィールド変換タブ
+    │   └── admin_tab.py         # DB管理タブ
+    ├── sqlite_gui_tool_v2_fixed_modular.py  # コアディレクトリからの実行用エントリーポイント
+    └── sqlite_manager_wrapper.py # SQLiteManager簡易ラッパー
 ```
 
 ## コンポーネントの説明
@@ -54,6 +57,7 @@ src/core/
 - **データエクスポートタブ** (`export_tab.py`): データのCSV/Excel形式でのエクスポート
 - **データ分析タブ** (`analyze_tab.py`): データの統計分析
 - **コードフィールド変換タブ** (`code_converter_tab.py`): コードフィールドの検出と変換
+- **DB管理タブ** (`admin_tab.py`): テーブル削除、VACUUM実行などの管理機能
 
 ### 5. SQLiteManagerラッパー (`sqlite_manager_wrapper.py`)
 
@@ -68,7 +72,8 @@ SQLiteGUITool (app.py)
   ├── ImportTab
   ├── ExportTab
   ├── AnalyzeTab
-  └── CodeConverterTab
+  ├── CodeConverterTab
+  └── AdminTab
 ```
 
 各タブクラスは、メインアプリケーションクラス（SQLiteGUITool）への参照を持ち、必要に応じてメインアプリケーションのメソッドを呼び出します。

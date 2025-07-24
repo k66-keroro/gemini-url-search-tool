@@ -1,11 +1,14 @@
 """
 SQLite GUI Tool メイン実行ファイル
+
+プロジェクトのルートディレクトリから実行するためのエントリーポイント
 """
 
 import sys
 import os
 import tkinter as tk
 from pathlib import Path
+import traceback
 
 # プロジェクトのルートディレクトリをPythonパスに追加
 project_root = Path(__file__).parent.parent
@@ -16,35 +19,32 @@ os.makedirs(project_root / "logs", exist_ok=True)
 os.makedirs(project_root / "data" / "sqlite", exist_ok=True)
 os.makedirs(project_root / "data" / "raw", exist_ok=True)
 
-# アプリケーションのインポート
-from src.ui.app import SQLiteGUIApp
-from src.utils.logger import Logger
-from src.utils.error_handler import ErrorHandler
+# SQLite GUI Toolのインポート
+try:
+    from src.core.sqlite_gui_tool import SQLiteGUITool
+except ImportError as e:
+    print(f"エラー: モジュールのインポートに失敗しました: {e}")
+    print(traceback.format_exc())
+    sys.exit(1)
 
 
 def main():
     """メイン関数"""
     try:
-        # ロガーの初期化
-        logger = Logger.get_logger("main")
-        logger.info("アプリケーション起動")
-        
-        # エラーハンドラの初期化
-        error_handler = ErrorHandler()
-        
         # Tkinterルートウィンドウの作成
         root = tk.Tk()
+        root.title("SQLite GUI Tool v2")
         
-        # アプリケーションの作成と実行
-        app = SQLiteGUIApp(root)
-        app.run()
+        # SQLite GUI Toolのインスタンスを作成
+        app = SQLiteGUITool(root)
         
-        logger.info("アプリケーション終了")
+        # イベントループを開始
+        root.mainloop()
         
     except Exception as e:
         # 未処理の例外をキャッチ
-        error_handler = ErrorHandler()
-        error_handler.handle_error(e, "アプリケーション起動エラー")
+        print(f"エラー: アプリケーションの起動に失敗しました: {e}")
+        print(traceback.format_exc())
         
         # エラーメッセージを表示
         try:
@@ -54,7 +54,7 @@ def main():
                 f"アプリケーションの起動中にエラーが発生しました:\n{str(e)}"
             )
         except:
-            print(f"エラー: {str(e)}")
+            pass
             
         sys.exit(1)
 
