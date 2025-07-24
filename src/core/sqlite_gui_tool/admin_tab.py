@@ -97,6 +97,11 @@ class AdminTab:
         update_all_button = ttk.Button(
             button_frame, text="全件データ更新", command=self.update_all_data)
         update_all_button.pack(side=tk.LEFT, padx=5)
+        
+        # データベース診断ボタン
+        diagnose_button = ttk.Button(
+            button_frame, text="DB診断", command=self.diagnose_database)
+        diagnose_button.pack(side=tk.LEFT, padx=5)
 
         # 選択テーブル削除ボタン
         delete_selected_button = ttk.Button(
@@ -157,9 +162,14 @@ class AdminTab:
             self.table_tree.delete(item)
             
         try:
+            # デバッグ情報を追加
+            self.log_message("テーブル情報の更新を開始...")
+            
             # テーブル一覧を取得
             self.app.cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%';")
             tables = self.app.cursor.fetchall()
+            
+            self.log_message(f"検出されたテーブル数: {len(tables)}")
             
             for table in tables:
                 name = table[0]
@@ -397,12 +407,26 @@ class AdminTab:
             return
             
         try:
+            # デバッグ: データベース接続状態を確認
+            self.log_message("データベース接続状態を確認中...")
+            
+            # すべてのオブジェクトを確認
+            self.app.cursor.execute("SELECT type, name FROM sqlite_master ORDER BY type, name;")
+            all_objects = self.app.cursor.fetchall()
+            self.log_message(f"データベース内のオブジェクト数: {len(all_objects)}")
+            
+            for obj_type, obj_name in all_objects:
+                self.log_message(f"  {obj_type}: {obj_name}")
+            
             # テーブル一覧を取得（削除されていないテーブルのみ）
             self.app.cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%';")
             tables = self.app.cursor.fetchall()
             
+            self.log_message(f"検出されたテーブル数: {len(tables)}")
+            
             if not tables:
                 self.log_message("処理対象のテーブルがありません。")
+                self.log_message("データベースにテーブルが存在しない可能性があります。")
                 return
             
             total_rows = 0
@@ -517,3 +541,75 @@ class AdminTab:
         # データ分析タブを更新
         if 'analyze' in self.app.tabs and hasattr(self.app.tabs['analyze'], 'refresh_table_list'):
             self.app.tabs['analyze'].refresh_table_list()
+            
+    def diagnose_database(self):
+        """データベースの診断情報を表示"""
+        if not self.app.conn:
+            self.app.show_message("データベースに接続されていません。", "warning")
+            return
+            
+        try:
+            self.log_message("=== データベース診断開始 ===")
+            
+            # データベースファイル情報
+            if self.app.db_path:
+                self.log_message(f"データベースファイル: {self.app.db_path}")
+                if os.path.exists(self.app.db_path):
+                    file_size = os.path.getsize(self.app.db_path)
+                    self.log_message(f"ファイルサイズ: {file_size:,} bytes ({file_size/1024/1024:.2f} MB)")
+                else:
+                    self.log_message("警告: データベースファイルが見つかりません")
+            
+            # SQLiteバージョン
+            self.app.cursor.execute("SELECT sqlite_version()")
+            sqlite_version = self.app.cursor.fetchone()[0]
+            self.log_message(f"SQLiteバージョン: {sqlite_version}")
+            
+            # ジャーナルモード
+            self.app.cursor.execute("PRAGMA journal_mode")
+            journal_mode = self.app.cursor.fetchone()[0]
+            self.log_message(f"ジャーナルモード: {journal_mode}")
+            
+            # すべてのオブジェクトを表示
+            self.app.cursor.execute("SELECT type, name FROM sqlite_master ORDER BY type, name")
+            objects = self.app.cursor.fetchall()
+            self.log_message(f"データベース内のオブジェクト数: {len(objects)}")
+            
+            object_counts = {}
+            for obj_type, obj_name in objects:
+                if obj_type not in object_counts:
+                    object_counts[obj_type] = 0
+                object_counts[obj_type] += 1
+                self.log_message(f"  {obj_type}: {obj_name}")
+            
+            # オブジェクト種別の集計
+            self.log_message("オブジェクト種別集計:")
+            for obj_type, count in object_counts.items():
+                self.log_message(f"  {obj_type}: {count}個")
+            
+            # テーブルの詳細情報
+            self.app.cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'")
+            tables = self.app.cursor.fetchall()
+            
+            if tables:
+                self.log_message(f"ユーザーテーブル数: {len(tables)}")
+                total_rows = 0
+                for table in tables:
+                    table_name = table[0]
+                    try:
+                        self.app.cursor.execute(f"SELECT COUNT(*) FROM [{table_name}]")
+                        row_count = self.app.cursor.fetchone()[0]
+                        total_rows += row_count
+                        self.log_message(f"  テーブル {table_name}: {row_count:,} 行")
+                    except Exception as e:
+                        self.log_message(f"  テーブル {table_name}: エラー - {e}")
+                
+                self.log_message(f"総行数: {total_rows:,} 行")
+            else:
+                self.log_message("ユーザーテーブルが見つかりません")
+            
+            self.log_message("=== データベース診断完了 ===")
+            
+        except Exception as e:
+            self.log_message(f"診断エラー: {e}")
+            self.app.show_message(f"データベース診断エラー: {e}", "error")
