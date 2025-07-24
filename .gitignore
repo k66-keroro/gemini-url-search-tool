@@ -52,3 +52,27 @@ data/sqlite/*
 # その他
 .continue/
 .obsidian/
+Clippings/
+archive/
+claude.txt
+config.json
+db_config.json
+gemini.md
+report.txt
+simple_test.py
+sqlite_gui_tool_v2_fixed.py_log.txt
+sqlite_indexes.csv
+sqlite_primary_keys.csv
+sqlite_schema.csv
+sqlite_tables.py
+test_imports.py
+無題のファイル*.md
+mcp_error.md
+
+# テスト関連
+check_missing_tables.py
+check_syntax.py
+get_tables.py
+t_code_converter.py
+test_code_converter.py
+tests/

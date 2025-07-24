@@ -1,19 +1,19 @@
 {
   "mcpServers": {
     "python-server": {
-      "command": "uvx",
+      "disabled": true
+    },
+    "filesystem": {
+      "command": "node",
       "args": [
-        "fastmcp@latest",
-        "run",
-        "--stdio"
+        "C:\\Users\\sem3171\\AppData\\Roaming\\npm\\node_modules\\@modelcontextprotocol\\server-filesystem\\dist\\index.js",
+        "C:\\Users\\sem3171"
       ],
-      "env": {
-        "FASTMCP_LOG_LEVEL": "DEBUG",
-        "PYTHONUNBUFFERED": "1"
-      },
       "disabled": false,
       "autoApprove": [
-        "execute_python"
+        "readFile",
+        "writeFile",
+        "listDirectory"
       ]
     }
   }
