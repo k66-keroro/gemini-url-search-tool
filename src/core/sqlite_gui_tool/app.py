@@ -10,6 +10,7 @@ import sqlite3
 import os
 import sys
 import json
+import time
 from pathlib import Path
 import traceback
 
@@ -225,11 +226,28 @@ class SQLiteGUITool:
         """データベース接続を閉じる"""
         if self.conn:
             try:
+                # 保留中のトランザクションをコミット
+                try:
+                    self.conn.commit()
+                except:
+                    pass
+                
+                # 接続を閉じる
                 self.conn.close()
                 
                 # 各タブに切断を通知
                 for tab in self.tabs.values():
                     tab.on_db_disconnect()
+                
+                # ジャーナルファイルの削除を試みる
+                if self.db_path:
+                    journal_file = f"{self.db_path}-journal"
+                    if os.path.exists(journal_file):
+                        try:
+                            os.remove(journal_file)
+                            print(f"ジャーナルファイルを削除しました: {journal_file}")
+                        except Exception as e:
+                            print(f"ジャーナルファイル削除エラー: {e}")
                 
             except sqlite3.Error as e:
                 self.show_message(f"データベース切断エラー: {e}", "error")

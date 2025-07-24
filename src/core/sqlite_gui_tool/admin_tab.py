@@ -12,6 +12,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 import sqlite3
 import os
+import time
 
 
 class AdminTab:
@@ -213,9 +214,25 @@ class AdminTab:
                 self.app.show_message(f"テーブル '{table_name}' は存在しません。", "warning")
                 return
                 
-            # テーブルを削除
-            self.app.cursor.execute(f'DROP TABLE IF EXISTS "{table_name}"')
+            # テーブルを削除（クォートを修正）
+            sql = f"DROP TABLE IF EXISTS [{table_name}]"
+            self.log_message(f"実行SQL: {sql}")
+            self.app.cursor.execute(sql)
             self.app.conn.commit()
+            
+            # 削除確認
+            self.app.cursor.execute(f"SELECT name FROM sqlite_master WHERE type='table' AND name=?", (table_name,))
+            if self.app.cursor.fetchone():
+                self.log_message(f"警告: テーブル {table_name} が削除されていません。別の方法で削除を試みます。")
+                
+                # 別の方法で削除を試みる
+                try:
+                    sql = f'DROP TABLE IF EXISTS "{table_name}"'
+                    self.log_message(f"実行SQL (2回目): {sql}")
+                    self.app.cursor.execute(sql)
+                    self.app.conn.commit()
+                except Exception as e:
+                    self.log_message(f"2回目の削除試行エラー: {e}")
             
             # テーブル情報を更新
             self.refresh_table_info()
@@ -253,8 +270,24 @@ class AdminTab:
             for table in tables:
                 name = table[0]
                 try:
-                    # テーブルを削除
-                    self.app.cursor.execute(f'DROP TABLE IF EXISTS "{name}"')
+                    # テーブルを削除（クォートを修正）
+                    sql = f"DROP TABLE IF EXISTS [{name}]"
+                    self.log_message(f"実行SQL: {sql}")
+                    self.app.cursor.execute(sql)
+                    
+                    # 削除確認
+                    self.app.cursor.execute(f"SELECT name FROM sqlite_master WHERE type='table' AND name=?", (name,))
+                    if self.app.cursor.fetchone():
+                        self.log_message(f"警告: テーブル {name} が削除されていません。別の方法で削除を試みます。")
+                        
+                        # 別の方法で削除を試みる
+                        try:
+                            sql = f'DROP TABLE IF EXISTS "{name}"'
+                            self.log_message(f"実行SQL (2回目): {sql}")
+                            self.app.cursor.execute(sql)
+                        except Exception as e:
+                            self.log_message(f"2回目の削除試行エラー: {e}")
+                    
                     self.log_message(f"テーブル {name} を削除しました。")
                     deleted_count += 1
                     
@@ -312,15 +345,19 @@ class AdminTab:
             # データベースファイルのパスを取得
             db_path = self.app.db_path
             
-            # WALとSHMファイルの存在を確認
+            # 関連ファイルの存在を確認
             wal_file = f"{db_path}-wal"
             shm_file = f"{db_path}-shm"
+            journal_file = f"{db_path}-journal"
             
-            if os.path.exists(wal_file) or os.path.exists(shm_file):
-                self.log_message("WAL/SHMファイルが残っています。クリーンアップを試みます...")
+            if os.path.exists(wal_file) or os.path.exists(shm_file) or os.path.exists(journal_file):
+                self.log_message("関連ファイル（WAL/SHM/Journal）が残っています。クリーンアップを試みます...")
                 
                 # 接続を一度閉じる
                 self.app.close_connection()
+                
+                # 少し待機してファイルが解放されるのを待つ
+                time.sleep(0.5)
                 
                 # ファイルの削除を試みる
                 try:
@@ -330,6 +367,9 @@ class AdminTab:
                     if os.path.exists(shm_file):
                         os.remove(shm_file)
                         self.log_message(f"SHMファイルを削除しました: {shm_file}")
+                    if os.path.exists(journal_file):
+                        os.remove(journal_file)
+                        self.log_message(f"Journalファイルを削除しました: {journal_file}")
                 except Exception as e:
                     self.log_message(f"ファイル削除エラー: {e}")
                 
