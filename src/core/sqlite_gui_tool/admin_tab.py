@@ -397,32 +397,56 @@ class AdminTab:
             return
             
         try:
-            # テーブル一覧を取得
+            # テーブル一覧を取得（削除されていないテーブルのみ）
             self.app.cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%';")
             tables = self.app.cursor.fetchall()
+            
+            if not tables:
+                self.log_message("処理対象のテーブルがありません。")
+                return
             
             total_rows = 0
             processed_tables = 0
             
+            self.log_message(f"{len(tables)} 個のテーブルの処理を開始します...")
+            
             for table in tables:
                 name = table[0]
                 try:
+                    # テーブルが実際に存在するか確認
+                    self.app.cursor.execute(f"SELECT name FROM sqlite_master WHERE type='table' AND name=?", (name,))
+                    if not self.app.cursor.fetchone():
+                        self.log_message(f"テーブル {name} は存在しません。スキップします。")
+                        continue
+                    
                     # 行数を取得
-                    self.app.cursor.execute(f"SELECT COUNT(*) FROM '{name}'")
+                    self.app.cursor.execute(f"SELECT COUNT(*) FROM [{name}]")
                     row_count = self.app.cursor.fetchone()[0]
                     total_rows += row_count
                     
-                    # データを再読み込み（実際には何も変更しない）
-                    self.app.cursor.execute(f"SELECT * FROM '{name}'")
-                    self.app.cursor.fetchall()
+                    # データの統計情報を取得（実際のデータ処理の代わり）
+                    self.app.cursor.execute(f"PRAGMA table_info([{name}])")
+                    columns = self.app.cursor.fetchall()
+                    column_count = len(columns)
+                    
+                    # テーブルの最初の数行を読み込み（データ更新のシミュレーション）
+                    self.app.cursor.execute(f"SELECT * FROM [{name}] LIMIT 100")
+                    sample_data = self.app.cursor.fetchall()
                     
                     processed_tables += 1
-                    self.log_message(f"テーブル {name} の {row_count} 行を処理しました。")
+                    self.log_message(f"テーブル {name}: {row_count} 行, {column_count} カラム, サンプル {len(sample_data)} 行を処理しました。")
+                    
+                    # UIの更新のために少し待機
+                    self.parent.update()
+                    time.sleep(0.01)
                     
                 except Exception as e:
                     self.log_message(f"テーブル {name} の処理エラー: {e}")
             
             self.log_message(f"全件データ更新が完了しました。{processed_tables} テーブル、合計 {total_rows} 行を処理しました。")
+            
+            # テーブル情報を更新
+            self.refresh_table_info()
             
         except Exception as e:
             self.app.show_message(f"全件データ更新エラー: {e}", "error")
@@ -478,3 +502,18 @@ class AdminTab:
         """タブの表示を更新"""
         if self.app.conn:
             self.refresh_table_info()
+            
+    def _update_all_tabs(self):
+        """すべてのタブのテーブル一覧を更新"""
+        # スキーマタブを更新
+        if 'schema' in self.app.tabs:
+            tables = self.app.get_table_list()
+            self.app.tabs['schema'].update_table_list(tables)
+            
+        # エクスポートタブを更新
+        if 'export' in self.app.tabs and hasattr(self.app.tabs['export'], 'refresh_table_list'):
+            self.app.tabs['export'].refresh_table_list()
+            
+        # データ分析タブを更新
+        if 'analyze' in self.app.tabs and hasattr(self.app.tabs['analyze'], 'refresh_table_list'):
+            self.app.tabs['analyze'].refresh_table_list()

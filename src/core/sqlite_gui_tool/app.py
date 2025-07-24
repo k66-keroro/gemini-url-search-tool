@@ -346,12 +346,25 @@ class SQLiteGUITool:
                 idx_name = idx[1]
                 is_unique = "Yes" if idx[2] else "No"
                 
-                # インデックスのカラム情報を取得
-                self.cursor.execute(f"PRAGMA index_info('{idx_name}')")
-                idx_columns = self.cursor.fetchall()
-                columns_str = ", ".join([self.cursor.execute(f"PRAGMA table_info('{table_name}')").fetchall()[col[2]][1] for col in idx_columns])
-                
-                tab.index_tree.insert("", "end", values=(idx_name, is_unique, columns_str))
+                try:
+                    # インデックスのカラム情報を取得
+                    self.cursor.execute(f"PRAGMA index_info('{idx_name}')")
+                    idx_columns = self.cursor.fetchall()
+                    
+                    # カラム名を取得
+                    column_names = []
+                    for col in idx_columns:
+                        col_index = col[1]  # カラムのインデックス
+                        if col_index is not None and col_index < len(columns):
+                            column_names.append(columns[col_index][1])  # カラム名
+                    
+                    columns_str = ", ".join(column_names) if column_names else "Unknown"
+                    
+                    tab.index_tree.insert("", "end", values=(idx_name, is_unique, columns_str))
+                    
+                except Exception as e:
+                    # エラーが発生した場合はスキップ
+                    tab.index_tree.insert("", "end", values=(idx_name, is_unique, "Error"))
                 
             # ボタンを有効化
             tab.show_sql_button.config(state="normal")

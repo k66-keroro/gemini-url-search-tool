@@ -221,10 +221,26 @@ class ExportTab:
     def on_db_connect(self, conn, cursor):
         """データベース接続時の処理"""
         # テーブル一覧を更新
-        tables = self.app.get_table_list()
-        self.export_table_combo['values'] = tables
-        if tables:
-            self.export_table_var.set(tables[0])
+        self.refresh_table_list()
+        
+    def refresh_table_list(self):
+        """テーブル一覧を更新"""
+        if not self.app.conn:
+            return
+            
+        try:
+            # 実際に存在するテーブルのみを取得
+            self.app.cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' ORDER BY name")
+            tables = [row[0] for row in self.app.cursor.fetchall()]
+            
+            self.export_table_combo['values'] = tables
+            if tables:
+                self.export_table_var.set(tables[0])
+            else:
+                self.export_table_var.set("")
+                
+        except Exception as e:
+            self.app.show_message(f"テーブル一覧の更新エラー: {e}", "error")
         
     def on_db_disconnect(self):
         """データベース切断時の処理"""
