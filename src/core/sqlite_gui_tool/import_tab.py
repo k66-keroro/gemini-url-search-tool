@@ -7,6 +7,7 @@ This module provides the import tab functionality for the SQLite GUI Tool.
 import tkinter as tk
 from tkinter import ttk, filedialog
 import re
+import os
 
 
 class ImportTab:

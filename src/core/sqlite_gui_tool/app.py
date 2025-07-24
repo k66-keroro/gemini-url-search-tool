@@ -276,3 +276,248 @@ class SQLiteGUITool:
             return [row[0] for row in self.cursor.fetchall()]
         except sqlite3.Error:
             return []
+            
+    # 各タブから呼び出されるメソッド
+    def on_table_select(self, event):
+        """テーブル選択時の処理"""
+        # スキーマタブからの呼び出し
+        tab = self.tabs.get('schema')
+        if not tab or not self.conn:
+            return
+            
+        # 選択されたテーブルを取得
+        selection = tab.table_listbox.curselection()
+        if not selection:
+            return
+            
+        table_name = tab.table_listbox.get(selection[0])
+        
+        try:
+            # テーブル名を表示
+            tab.table_name_var.set(table_name)
+            
+            # テーブル統計情報を取得
+            self.cursor.execute(f"SELECT COUNT(*) FROM '{table_name}'")
+            row_count = self.cursor.fetchone()[0]
+            
+            # カラム情報を取得
+            self.cursor.execute(f"PRAGMA table_info('{table_name}')")
+            columns = self.cursor.fetchall()
+            column_count = len(columns)
+            
+            # 統計情報を表示
+            tab.table_stats_var.set(f"行数: {row_count}, カラム数: {column_count}")
+            
+            # カラム情報をツリービューに表示
+            for item in tab.column_tree.get_children():
+                tab.column_tree.delete(item)
+                
+            for col in columns:
+                cid, name, type_, not_null, default_val, pk = col
+                tab.column_tree.insert("", "end", values=(cid, name, type_, not_null, default_val, pk))
+                
+            # インデックス情報を取得
+            self.cursor.execute(f"PRAGMA index_list('{table_name}')")
+            indexes = self.cursor.fetchall()
+            
+            # インデックス情報をツリービューに表示
+            for item in tab.index_tree.get_children():
+                tab.index_tree.delete(item)
+                
+            for idx in indexes:
+                idx_name = idx[1]
+                is_unique = "Yes" if idx[2] else "No"
+                
+                # インデックスのカラム情報を取得
+                self.cursor.execute(f"PRAGMA index_info('{idx_name}')")
+                idx_columns = self.cursor.fetchall()
+                columns_str = ", ".join([self.cursor.execute(f"PRAGMA table_info('{table_name}')").fetchall()[col[2]][1] for col in idx_columns])
+                
+                tab.index_tree.insert("", "end", values=(idx_name, is_unique, columns_str))
+                
+            # ボタンを有効化
+            tab.show_sql_button.config(state="normal")
+            tab.show_sample_button.config(state="normal")
+            
+        except Exception as e:
+            self.show_message(f"テーブル情報の取得エラー: {e}", "error")
+            
+    def show_create_sql(self):
+        """CREATE TABLE SQL文を表示"""
+        tab = self.tabs.get('schema')
+        if not tab or not self.conn:
+            return
+            
+        # 選択されたテーブルを取得
+        selection = tab.table_listbox.curselection()
+        if not selection:
+            return
+            
+        table_name = tab.table_listbox.get(selection[0])
+        
+        try:
+            # CREATE TABLE文を取得
+            self.cursor.execute(f"SELECT sql FROM sqlite_master WHERE type='table' AND name='{table_name}'")
+            sql = self.cursor.fetchone()[0]
+            
+            # 結果表示ウィンドウを作成
+            sql_window = tk.Toplevel(self.root)
+            sql_window.title(f"CREATE TABLE {table_name}")
+            sql_window.geometry("600x400")
+            
+            # SQL表示エリア
+            sql_text = tk.Text(sql_window, wrap=tk.WORD)
+            sql_text.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+            
+            # SQLを表示
+            sql_text.insert("1.0", sql)
+            
+            # 閉じるボタン
+            close_button = ttk.Button(sql_window, text="閉じる", command=sql_window.destroy)
+            close_button.pack(pady=10)
+            
+        except Exception as e:
+            self.show_message(f"SQL取得エラー: {e}", "error")
+            
+    def show_sample_data(self):
+        """サンプルデータを表示"""
+        tab = self.tabs.get('schema')
+        if not tab or not self.conn:
+            return
+            
+        # 選択されたテーブルを取得
+        selection = tab.table_listbox.curselection()
+        if not selection:
+            return
+            
+        table_name = tab.table_listbox.get(selection[0])
+        
+        try:
+            # サンプルデータを取得（最大100行）
+            self.cursor.execute(f"SELECT * FROM '{table_name}' LIMIT 100")
+            rows = self.cursor.fetchall()
+            
+            if not rows:
+                self.show_message(f"テーブル {table_name} にデータがありません。", "info")
+                return
+                
+            # カラム名を取得
+            columns = [description[0] for description in self.cursor.description]
+            
+            # 結果表示ウィンドウを作成
+            data_window = tk.Toplevel(self.root)
+            data_window.title(f"サンプルデータ: {table_name}")
+            data_window.geometry("800x600")
+            
+            # ツリービューの作成
+            tree_frame = ttk.Frame(data_window)
+            tree_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+            
+            tree = ttk.Treeview(tree_frame, columns=columns, show="headings")
+            
+            # カラムの設定
+            for col in columns:
+                tree.heading(col, text=col)
+                tree.column(col, width=100)
+                
+            # スクロールバー
+            y_scrollbar = ttk.Scrollbar(tree_frame, orient="vertical", command=tree.yview)
+            x_scrollbar = ttk.Scrollbar(tree_frame, orient="horizontal", command=tree.xview)
+            tree.configure(yscrollcommand=y_scrollbar.set, xscrollcommand=x_scrollbar.set)
+            
+            # 配置
+            tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+            y_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+            x_scrollbar.pack(side=tk.BOTTOM, fill=tk.X)
+            
+            # データを追加
+            for row in rows:
+                values = [str(val) if val is not None else "NULL" for val in row]
+                tree.insert("", "end", values=values)
+                
+            # 閉じるボタン
+            close_button = ttk.Button(data_window, text="閉じる", command=data_window.destroy)
+            close_button.pack(pady=10)
+            
+        except Exception as e:
+            self.show_message(f"データ取得エラー: {e}", "error")
+            
+    def preview_import_data(self):
+        """インポートデータのプレビュー"""
+        tab = self.tabs.get('import')
+        if not tab:
+            return
+            
+        self.show_message("インポート機能は現在実装中です。", "info")
+        
+    def execute_import(self):
+        """インポートを実行"""
+        tab = self.tabs.get('import')
+        if not tab:
+            return
+            
+        self.show_message("インポート機能は現在実装中です。", "info")
+        
+    def preview_export_data(self):
+        """エクスポートデータのプレビュー"""
+        tab = self.tabs.get('export')
+        if not tab:
+            return
+            
+        self.show_message("エクスポート機能は現在実装中です。", "info")
+        
+    def execute_export(self):
+        """エクスポートを実行"""
+        tab = self.tabs.get('export')
+        if not tab:
+            return
+            
+        self.show_message("エクスポート機能は現在実装中です。", "info")
+        
+    def on_analyze_table_select(self, event):
+        """分析タブでテーブル選択時の処理"""
+        tab = self.tabs.get('analyze')
+        if not tab or not self.conn:
+            return
+            
+        # 選択されたテーブルを取得
+        table_name = tab.analyze_table_var.get()
+        if not table_name:
+            return
+            
+        try:
+            # カラム一覧を取得
+            self.cursor.execute(f"PRAGMA table_info('{table_name}')")
+            columns = [row[1] for row in self.cursor.fetchall()]
+            
+            # カラム一覧を更新
+            tab.analyze_column_combo['values'] = columns
+            if columns:
+                tab.analyze_column_var.set(columns[0])
+                
+        except Exception as e:
+            self.show_message(f"カラム情報の取得エラー: {e}", "error")
+            
+    def execute_analysis(self):
+        """データ分析を実行"""
+        tab = self.tabs.get('analyze')
+        if not tab or not self.conn:
+            return
+            
+        self.show_message("データ分析機能は現在実装中です。", "info")
+        
+    def analyze_code_fields(self):
+        """コードフィールドを分析"""
+        tab = self.tabs.get('code_converter')
+        if not tab or not self.conn:
+            return
+            
+        self.show_message("コードフィールド分析機能は現在実装中です。", "info")
+        
+    def execute_conversion(self):
+        """コード変換を実行"""
+        tab = self.tabs.get('code_converter')
+        if not tab or not self.conn:
+            return
+            
+        self.show_message("コード変換機能は現在実装中です。", "info")

@@ -192,3 +192,14 @@ class SchemaTab:
         # Disable buttons
         self.show_sql_button.config(state="disabled")
         self.show_sample_button.config(state="disabled")
+        
+    def on_db_connect(self, conn, cursor):
+        """データベース接続時の処理"""
+        # テーブル一覧を更新
+        tables = self.app.get_table_list()
+        self.update_table_list(tables)
+        
+    def on_db_disconnect(self):
+        """データベース切断時の処理"""
+        # テーブル情報をクリア
+        self.clear()

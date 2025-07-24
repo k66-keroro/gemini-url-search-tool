@@ -9,6 +9,7 @@ from tkinter import ttk, filedialog
 import sqlite3
 import csv
 import traceback
+import datetime
 
 try:
     import pyperclip
@@ -142,12 +143,12 @@ class QueryTab(BaseTab):
         
         try:
             # クエリ実行
-            start_time = tk.datetime.now()
+            start_time = datetime.datetime.now()
             self.cursor.execute(query)
             
             # 結果を取得
             result = self.cursor.fetchall()
-            end_time = tk.datetime.now()
+            end_time = datetime.datetime.now()
             execution_time = (end_time - start_time).total_seconds()
             
             # 結果を表示
