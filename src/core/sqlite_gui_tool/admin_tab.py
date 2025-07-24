@@ -133,8 +133,22 @@ class AdminTab:
         
     def refresh_table_info(self):
         """テーブル情報を更新"""
+        # データベース接続の確認
         if not self.app.conn:
             self.app.show_message("データベースに接続されていません。", "warning")
+            return
+            
+        # 接続が有効かチェック
+        try:
+            # 簡単なクエリを実行して接続をテスト
+            self.app.cursor.execute("SELECT 1")
+        except sqlite3.ProgrammingError:
+            self.app.show_message("データベース接続が無効です。再接続してください。", "error")
+            self.app.conn = None
+            self.app.cursor = None
+            return
+        except Exception as e:
+            self.app.show_message(f"データベース接続エラー: {e}", "error")
             return
             
         # テーブル情報をクリア

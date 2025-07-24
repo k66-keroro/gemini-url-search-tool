@@ -189,6 +189,11 @@ class SQLiteGUITool:
             for tab in self.tabs.values():
                 tab.on_db_connect(self.conn, self.cursor)
             
+            # 管理タブを表示して、テーブル情報を更新
+            if 'admin' in self.tabs:
+                self.tab_control.select(self.tab_control.index(self.tabs['admin'].parent))
+                self.tabs['admin'].refresh_table_info()
+            
             # 成功メッセージ
             self.show_message(f"データベース '{os.path.basename(db_path)}' に接続しました。", "info")
             
