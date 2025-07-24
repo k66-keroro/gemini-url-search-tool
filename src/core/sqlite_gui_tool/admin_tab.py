@@ -207,12 +207,23 @@ class AdminTab:
             return
             
         try:
+            # テーブルが存在するか確認
+            self.app.cursor.execute(f"SELECT name FROM sqlite_master WHERE type='table' AND name=?", (table_name,))
+            if not self.app.cursor.fetchone():
+                self.app.show_message(f"テーブル '{table_name}' は存在しません。", "warning")
+                return
+                
             # テーブルを削除
-            self.app.cursor.execute(f'DROP TABLE IF EXISTS "{table_name}";')
+            self.app.cursor.execute(f'DROP TABLE IF EXISTS "{table_name}"')
             self.app.conn.commit()
             
             # テーブル情報を更新
             self.refresh_table_info()
+            
+            # テーブル一覧を更新（スキーマタブなど）
+            if 'schema' in self.app.tabs:
+                tables = self.app.get_table_list()
+                self.app.tabs['schema'].update_table_list(tables)
             
             self.log_message(f"テーブル {table_name} を削除しました。")
             
@@ -234,12 +245,18 @@ class AdminTab:
             self.app.cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%';")
             tables = self.app.cursor.fetchall()
             
+            if not tables:
+                self.app.show_message("削除可能なテーブルがありません。", "info")
+                return
+                
+            deleted_count = 0
             for table in tables:
                 name = table[0]
                 try:
                     # テーブルを削除
-                    self.app.cursor.execute(f'DROP TABLE IF EXISTS "{name}";')
+                    self.app.cursor.execute(f'DROP TABLE IF EXISTS "{name}"')
                     self.log_message(f"テーブル {name} を削除しました。")
+                    deleted_count += 1
                     
                 except Exception as e:
                     self.log_message(f"テーブル {name} の削除エラー: {e}")
@@ -249,7 +266,12 @@ class AdminTab:
             # テーブル情報を更新
             self.refresh_table_info()
             
-            self.log_message(f"{len(tables)} 個のテーブルをすべて削除しました。")
+            # テーブル一覧を更新（スキーマタブなど）
+            if 'schema' in self.app.tabs:
+                tables = self.app.get_table_list()
+                self.app.tabs['schema'].update_table_list(tables)
+            
+            self.log_message(f"{deleted_count} 個のテーブルをすべて削除しました。")
             
         except Exception as e:
             self.app.show_message(f"テーブル削除エラー: {e}", "error")
@@ -265,8 +287,54 @@ class AdminTab:
             return
             
         try:
+            # 現在のジャーナルモードを確認
+            self.app.cursor.execute("PRAGMA journal_mode")
+            current_mode = self.app.cursor.fetchone()[0]
+            self.log_message(f"現在のジャーナルモード: {current_mode}")
+            
+            # WALモードの場合は一時的にDELETEモードに変更
+            if current_mode.upper() == "WAL":
+                self.log_message("WALモードからDELETEモードに変更します...")
+                self.app.cursor.execute("PRAGMA journal_mode = DELETE")
+                self.app.conn.commit()
+            
             # VACUUM実行
-            self.app.cursor.execute("VACUUM;")
+            self.log_message("VACUUM操作を実行中...")
+            self.app.cursor.execute("VACUUM")
+            self.app.conn.commit()
+            
+            # 元のモードに戻す
+            if current_mode.upper() == "WAL":
+                self.log_message("ジャーナルモードをWALに戻します...")
+                self.app.cursor.execute("PRAGMA journal_mode = WAL")
+                self.app.conn.commit()
+            
+            # データベースファイルのパスを取得
+            db_path = self.app.db_path
+            
+            # WALとSHMファイルの存在を確認
+            wal_file = f"{db_path}-wal"
+            shm_file = f"{db_path}-shm"
+            
+            if os.path.exists(wal_file) or os.path.exists(shm_file):
+                self.log_message("WAL/SHMファイルが残っています。クリーンアップを試みます...")
+                
+                # 接続を一度閉じる
+                self.app.close_connection()
+                
+                # ファイルの削除を試みる
+                try:
+                    if os.path.exists(wal_file):
+                        os.remove(wal_file)
+                        self.log_message(f"WALファイルを削除しました: {wal_file}")
+                    if os.path.exists(shm_file):
+                        os.remove(shm_file)
+                        self.log_message(f"SHMファイルを削除しました: {shm_file}")
+                except Exception as e:
+                    self.log_message(f"ファイル削除エラー: {e}")
+                
+                # 再接続
+                self.app._connect_to_db(db_path)
             
             self.log_message("VACUUM操作が完了しました。")
             
