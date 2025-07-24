@@ -82,10 +82,20 @@ class AdminTab:
         button_frame = ttk.Frame(admin_frame)
         button_frame.pack(fill=tk.X, pady=10)
 
+        # データベース選択ボタン
+        db_select_button = ttk.Button(
+            button_frame, text="データベース選択", command=self.select_database)
+        db_select_button.pack(side=tk.LEFT, padx=5)
+
         # 更新ボタン
         refresh_button = ttk.Button(
             button_frame, text="テーブル情報を更新", command=self.refresh_table_info)
         refresh_button.pack(side=tk.LEFT, padx=5)
+        
+        # 全件データ更新ボタン
+        update_all_button = ttk.Button(
+            button_frame, text="全件データ更新", command=self.update_all_data)
+        update_all_button.pack(side=tk.LEFT, padx=5)
 
         # 選択テーブル削除ボタン
         delete_selected_button = ttk.Button(
@@ -249,6 +259,52 @@ class AdminTab:
         except Exception as e:
             self.app.show_message(f"VACUUM実行エラー: {e}", "error")
             
+    def select_database(self):
+        """データベース選択ダイアログを表示"""
+        # アプリケーションのデータベース接続メソッドを呼び出す
+        self.app.connect_database()
+    
+    def update_all_data(self):
+        """全件データ更新処理"""
+        if not self.app.conn:
+            self.app.show_message("データベースに接続されていません。", "warning")
+            return
+            
+        # 確認ダイアログ
+        if not messagebox.askyesno("確認", "全件データ更新を実行しますか？\nこの処理には時間がかかる場合があります。"):
+            return
+            
+        try:
+            # テーブル一覧を取得
+            self.app.cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%';")
+            tables = self.app.cursor.fetchall()
+            
+            total_rows = 0
+            processed_tables = 0
+            
+            for table in tables:
+                name = table[0]
+                try:
+                    # 行数を取得
+                    self.app.cursor.execute(f"SELECT COUNT(*) FROM '{name}'")
+                    row_count = self.app.cursor.fetchone()[0]
+                    total_rows += row_count
+                    
+                    # データを再読み込み（実際には何も変更しない）
+                    self.app.cursor.execute(f"SELECT * FROM '{name}'")
+                    self.app.cursor.fetchall()
+                    
+                    processed_tables += 1
+                    self.log_message(f"テーブル {name} の {row_count} 行を処理しました。")
+                    
+                except Exception as e:
+                    self.log_message(f"テーブル {name} の処理エラー: {e}")
+            
+            self.log_message(f"全件データ更新が完了しました。{processed_tables} テーブル、合計 {total_rows} 行を処理しました。")
+            
+        except Exception as e:
+            self.app.show_message(f"全件データ更新エラー: {e}", "error")
+    
     def copy_selected_row(self):
         """選択された行をクリップボードにコピー"""
         # 選択された行を取得

@@ -9,6 +9,7 @@ from tkinter import ttk, filedialog, messagebox
 import sqlite3
 import os
 import sys
+import json
 from pathlib import Path
 import traceback
 
@@ -106,6 +107,12 @@ class SQLiteGUITool:
         
         # SQLiteManagerのインスタンス
         self.sqlite_manager = SQLiteManager() if SQLiteManager else None
+        
+        # 前回のデータベースパスを読み込み
+        last_db_path = self._load_db_path()
+        if last_db_path and os.path.exists(last_db_path):
+            # 自動接続（遅延実行）
+            self.root.after(500, lambda: self._connect_to_db(last_db_path))
     
     def init_tabs(self):
         """タブの初期化"""
@@ -156,6 +163,10 @@ class SQLiteGUITool:
         if not db_path:
             return
         
+        self._connect_to_db(db_path)
+    
+    def _connect_to_db(self, db_path):
+        """指定されたパスのデータベースに接続"""
         try:
             # 既存の接続を閉じる
             self.close_connection()
@@ -167,6 +178,9 @@ class SQLiteGUITool:
             
             # データベースパスを保存
             self.db_path = db_path
+            
+            # 設定ファイルに保存
+            self._save_db_path(db_path)
             
             # ステータスバーを更新
             self.status_var.set(f"接続済み: {os.path.basename(db_path)}")
@@ -181,6 +195,26 @@ class SQLiteGUITool:
         except sqlite3.Error as e:
             self.show_message(f"データベース接続エラー: {e}", "error")
             traceback.print_exc()
+    
+    def _save_db_path(self, path):
+        """データベースパスを設定ファイルに保存"""
+        config_file = "db_config.json"
+        try:
+            with open(config_file, "w") as f:
+                json.dump({"last_db_path": path}, f)
+        except Exception as e:
+            self.show_message(f"設定ファイル保存エラー: {e}", "warning")
+    
+    def _load_db_path(self):
+        """設定ファイルからデータベースパスを読み込み"""
+        config_file = "db_config.json"
+        if os.path.exists(config_file):
+            try:
+                with open(config_file, "r") as f:
+                    return json.load(f).get("last_db_path", "")
+            except Exception:
+                return ""
+        return ""
     
     def close_connection(self):
         """データベース接続を閉じる"""
