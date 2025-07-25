@@ -89,6 +89,11 @@ class LauncherTab:
                     "path": "a_everyday/z090_zp138_integrated.py",
                     "description": "ZP138引当計算処理",
                     "category": "データ処理"
+                },
+                "PC生産実績ダッシュボード": {
+                    "path": "run_dashboard.py",
+                    "description": "StreamlitによるPC生産実績ダッシュボード",
+                    "category": "ダッシュボード"
                 }
             }
     
