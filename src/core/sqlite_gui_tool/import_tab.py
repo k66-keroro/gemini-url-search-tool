@@ -248,8 +248,116 @@ class ImportTab:
             
     def preview_import_data(self):
         """インポートデータのプレビュー"""
-        # This method will be implemented in the main application
-        self.app.preview_import_data()
+        file_path = self.import_path_var.get()
+        if not file_path or not os.path.exists(file_path):
+            self.app.show_message("有効なファイルパスを入力してください。", "warning")
+            return
+            
+        try:
+            # ファイル情報を取得
+            file_type = self.file_type_var.get()
+            encoding = self.encoding_var.get()
+            delimiter = self.delimiter_var.get()
+            header = 0 if self.header_var.get() else None
+            
+            # ファイルタイプの自動検出
+            if file_type == "自動検出":
+                ext = os.path.splitext(file_path)[1].lower()
+                if ext == '.csv':
+                    file_type = "CSV"
+                elif ext in ['.tsv', '.txt']:
+                    file_type = "TSV"
+                elif ext in ['.xlsx', '.xls']:
+                    file_type = "Excel"
+                else:
+                    file_type = "CSV"
+            
+            # エンコーディングの自動検出
+            if encoding == "自動検出":
+                import chardet
+                with open(file_path, 'rb') as f:
+                    raw_data = f.read(10000)
+                    encoding_result = chardet.detect(raw_data)
+                    encoding = encoding_result['encoding'] or 'utf-8'
+            
+            # 区切り文字の自動検出
+            if delimiter == "自動検出":
+                if file_type == "TSV":
+                    delimiter = "\t"
+                else:
+                    delimiter = ","
+            elif delimiter == "\\t":
+                delimiter = "\t"
+            
+            # データを読み込み（プレビュー用に最大100行）
+            if file_type in ["CSV", "TSV"]:
+                import pandas as pd
+                try:
+                    df = pd.read_csv(
+                        file_path, 
+                        sep=delimiter, 
+                        encoding=encoding, 
+                        header=header,
+                        nrows=100,  # プレビュー用に100行まで
+                        dtype=str,
+                        on_bad_lines='skip',
+                        engine='python'
+                    )
+                except Exception as e:
+                    # エラー時のフォールバック
+                    df = pd.read_csv(
+                        file_path, 
+                        sep=delimiter, 
+                        encoding='latin-1', 
+                        header=header,
+                        nrows=100,
+                        dtype=str,
+                        on_bad_lines='skip',
+                        engine='python'
+                    )
+            elif file_type == "Excel":
+                import pandas as pd
+                df = pd.read_excel(file_path, header=header, nrows=100, dtype=str)
+            else:
+                self.app.show_message(f"サポートされていないファイルタイプです: {file_type}", "error")
+                return
+            
+            # プレビューを表示
+            self._display_preview(df)
+            
+        except Exception as e:
+            self.app.show_message(f"プレビューエラー: {e}", "error")
+            import traceback
+            print(traceback.format_exc())
+    
+    def _display_preview(self, df):
+        """プレビューデータを表示"""
+        # 既存のデータをクリア
+        for item in self.preview_tree.get_children():
+            self.preview_tree.delete(item)
+        
+        if df.empty:
+            return
+        
+        # 列の設定
+        columns = list(df.columns)
+        self.preview_tree["columns"] = columns
+        self.preview_tree["show"] = "headings"
+        
+        # 列の見出しと幅を設定
+        for col in columns:
+            self.preview_tree.heading(col, text=str(col))
+            self.preview_tree.column(col, width=100)
+        
+        # データを挿入（最大50行）
+        for idx, row in df.head(50).iterrows():
+            values = [str(val) if val is not None else "" for val in row]
+            self.preview_tree.insert("", "end", values=values)
+        
+        # 結果メッセージを更新
+        total_rows = len(df)
+        displayed_rows = min(50, total_rows)
+        self.import_result_var.set(f"プレビュー: {displayed_rows}/{total_rows} 行を表示")
         
     def execute_import(self):
         """インポートを実行"""

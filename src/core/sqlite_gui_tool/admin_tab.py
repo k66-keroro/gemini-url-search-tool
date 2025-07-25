@@ -718,13 +718,50 @@ class AdminTab:
                     except:
                         df = pd.read_csv(file_path, encoding=encoding, sep=delimiter, dtype=str)
                 else:
-                    # 通常のCSV/TXT処理
+                    # 通常のCSV/TXT処理（エラー耐性を強化）
                     try:
                         # 最初は文字列として読み込み、後でデータ型を最適化
-                        df = pd.read_csv(file_path, encoding=encoding, sep=delimiter, dtype=str)
-                    except UnicodeDecodeError:
-                        # UTF-8で失敗した場合はCP932を試す
-                        df = pd.read_csv(file_path, encoding='cp932', sep=delimiter, dtype=str)
+                        df = pd.read_csv(
+                            file_path, 
+                            encoding=encoding, 
+                            sep=delimiter, 
+                            dtype=str,
+                            on_bad_lines='skip',  # 問題のある行をスキップ
+                            engine='python'  # より柔軟な解析
+                        )
+                    except (UnicodeDecodeError, pd.errors.ParserError):
+                        # エンコーディングまたはパース エラーの場合
+                        try:
+                            # CP932で再試行
+                            df = pd.read_csv(
+                                file_path, 
+                                encoding='cp932', 
+                                sep=delimiter, 
+                                dtype=str,
+                                on_bad_lines='skip',
+                                engine='python'
+                            )
+                        except (UnicodeDecodeError, pd.errors.ParserError):
+                            # それでも失敗した場合は、より寛容な設定で試行
+                            try:
+                                df = pd.read_csv(
+                                    file_path, 
+                                    encoding='utf-8', 
+                                    sep=None,  # 区切り文字を自動検出
+                                    dtype=str,
+                                    on_bad_lines='skip',
+                                    engine='python'
+                                )
+                            except Exception:
+                                # 最後の手段：latin-1エンコーディング
+                                df = pd.read_csv(
+                                    file_path, 
+                                    encoding='latin-1', 
+                                    sep=delimiter, 
+                                    dtype=str,
+                                    on_bad_lines='skip',
+                                    engine='python'
+                                )
                         
             elif ext in ['.xlsx', '.xls']:
                 # Excel処理

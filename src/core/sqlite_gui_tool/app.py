@@ -482,16 +482,124 @@ class SQLiteGUITool:
         tab = self.tabs.get('import')
         if not tab:
             return
-            
-        self.show_message("インポート機能は現在実装中です。", "info")
+        
+        # インポートタブのプレビュー機能を呼び出し
+        tab.preview_import_data()
         
     def execute_import(self):
         """インポートを実行"""
         tab = self.tabs.get('import')
-        if not tab:
+        if not tab or not self.conn:
             return
+        
+        file_path = tab.import_path_var.get()
+        if not file_path or not os.path.exists(file_path):
+            self.show_message("有効なファイルパスを入力してください。", "warning")
+            return
+        
+        table_name = tab.table_name_entry_var.get()
+        if not table_name:
+            self.show_message("テーブル名を入力してください。", "warning")
+            return
+        
+        try:
+            # テーブル名をサニタイズ
+            sanitized_table_name = tab.sanitize_table_name(table_name)
             
-        self.show_message("インポート機能は現在実装中です。", "info")
+            # ファイル情報を取得
+            file_type = tab.file_type_var.get()
+            encoding = tab.encoding_var.get()
+            delimiter = tab.delimiter_var.get()
+            header = 0 if tab.header_var.get() else None
+            if_exists = tab.existing_var.get()
+            
+            # if_existsを変換
+            if if_exists == "置換":
+                if_exists = "replace"
+            elif if_exists == "追加":
+                if_exists = "append"
+            elif if_exists == "エラー":
+                if_exists = "fail"
+            
+            # ファイルタイプの自動検出
+            if file_type == "自動検出":
+                ext = os.path.splitext(file_path)[1].lower()
+                if ext == '.csv':
+                    file_type = "CSV"
+                elif ext in ['.tsv', '.txt']:
+                    file_type = "TSV"
+                elif ext in ['.xlsx', '.xls']:
+                    file_type = "Excel"
+                else:
+                    file_type = "CSV"
+            
+            # エンコーディングの自動検出
+            if encoding == "自動検出":
+                import chardet
+                with open(file_path, 'rb') as f:
+                    raw_data = f.read(10000)
+                    encoding_result = chardet.detect(raw_data)
+                    encoding = encoding_result['encoding'] or 'utf-8'
+            
+            # 区切り文字の自動検出
+            if delimiter == "自動検出":
+                if file_type == "TSV":
+                    delimiter = "\t"
+                else:
+                    delimiter = ","
+            elif delimiter == "\\t":
+                delimiter = "\t"
+            
+            # データを読み込み
+            if file_type in ["CSV", "TSV"]:
+                import pandas as pd
+                try:
+                    df = pd.read_csv(
+                        file_path, 
+                        sep=delimiter, 
+                        encoding=encoding, 
+                        header=header,
+                        dtype=str,
+                        on_bad_lines='skip',
+                        engine='python'
+                    )
+                except Exception as e:
+                    # エラー時のフォールバック
+                    df = pd.read_csv(
+                        file_path, 
+                        sep=delimiter, 
+                        encoding='latin-1', 
+                        header=header,
+                        dtype=str,
+                        on_bad_lines='skip',
+                        engine='python'
+                    )
+            elif file_type == "Excel":
+                import pandas as pd
+                df = pd.read_excel(file_path, header=header, dtype=str)
+            else:
+                self.show_message(f"サポートされていないファイルタイプです: {file_type}", "error")
+                return
+            
+            # データをSQLiteに保存
+            df.to_sql(sanitized_table_name, self.conn, if_exists=if_exists, index=False)
+            self.conn.commit()
+            
+            # 結果を表示
+            row_count = len(df)
+            tab.import_result_var.set(f"{row_count:,}行のデータを '{sanitized_table_name}' テーブルにインポートしました。")
+            
+            # 成功メッセージ
+            self.show_message(f"{row_count:,}行のデータを '{sanitized_table_name}' テーブルにインポートしました。", "info")
+            
+            # 他のタブを更新
+            self.refresh_all_tabs()
+            
+        except Exception as e:
+            self.show_message(f"インポートエラー: {e}", "error")
+            tab.import_result_var.set(f"エラー: {e}")
+            import traceback
+            print(traceback.format_exc())
         
     def preview_export_data(self):
         """エクスポートデータのプレビュー"""
