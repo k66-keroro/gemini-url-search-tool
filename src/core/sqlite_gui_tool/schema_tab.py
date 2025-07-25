@@ -201,5 +201,15 @@ class SchemaTab:
         
     def on_db_disconnect(self):
         """データベース切断時の処理"""
+        self.clear()
+        
+    def refresh(self):
+        """タブの表示を更新"""
+        if self.app.conn:
+            tables = self.app.get_table_list()
+            self.update_table_list(tables)
+        
+    def on_db_disconnect(self):
+        """データベース切断時の処理"""
         # テーブル情報をクリア
         self.clear()

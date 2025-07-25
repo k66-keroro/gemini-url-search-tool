@@ -108,7 +108,7 @@ class SQLiteGUITool:
         
         # SQLiteManagerのインスタンス
         try:
-            self.sqlite_manager = SQLiteManager(str(self.default_db_path)) if SQLiteManager else None
+            self.sqlite_manager = SQLiteManager() if SQLiteManager else None
         except Exception as e:
             print(f"SQLiteManager初期化エラー: {e}")
             self.sqlite_manager = None
@@ -533,13 +533,9 @@ class SQLiteGUITool:
                 else:
                     file_type = "CSV"
             
-            # エンコーディングの自動検出
+            # エンコーディングの自動検出（改良版）
             if encoding == "自動検出":
-                import chardet
-                with open(file_path, 'rb') as f:
-                    raw_data = f.read(10000)
-                    encoding_result = chardet.detect(raw_data)
-                    encoding = encoding_result['encoding'] or 'utf-8'
+                encoding = self._detect_encoding_robust(file_path)
             
             # 区切り文字の自動検出
             if delimiter == "自動検出":
@@ -600,6 +596,48 @@ class SQLiteGUITool:
             tab.import_result_var.set(f"エラー: {e}")
             import traceback
             print(traceback.format_exc())
+    
+    def _detect_encoding_robust(self, file_path):
+        """より確実なエンコーディング検出"""
+        import chardet
+        
+        # 複数の方法でエンコーディングを試行
+        encodings_to_try = ['cp932', 'shift_jis', 'utf-8', 'euc-jp', 'iso-2022-jp']
+        
+        # chardetによる検出
+        try:
+            with open(file_path, 'rb') as f:
+                raw_data = f.read(50000)  # より多くのデータを読み込み
+                result = chardet.detect(raw_data)
+                detected_encoding = result['encoding']
+                confidence = result['confidence']
+                
+                # 信頼度が高い場合は使用
+                if confidence > 0.7 and detected_encoding:
+                    # 日本語ファイルの場合はcp932を優先
+                    if detected_encoding.lower() in ['shift_jis', 'shift-jis']:
+                        return 'cp932'
+                    return detected_encoding
+        except:
+            pass
+        
+        # 各エンコーディングで実際に読み込みテスト
+        for encoding in encodings_to_try:
+            try:
+                with open(file_path, 'r', encoding=encoding) as f:
+                    # 最初の1000文字を読んでみる
+                    test_data = f.read(1000)
+                    # 日本語文字が含まれているかチェック
+                    if any('\u3040' <= c <= '\u309F' or '\u30A0' <= c <= '\u30FF' or '\u4E00' <= c <= '\u9FAF' for c in test_data):
+                        return encoding
+                    # 文字化けしていないかチェック
+                    if '?' not in test_data and '�' not in test_data:
+                        return encoding
+            except (UnicodeDecodeError, UnicodeError):
+                continue
+        
+        # デフォルトはcp932
+        return 'cp932'
         
     def preview_export_data(self):
         """エクスポートデータのプレビュー"""
