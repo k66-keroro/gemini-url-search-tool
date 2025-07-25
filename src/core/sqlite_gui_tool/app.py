@@ -547,12 +547,147 @@ class SQLiteGUITool:
         if not tab or not self.conn:
             return
             
-        self.show_message("コードフィールド分析機能は現在実装中です。", "info")
-        
+        table_name = tab.converter_table_var.get()
+        if not table_name:
+            self.show_message("テーブルを選択してください。", "warning")
+            return
+            
+        try:
+            # テーブルの列情報を取得
+            self.cursor.execute(f"PRAGMA table_info('{table_name}')")
+            columns = self.cursor.fetchall()
+            
+            # 分析結果をクリア
+            for item in tab.code_field_tree.get_children():
+                tab.code_field_tree.delete(item)
+            
+            for col_info in columns:
+                col_name = col_info[1]
+                col_type = col_info[2]
+                
+                # サンプルデータを取得
+                self.cursor.execute(f"SELECT DISTINCT {col_name} FROM '{table_name}' WHERE {col_name} IS NOT NULL LIMIT 10")
+                samples = [str(row[0]) for row in self.cursor.fetchall()]
+                sample_str = ", ".join(samples[:3]) + ("..." if len(samples) > 3 else "")
+                
+                # コードフィールドかどうかを判定
+                code_type, should_convert = self._analyze_code_field(table_name, col_name, col_type)
+                
+                # ツリービューに追加
+                convert_text = "✓" if should_convert else ""
+                tab.code_field_tree.insert("", "end", values=(
+                    col_name, col_type, sample_str, code_type, convert_text
+                ))
+                
+        except Exception as e:
+            self.show_message(f"コードフィールド分析エラー: {e}", "error")
+            
+    def _analyze_code_field(self, table_name, col_name, col_type):
+        """個別のフィールドがコードフィールドかどうかを分析"""
+        try:
+            # サンプルデータを取得（最大1000行）
+            self.cursor.execute(f"SELECT {col_name} FROM '{table_name}' WHERE {col_name} IS NOT NULL LIMIT 1000")
+            values = [str(row[0]) for row in self.cursor.fetchall()]
+            
+            if not values:
+                return "データなし", False
+            
+            # 数値として格納されているが、実際はコードの可能性をチェック
+            numeric_values = []
+            for val in values:
+                try:
+                    numeric_values.append(float(val))
+                except:
+                    pass
+            
+            # すべて数値として解釈可能な場合
+            if len(numeric_values) == len(values):
+                # 先頭ゼロの可能性をチェック
+                zero_padded_count = sum(1 for val in values if val.startswith('0') and len(val) > 1)
+                
+                if zero_padded_count > len(values) * 0.1:  # 10%以上が先頭ゼロ
+                    return "ゼロパディングコード", True
+                
+                # 固定長の可能性をチェック
+                lengths = [len(val) for val in values]
+                if len(set(lengths)) <= 2:  # 長さが1-2種類のみ
+                    avg_length = sum(lengths) / len(lengths)
+                    if avg_length >= 4:  # 平均4文字以上
+                        return "固定長コード", True
+                
+                # 連続性のチェック
+                sorted_nums = sorted(numeric_values)
+                gaps = [sorted_nums[i+1] - sorted_nums[i] for i in range(len(sorted_nums)-1)]
+                if gaps and max(gaps) > 1000:  # 大きなギャップがある
+                    return "非連続コード", True
+                    
+                return "数値", False
+            
+            # 文字列の場合
+            else:
+                # 英数字コードの可能性
+                alphanumeric_count = sum(1 for val in values if val.isalnum())
+                if alphanumeric_count > len(values) * 0.8:  # 80%以上が英数字
+                    return "英数字コード", False  # 既に文字列なので変換不要
+                
+                return "文字列", False
+                
+        except Exception as e:
+            return f"分析エラー: {e}", False
+            
     def execute_conversion(self):
         """コード変換を実行"""
+        import time
+        
         tab = self.tabs.get('code_converter')
         if not tab or not self.conn:
             return
             
-        self.show_message("コード変換機能は現在実装中です。", "info")
+        table_name = tab.converter_table_var.get()
+        if not table_name:
+            self.show_message("テーブルを選択してください。", "warning")
+            return
+            
+        # 変換対象のフィールドを取得
+        convert_fields = []
+        for item in tab.code_field_tree.get_children():
+            values = tab.code_field_tree.item(item, "values")
+            if values[4] == "✓":  # 変換フラグがチェックされている
+                convert_fields.append({
+                    'column': values[0],
+                    'type': values[1],
+                    'code_type': values[3]
+                })
+        
+        if not convert_fields:
+            self.show_message("変換対象のフィールドが選択されていません。", "warning")
+            return
+            
+        try:
+            # バックアップの作成
+            if tab.backup_var.get():
+                backup_table = f"{table_name}_backup_{int(time.time())}"
+                self.cursor.execute(f"CREATE TABLE {backup_table} AS SELECT * FROM '{table_name}'")
+                self.conn.commit()
+                
+            converted_count = 0
+            
+            for field in convert_fields:
+                col_name = field['column']
+                code_type = field['code_type']
+                
+                if code_type in ["ゼロパディングコード", "固定長コード", "非連続コード"]:
+                    # 数値から文字列への変換
+                    # SQLiteでは直接カラム型変更ができないため、値の更新のみ行う
+                    self.cursor.execute(f"UPDATE '{table_name}' SET {col_name} = CAST({col_name} AS TEXT)")
+                    converted_count += 1
+            
+            self.conn.commit()
+            
+            tab.conversion_result_var.set(f"{converted_count} 個のフィールドを変換しました。")
+            self.show_message(f"コード変換が完了しました。{converted_count} 個のフィールドを変換しました。", "info")
+            
+        except Exception as e:
+            self.conn.rollback()
+            self.show_message(f"コード変換エラー: {e}", "error")
+            tab.conversion_result_var.set(f"変換エラー: {e}")

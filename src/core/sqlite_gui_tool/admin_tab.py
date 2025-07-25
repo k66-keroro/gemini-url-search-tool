@@ -673,6 +673,7 @@ class AdminTab:
                 else:
                     # 通常のCSV/TXT処理
                     try:
+                        # 最初は文字列として読み込み、後でデータ型を最適化
                         df = pd.read_csv(file_path, encoding=encoding, sep=delimiter, dtype=str)
                     except UnicodeDecodeError:
                         # UTF-8で失敗した場合はCP932を試す
@@ -739,10 +740,23 @@ class AdminTab:
         import pandas as pd
         import numpy as np
         
+        self.log_message(f"データ型最適化開始: {len(df.columns)} カラム")
+        
         # 日付列の名前パターン
         date_column_patterns = [
             'date', '日付', 'day', '年月日', '登録日', '有効開始日', '有効終了日', 
-            '作成日', '更新日', '開始日', '終了日', '期限', '期日'
+            '作成日', '更新日', '開始日', '終了日', '期限', '期日', '計画日', '実績日'
+        ]
+        
+        # 数値列の名前パターン
+        numeric_column_patterns = [
+            '数量', '金額', '単価', '価格', '重量', '長さ', '幅', '高さ', '面積', '体積',
+            '率', 'パーセント', '割合', '係数', 'レート', '倍率', '指数'
+        ]
+        
+        # コード列の名前パターン
+        code_column_patterns = [
+            'code', 'コード', 'cd', 'id', '番号', '品目', '部品', '製品', 'no', 'num'
         ]
         
         for col in df.columns:
@@ -752,32 +766,101 @@ class AdminTab:
             if df[col].empty:
                 continue
             
+            # サンプルデータを取得（最大1000行）
+            sample = df[col].dropna().head(1000)
+            if len(sample) == 0:
+                continue
+            
             # 日付列の処理
             is_date_column = any(pattern in col_lower for pattern in date_column_patterns)
             
             if is_date_column:
+                self.log_message(f"日付列として処理: {col}")
                 try:
-                    # 標準的な日付形式で変換
-                    df[col] = pd.to_datetime(df[col], errors='coerce')
-                    
-                    # 8桁数値形式（YYYYMMDD）で再試行
-                    if df[col].isna().any():
-                        mask = df[col].isna()
-                        str_values = df.loc[mask, col].astype(str)
-                        date_values = pd.to_datetime(str_values, format='%Y%m%d', errors='coerce')
-                        df.loc[mask, col] = date_values
+                    # 8桁数値形式（YYYYMMDD）をチェック
+                    if all(isinstance(x, str) and len(x) == 8 and x.isdigit() for x in sample.head(10) if pd.notna(x)):
+                        # 8桁数値形式として処理
+                        df[col] = pd.to_datetime(df[col], format='%Y%m%d', errors='coerce')
                         
                         # 特殊な値（99991231など）を処理
                         special_mask = df[col].isna() & df[col].astype(str).str.contains('9999', na=False)
                         if special_mask.any():
                             df.loc[special_mask, col] = pd.Timestamp.max
-                except:
+                    else:
+                        # 標準的な日付形式で変換
+                        df[col] = pd.to_datetime(df[col], errors='coerce')
+                except Exception as e:
+                    self.log_message(f"日付変換エラー {col}: {e}")
+                    pass
+            
+            # 数値列の処理
+            elif any(pattern in col_lower for pattern in numeric_column_patterns):
+                self.log_message(f"数値列として処理: {col}")
+                try:
+                    # 数値変換を試行
+                    df[col] = pd.to_numeric(df[col], errors='coerce')
+                except Exception as e:
+                    self.log_message(f"数値変換エラー {col}: {e}")
                     pass
             
             # コード列の処理
-            elif 'code' in col_lower or 'コード' in col_lower:
+            elif any(pattern in col_lower for pattern in code_column_patterns):
+                self.log_message(f"コード列として処理: {col}")
+                # コード列は文字列として保持
                 df[col] = df[col].astype(str)
+            
+            # その他の列の自動判定
+            else:
+                # 数値として解釈できるかチェック
+                try:
+                    # サンプルの90%以上が数値として変換可能な場合
+                    numeric_sample = pd.to_numeric(sample, errors='coerce')
+                    valid_numeric_ratio = (~numeric_sample.isna()).mean()
+                    
+                    if valid_numeric_ratio >= 0.9:
+                        self.log_message(f"自動判定で数値列: {col} (有効率: {valid_numeric_ratio:.2f})")
+                        df[col] = pd.to_numeric(df[col], errors='coerce')
+                        continue
+                except:
+                    pass
+                
+                # 8桁数値（日付の可能性）をチェック
+                try:
+                    eight_digit_count = sum(1 for x in sample.head(100) 
+                                          if isinstance(x, str) and len(x) == 8 and x.isdigit())
+                    if eight_digit_count > len(sample) * 0.5:  # 50%以上が8桁数値
+                        # 日付として解釈できるかテスト
+                        test_dates = pd.to_datetime(sample.head(10), format='%Y%m%d', errors='coerce')
+                        valid_dates_ratio = (~test_dates.isna()).mean()
+                        
+                        if valid_dates_ratio >= 0.7:  # 70%以上が有効な日付
+                            self.log_message(f"自動判定で8桁日付列: {col} (有効率: {valid_dates_ratio:.2f})")
+                            df[col] = pd.to_datetime(df[col], format='%Y%m%d', errors='coerce')
+                            
+                            # 特殊な値（99991231など）を処理
+                            special_mask = df[col].isna() & df[col].astype(str).str.contains('9999', na=False)
+                            if special_mask.any():
+                                df.loc[special_mask, col] = pd.Timestamp.max
+                            continue
+                except:
+                    pass
+                
+                # タイムスタンプ形式をチェック
+                try:
+                    timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+                    valid_timestamp_ratio = (~timestamp_sample.isna()).mean()
+                    
+                    if valid_timestamp_ratio >= 0.7:  # 70%以上が有効なタイムスタンプ
+                        self.log_message(f"自動判定でタイムスタンプ列: {col} (有効率: {valid_timestamp_ratio:.2f})")
+                        df[col] = pd.to_datetime(df[col], errors='coerce')
+                        continue
+                except:
+                    pass
+                
+                # デフォルトは文字列として保持
+                self.log_message(f"文字列列として保持: {col}")
         
+        self.log_message("データ型最適化完了")
         return df
     
     def _process_zp138_file(self, file_path):
