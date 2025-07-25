@@ -22,6 +22,7 @@ from .export_tab import ExportTab
 from .analyze_tab import AnalyzeTab
 from .code_converter_tab import CodeConverterTab
 from .admin_tab import AdminTab
+from .launcher_tab import LauncherTab
 
 # プロジェクトルートを特定
 GUI_TOOL_DIR = Path(os.path.abspath(os.path.dirname(__file__)))
@@ -155,6 +156,11 @@ class SQLiteGUITool:
         admin_tab_frame = ttk.Frame(self.tab_control)
         self.tabs['admin'] = AdminTab(admin_tab_frame, self)
         self.tab_control.add(admin_tab_frame, text='DB管理')
+        
+        # ランチャータブ
+        launcher_tab_frame = ttk.Frame(self.tab_control)
+        self.tabs['launcher'] = LauncherTab(launcher_tab_frame, self)
+        self.tab_control.add(launcher_tab_frame, text='スクリプト実行')
     
     def connect_database(self):
         """データベース接続"""

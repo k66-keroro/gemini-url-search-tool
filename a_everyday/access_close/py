@@ -1,0 +1,14 @@
+import psutil
+import win32com.client
+
+def close_all_access_instances():
+    for proc in psutil.process_iter(['pid', 'name']):
+        if proc.info['name'] == 'MSACCESS.EXE':
+            try:
+                access_app = win32com.client.Dispatch("Access.Application")
+                access_app.Quit()
+                del access_app
+            except Exception as e:
+                print(f"Error closing Access instance: {e}")
+
+close_all_access_instances()

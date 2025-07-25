@@ -17,7 +17,11 @@
         "writeFile",
         "listDirectory",
         "create_directory",
-        "get_file_info"
+        "get_file_info",
+        "list_allowed_directories",
+        "write_file",
+        "read_file",
+        "search_files"
       ]
     }
   }

@@ -108,10 +108,25 @@ class AdminTab:
             button_frame, text="ZP138個別処理", command=self.process_zp138_individual)
         zp138_button.pack(side=tk.LEFT, padx=5)
         
+        # MARADL処理ボタン
+        maradl_button = ttk.Button(
+            button_frame, text="MARADL処理", command=self.process_maradl_pipeline)
+        maradl_button.pack(side=tk.LEFT, padx=5)
+        
         # データベース診断ボタン
         diagnose_button = ttk.Button(
             button_frame, text="DB診断", command=self.diagnose_database)
         diagnose_button.pack(side=tk.LEFT, padx=5)
+        
+        # データ型分析ボタン
+        type_analysis_button = ttk.Button(
+            button_frame, text="データ型分析", command=self.analyze_data_type_consistency)
+        type_analysis_button.pack(side=tk.LEFT, padx=5)
+        
+        # データ型統一ボタン
+        type_standardize_button = ttk.Button(
+            button_frame, text="データ型統一", command=self.standardize_data_types)
+        type_standardize_button.pack(side=tk.LEFT, padx=5)
 
         # 選択テーブル削除ボタン
         delete_selected_button = ttk.Button(
@@ -1222,4 +1237,643 @@ class AdminTab:
             
         except Exception as e:
             self.log_message(f"診断エラー: {e}")
-            self.app.show_message(f"データベース診断エラー: {e}", "error")
+            self.app.show_message(f"データベース診断エラー: {e}", "error")  
+  def process_maradl_pipeline(self):
+        """MARADLパイプライン処理（3段階のマスタ処理）"""
+        if not self.app.conn:
+            self.app.show_message("データベースに接続されていません。", "warning")
+            return
+            
+        # 確認ダイアログ
+        if not messagebox.askyesno("確認", 
+            "MARADLパイプライン処理を実行しますか？\n"
+            "1. MARA_DL → 全120フィールドのマスタテーブル\n"
+            "2. view_pc_master → 使用頻度の高いフィールドを抽出してPC基板に絞り込み\n"
+            "3. parsed_pc_master → 差分検出と正規表現による要素抽出"):
+            return
+            
+        try:
+            self.log_message("=== MARADLパイプライン処理開始 ===")
+            
+            # 1. MARA_DLテーブルの存在確認
+            self.app.cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='MARA_DL'")
+            if not self.app.cursor.fetchone():
+                self.log_message("エラー: MARA_DLテーブルが存在しません。先に全件データ更新を実行してください。")
+                self.app.show_message("MARA_DLテーブルが存在しません。\n先に全件データ更新を実行してください。", "error")
+                return
+            
+            # MARA_DLの行数確認
+            self.app.cursor.execute("SELECT COUNT(*) FROM MARA_DL")
+            mara_count = self.app.cursor.fetchone()[0]
+            self.log_message(f"MARA_DLテーブル: {mara_count:,} 行")
+            
+            # 2. view_pc_master処理
+            self.log_message("Step 1: view_pc_master処理開始...")
+            success = self._create_view_pc_master()
+            if not success:
+                self.log_message("view_pc_master処理に失敗しました")
+                return
+            
+            # 3. parsed_pc_master処理
+            self.log_message("Step 2: parsed_pc_master処理開始...")
+            success = self._create_parsed_pc_master()
+            if not success:
+                self.log_message("parsed_pc_master処理に失敗しました")
+                return
+            
+            # 4. 差分検出と登録処理
+            self.log_message("Step 3: 差分検出と登録処理開始...")
+            success = self._process_pc_master_diff()
+            if not success:
+                self.log_message("差分検出処理に失敗しました")
+                return
+            
+            self.log_message("=== MARADLパイプライン処理完了 ===")
+            
+            # テーブル情報を更新
+            self.refresh_table_info()
+            self._update_all_tabs()
+            
+            self.app.show_message("MARADLパイプライン処理が完了しました。", "info")
+            
+        except Exception as e:
+            self.log_message(f"MARADLパイプライン処理エラー: {e}")
+            self.app.show_message(f"MARADLパイプライン処理エラー: {e}", "error")
+            import traceback
+            self.log_message(traceback.format_exc())
+    
+    def _create_view_pc_master(self):
+        """view_pc_masterテーブルを作成（使用頻度の高いフィールドを抽出してPC基板に絞り込み）"""
+        try:
+            # 既存のview_pc_masterテーブルを削除
+            self.app.cursor.execute("DROP TABLE IF EXISTS view_pc_master")
+            
+            # view_pc_masterテーブルを作成
+            create_sql = """
+            CREATE TABLE view_pc_master AS
+            SELECT 
+                プラント,
+                MRP_管理者,
+                調達タイプ,
+                評価クラス,
+                格上げ区分,
+                品目タイプコード,
+                品目,
+                品目テキスト,
+                標準原価,
+                現会計年度,
+                現期間,
+                研究室_設計室,
+                ＭＲＰ出庫保管場所,
+                MRP_管理者名,
+                BOM,
+                作業手順,
+                ＭＲＰタイプ,
+                タイムフェンス,
+                間接費グループ,
+                販売ステータス,
+                プラント固有ステータス,
+                ロットサイズ,
+                品目登録日,
+                利益センタ,
+                安全在庫,
+                丸め数量,
+                最小ロットサイズ,
+                原価計算ロットサイズ,
+                日程計画余裕キー,
+                設計担当者ID,
+                設計担当者名,
+                最終入庫日,
+                最終出庫日
+            FROM MARA_DL
+            WHERE 
+                (プラント = 'P100' AND 評価クラス = '2120') OR
+                (プラント = 'P100' AND 評価クラス = '2130' AND 品目 LIKE '9710%' AND 品目 != '971030100')
+            """
+            
+            self.app.cursor.execute(create_sql)
+            self.app.conn.commit()
+            
+            # 作成されたテーブルの行数を確認
+            self.app.cursor.execute("SELECT COUNT(*) FROM view_pc_master")
+            count = self.app.cursor.fetchone()[0]
+            self.log_message(f"view_pc_masterテーブルを作成しました: {count:,} 行")
+            
+            # ファイル名とテーブル名のマッピングを保存
+            self.file_table_mapping['view_pc_master'] = 'MARA_DL.csv (加工)'
+            
+            return True
+            
+        except Exception as e:
+            self.log_message(f"view_pc_master作成エラー: {e}")
+            return False
+    
+    def _create_parsed_pc_master(self):
+        """parsed_pc_masterテーブルを作成（正規表現による要素抽出）"""
+        try:
+            # 既存のparsed_pc_masterテーブルを削除
+            self.app.cursor.execute("DROP TABLE IF EXISTS parsed_pc_master")
+            
+            # parsed_pc_masterテーブルを作成
+            create_sql = """
+            CREATE TABLE parsed_pc_master (
+                品目 TEXT PRIMARY KEY,
+                品目テキスト TEXT,
+                cm_code TEXT,
+                board_number TEXT,
+                derivative_code TEXT,
+                board_type TEXT,
+                登録日 TEXT
+            )
+            """
+            
+            self.app.cursor.execute(create_sql)
+            self.app.conn.commit()
+            
+            self.log_message("parsed_pc_masterテーブルを作成しました")
+            
+            # ファイル名とテーブル名のマッピングを保存
+            self.file_table_mapping['parsed_pc_master'] = 'view_pc_master (解析)'
+            
+            return True
+            
+        except Exception as e:
+            self.log_message(f"parsed_pc_master作成エラー: {e}")
+            return False
+    
+    def _process_pc_master_diff(self):
+        """PC Master差分検出と登録処理"""
+        try:
+            import pandas as pd
+            import re
+            from datetime import datetime
+            
+            # 正規表現パターンと処理ロジック（元のz_Parsed Pc Master Diff Logger.pyから移植）
+            BLACKLIST = {"SENS", "CV", "CV-055"}
+            DERIVATIVE_PATTERN = re.compile(r"([STU][0-9]{1,2}|[STU][A-Z][0-9])")
+            
+            Y_CODE_MAP = {
+                "YAMK": "m", "YAUWM": "w", "YAWM": "w", "YBPM": "p", "YCK": "c", "YCUWM": "w",
+                "YGK": "g", "YMK": "m", "YPK": "p", "YPM": "p", "YUK": "w", "YWK": "w", "YWM": "w"
+            }
+            
+            HEAD_CM_MAP = {
+                "AK": "a", "CK": "c", "DK": "d", "EK": "e", "GK": "g", "HK": "h", "IK": "i", "LK": "l",
+                "MK": "m", "PK": "p", "PM": "p", "SK": "s", "UK": "w", "UWM": "w", "WK": "w", "WM": "w", "WS": "w",
+                "BWM": "w"
+            }
+            
+            def extract_derivative(text):
+                if not isinstance(text, str): 
+                    return None
+                candidates = DERIVATIVE_PATTERN.findall(text.upper())
+                for cand in candidates:
+                    if cand not in BLACKLIST:
+                        return cand
+                return None
+            
+            def extract_board_number(code, name):
+                if name.startswith("DIMCOM"):
+                    match = re.search(r"DIMCOM\s*(?:No\.\s*)?(\d{5})", name)
+                    if match:
+                        return match.group(1)
+                if code.startswith("P00A"):
+                    return code[5:9]
+                elif code.startswith("P0A"):
+                    return code[3:7]
+                elif "-" in name:
+                    parts = name.split("-")
+                    if len(parts) > 1:
+                        match = re.search(r"\d{3,4}", parts[1])
+                        return match.group(0) if match else None
+                elif re.search(r"\d{3,4}", name):
+                    return re.search(r"\d{3,4}", name).group(0)
+                return None
+            
+            def extract_cm_code(code, name):
+                name = name.upper()
+                if code.startswith("P0E"):
+                    return "other"
+                if name.startswith("WB"): return "CM-W"
+                if name.startswith("DIMCOM"): return "CM-L"
+                if name.startswith("CV"): return "CM-I"
+                if name.startswith("FK"): return "free"
+                if name.startswith("X"):
+                    if name.startswith("XAMK"): return "CM-M"
+                    if name.startswith("XUK"): return "CM-W"
+                    return "CM-" + name[1]
+                if name.startswith("Y"):
+                    for l in [5, 4, 3]:
+                        if name[:l] in Y_CODE_MAP:
+                            return "CM-" + Y_CODE_MAP[name[:l]].upper()
+                m = re.match(r"([A-Z]{2,4})", name)
+                if m and m.group(1) in HEAD_CM_MAP:
+                    return "CM-" + HEAD_CM_MAP[m.group(1)].upper()
+                return "other"
+            
+            # view_pc_masterからデータを取得
+            df_all = pd.read_sql("SELECT 品目, 品目テキスト FROM view_pc_master", self.app.conn)
+            self.log_message(f"view_pc_masterから {len(df_all):,} 件のデータを取得")
+            
+            # 既存のparsed_pc_masterからデータを取得
+            try:
+                df_existing = pd.read_sql("SELECT 品目, 品目テキスト FROM parsed_pc_master", self.app.conn)
+                self.log_message(f"parsed_pc_masterから {len(df_existing):,} 件の既存データを取得")
+            except:
+                df_existing = pd.DataFrame(columns=["品目", "品目テキスト"])
+                self.log_message("parsed_pc_masterは空です")
+            
+            # 差分データの生成
+            if not df_all.empty and not df_existing.empty:
+                df_new = df_all[~df_all["品目"].isin(df_existing["品目"])]
+            else:
+                df_new = df_all.copy()
+            
+            self.log_message(f"差分データ: {len(df_new):,} 件")
+            
+            if df_new.empty:
+                self.log_message("差分なし（追加不要）")
+                return True
+            
+            # データ処理
+            df_new = df_new.copy()
+            df_new["cm_code"] = df_new.apply(lambda row: extract_cm_code(row["品目"], row["品目テキスト"]), axis=1)
+            df_new["board_number"] = df_new.apply(lambda row: extract_board_number(row["品目"], row["品目テキスト"]) if row["cm_code"] != "other" else None, axis=1)
+            df_new["derivative_code"] = df_new.apply(lambda row: extract_derivative(row["品目テキスト"]) if row["cm_code"] != "other" else None, axis=1)
+            df_new["board_type"] = df_new.apply(lambda row: "派生基板" if row["derivative_code"] else "標準" if row["cm_code"] != "other" else None, axis=1)
+            df_new["登録日"] = datetime.now().strftime("%Y-%m-%d")
+            
+            # データベースへの登録
+            inserted_count = 0
+            for _, row in df_new.iterrows():
+                try:
+                    self.app.cursor.execute(
+                        """
+                        INSERT INTO parsed_pc_master (品目, 品目テキスト, cm_code, board_number, derivative_code, board_type, 登録日)
+                        VALUES (?, ?, ?, ?, ?, ?, ?)
+                        """,
+                        (row["品目"], row["品目テキスト"], row["cm_code"],
+                         row["board_number"], row["derivative_code"], row["board_type"], row["登録日"])
+                    )
+                    inserted_count += 1
+                except Exception as e:
+                    self.log_message(f"データベース登録エラー (品目: {row['品目']}): {e}")
+            
+            self.app.conn.commit()
+            self.log_message(f"{inserted_count:,} 件をparsed_pc_masterに登録しました")
+            
+            # 差分ログをCSVに出力
+            try:
+                import os
+                from pathlib import Path
+                
+                # ログディレクトリを作成
+                log_dir = Path("logs")
+                log_dir.mkdir(exist_ok=True)
+                
+                log_file = log_dir / f"pc_master_diff_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+                df_new.to_csv(log_file, index=False, encoding="utf-8-sig")
+                self.log_message(f"差分ログを出力しました: {log_file}")
+                
+            except Exception as e:
+                self.log_message(f"差分ログ出力エラー: {e}")
+            
+            return True
+            
+        except Exception as e:
+            self.log_message(f"PC Master差分処理エラー: {e}")
+            import traceback
+            self.log_message(traceback.format_exc())
+            return False
+    
+    def process_zp138_individual(self):
+        """ZP138個別処理（引当計算付き）"""
+        if not self.app.conn:
+            self.app.show_message("データベースに接続されていません。", "warning")
+            return
+            
+        # 確認ダイアログ
+        if not messagebox.askyesno("確認", 
+            "ZP138個別処理を実行しますか？\n"
+            "・ZP138.txtファイルを読み込み\n"
+            "・引当計算を実行\n"
+            "・t_zp138引当テーブルを作成"):
+            return
+            
+        try:
+            self.log_message("=== ZP138個別処理開始 ===")
+            
+            # ZP138.txtファイルの存在確認
+            import os
+            from pathlib import Path
+            
+            gui_tool_dir = Path(os.path.abspath(os.path.dirname(__file__)))
+            project_root = gui_tool_dir.parents[2]
+            zp138_file = project_root / 'data' / 'raw' / 'ZP138.txt'
+            
+            if not zp138_file.exists():
+                self.log_message(f"ZP138.txtファイルが見つかりません: {zp138_file}")
+                self.app.show_message(f"ZP138.txtファイルが見つかりません:\n{zp138_file}", "error")
+                return
+            
+            # ZP138プロセッサーを使用
+            try:
+                # プロセッサーモジュールをインポート
+                sys.path.append(str(project_root / 'src' / 'processors'))
+                from zp138_processor import ZP138Processor
+                
+                # プロセッサーを実行
+                processor = ZP138Processor(str(self.app.db_path))
+                success = processor.process()
+                
+                if success:
+                    self.log_message("ZP138個別処理が完了しました")
+                    
+                    # テーブル情報を更新
+                    self.refresh_table_info()
+                    self._update_all_tabs()
+                    
+                    self.app.show_message("ZP138個別処理が完了しました。", "info")
+                else:
+                    self.log_message("ZP138個別処理に失敗しました")
+                    self.app.show_message("ZP138個別処理に失敗しました。", "error")
+                    
+            except ImportError as e:
+                self.log_message(f"ZP138プロセッサーのインポートエラー: {e}")
+                self.app.show_message(f"ZP138プロセッサーが見つかりません:\n{e}", "error")
+            
+        except Exception as e:
+            self.log_message(f"ZP138個別処理エラー: {e}")
+            self.app.show_message(f"ZP138個別処理エラー: {e}", "error")
+            import traceback
+            self.log_message(traceback.format_exc())
+    
+    def diagnose_database(self):
+        """データベース診断"""
+        if not self.app.conn:
+            self.app.show_message("データベースに接続されていません。", "warning")
+            return
+            
+        try:
+            self.log_message("=== データベース診断開始 ===")
+            
+            # 1. 基本情報
+            self.log_message(f"データベースファイル: {self.app.db_path}")
+            
+            # ファイルサイズ
+            import os
+            if os.path.exists(self.app.db_path):
+                file_size = os.path.getsize(self.app.db_path)
+                self.log_message(f"ファイルサイズ: {file_size / (1024*1024):.2f} MB")
+            
+            # 2. テーブル数
+            self.app.cursor.execute("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'")
+            table_count = self.app.cursor.fetchone()[0]
+            self.log_message(f"テーブル数: {table_count}")
+            
+            # 3. 総行数
+            self.app.cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'")
+            tables = self.app.cursor.fetchall()
+            
+            total_rows = 0
+            for table in tables:
+                name = table[0]
+                try:
+                    self.app.cursor.execute(f"SELECT COUNT(*) FROM [{name}]")
+                    count = self.app.cursor.fetchone()[0]
+                    total_rows += count
+                except:
+                    pass
+            
+            self.log_message(f"総行数: {total_rows:,}")
+            
+            # 4. インデックス数
+            self.app.cursor.execute("SELECT COUNT(*) FROM sqlite_master WHERE type='index' AND name NOT LIKE 'sqlite_%'")
+            index_count = self.app.cursor.fetchone()[0]
+            self.log_message(f"インデックス数: {index_count}")
+            
+            # 5. PRAGMA情報
+            pragma_checks = [
+                "journal_mode", "synchronous", "cache_size", "page_size", 
+                "auto_vacuum", "foreign_keys", "integrity_check"
+            ]
+            
+            for pragma in pragma_checks:
+                try:
+                    self.app.cursor.execute(f"PRAGMA {pragma}")
+                    result = self.app.cursor.fetchone()
+                    if result:
+                        self.log_message(f"{pragma}: {result[0]}")
+                except Exception as e:
+                    self.log_message(f"{pragma}: エラー - {e}")
+            
+            # 6. 大きなテーブルの特定
+            self.log_message("\n--- 大きなテーブル（上位5件） ---")
+            table_sizes = []
+            for table in tables:
+                name = table[0]
+                try:
+                    self.app.cursor.execute(f"SELECT COUNT(*) FROM [{name}]")
+                    count = self.app.cursor.fetchone()[0]
+                    table_sizes.append((name, count))
+                except:
+                    pass
+            
+            table_sizes.sort(key=lambda x: x[1], reverse=True)
+            for name, count in table_sizes[:5]:
+                self.log_message(f"{name}: {count:,} 行")
+            
+            self.log_message("=== データベース診断完了 ===")
+            
+        except Exception as e:
+            self.log_message(f"データベース診断エラー: {e}")
+            self.app.show_message(f"データベース診断エラー: {e}", "error")    
+
+    def standardize_data_types(self):
+        """データ型の統一処理"""
+        if not self.app.conn:
+            self.app.show_message("データベースに接続されていません。", "warning")
+            return
+            
+        # 確認ダイアログ
+        if not messagebox.askyesno("確認", 
+            "データ型の統一処理を実行しますか？\n"
+            "・品目コード系フィールドを文字列型に統一\n"
+            "・日付系フィールドを適切な形式に統一\n"
+            "・数値系フィールドを適切な型に統一"):
+            return
+            
+        try:
+            self.log_message("=== データ型統一処理開始 ===")
+            
+            # 品目コード系フィールドの統一
+            code_fields = [
+                ('zm29', '品目'),
+                ('zp02', '品目'),
+                ('zp138', '品目コード'),
+                ('zs65', '品目コード'),
+                ('MARA_DL', '品目'),
+                ('view_pc_master', '品目'),
+                ('parsed_pc_master', '品目')
+            ]
+            
+            standardized_count = 0
+            
+            for table_name, field_name in code_fields:
+                try:
+                    # テーブルの存在確認
+                    self.app.cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name=?", (table_name,))
+                    if not self.app.cursor.fetchone():
+                        continue
+                    
+                    # フィールドの存在確認
+                    self.app.cursor.execute(f"PRAGMA table_info({table_name})")
+                    columns = [col[1] for col in self.app.cursor.fetchall()]
+                    if field_name not in columns:
+                        continue
+                    
+                    # 現在のデータ型を確認
+                    self.app.cursor.execute(f"PRAGMA table_info({table_name})")
+                    for col_info in self.app.cursor.fetchall():
+                        if col_info[1] == field_name:
+                            current_type = col_info[2]
+                            break
+                    
+                    # TEXTでない場合は変換
+                    if current_type.upper() != 'TEXT':
+                        self.log_message(f"{table_name}.{field_name}: {current_type} → TEXT に変換中...")
+                        
+                        # 新しいテーブルを作成
+                        temp_table = f"{table_name}_temp"
+                        
+                        # 元テーブルの構造を取得
+                        self.app.cursor.execute(f"SELECT sql FROM sqlite_master WHERE type='table' AND name='{table_name}'")
+                        create_sql = self.app.cursor.fetchone()[0]
+                        
+                        # フィールドの型をTEXTに変更
+                        import re
+                        pattern = rf'({re.escape(field_name)})\s+\w+'
+                        new_create_sql = re.sub(pattern, rf'\1 TEXT', create_sql)
+                        new_create_sql = new_create_sql.replace(f'CREATE TABLE {table_name}', f'CREATE TABLE {temp_table}')
+                        
+                        # 一時テーブル作成
+                        self.app.cursor.execute(new_create_sql)
+                        
+                        # データをコピー（品目コードを文字列として）
+                        self.app.cursor.execute(f"SELECT * FROM {table_name}")
+                        columns = [description[0] for description in self.app.cursor.description]
+                        
+                        field_index = columns.index(field_name)
+                        
+                        rows = self.app.cursor.fetchall()
+                        for row in rows:
+                            # 品目コードを文字列に変換（ゼロパディング考慮）
+                            row_list = list(row)
+                            if row_list[field_index] is not None:
+                                # 数値の場合、適切な桁数でゼロパディング
+                                try:
+                                    num_val = int(float(str(row_list[field_index])))
+                                    # 品目コードは通常10桁でゼロパディング
+                                    row_list[field_index] = f"{num_val:010d}"
+                                except (ValueError, TypeError):
+                                    row_list[field_index] = str(row_list[field_index])
+                            
+                            placeholders = ','.join(['?' for _ in row_list])
+                            self.app.cursor.execute(f"INSERT INTO {temp_table} VALUES ({placeholders})", row_list)
+                        
+                        # 元テーブルを削除して一時テーブルをリネーム
+                        self.app.cursor.execute(f"DROP TABLE {table_name}")
+                        self.app.cursor.execute(f"ALTER TABLE {temp_table} RENAME TO {table_name}")
+                        
+                        self.app.conn.commit()
+                        standardized_count += 1
+                        self.log_message(f"{table_name}.{field_name}: 変換完了")
+                    
+                except Exception as e:
+                    self.log_message(f"{table_name}.{field_name} の変換エラー: {e}")
+            
+            self.log_message(f"=== データ型統一処理完了: {standardized_count} フィールドを変換 ===")
+            
+            # テーブル情報を更新
+            self.refresh_table_info()
+            self._update_all_tabs()
+            
+            self.app.show_message(f"データ型統一処理が完了しました。\n変換フィールド数: {standardized_count}", "info")
+            
+        except Exception as e:
+            self.log_message(f"データ型統一処理エラー: {e}")
+            self.app.show_message(f"データ型統一処理エラー: {e}", "error")
+            import traceback
+            self.log_message(traceback.format_exc())
+    
+    def analyze_data_type_consistency(self):
+        """データ型の整合性分析"""
+        if not self.app.conn:
+            self.app.show_message("データベースに接続されていません。", "warning")
+            return
+            
+        try:
+            self.log_message("=== データ型整合性分析開始 ===")
+            
+            # 品目コード系フィールドの分析
+            code_analysis = {}
+            
+            # テーブル一覧を取得
+            self.app.cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'")
+            tables = [row[0] for row in self.app.cursor.fetchall()]
+            
+            for table in tables:
+                try:
+                    # テーブル構造を取得
+                    self.app.cursor.execute(f"PRAGMA table_info({table})")
+                    columns = self.app.cursor.fetchall()
+                    
+                    for col_info in columns:
+                        col_name = col_info[1]
+                        col_type = col_info[2]
+                        
+                        # 品目コード系フィールドを特定
+                        if any(keyword in col_name.lower() for keyword in ['品目', 'code', 'コード']):
+                            key = f"{table}.{col_name}"
+                            
+                            # サンプルデータを取得
+                            self.app.cursor.execute(f"SELECT {col_name} FROM {table} WHERE {col_name} IS NOT NULL LIMIT 5")
+                            samples = [str(row[0]) for row in self.app.cursor.fetchall()]
+                            
+                            code_analysis[key] = {
+                                'type': col_type,
+                                'samples': samples
+                            }
+                            
+                except Exception as e:
+                    self.log_message(f"テーブル {table} の分析エラー: {e}")
+            
+            # 分析結果を表示
+            self.log_message("\n--- 品目コード系フィールドの型分析 ---")
+            text_fields = []
+            integer_fields = []
+            
+            for field, info in code_analysis.items():
+                self.log_message(f"{field}: {info['type']} - サンプル: {info['samples'][:3]}")
+                
+                if info['type'].upper() == 'TEXT':
+                    text_fields.append(field)
+                elif info['type'].upper() in ['INTEGER', 'INT']:
+                    integer_fields.append(field)
+            
+            self.log_message(f"\nTEXT型: {len(text_fields)} フィールド")
+            self.log_message(f"INTEGER型: {len(integer_fields)} フィールド")
+            
+            if integer_fields:
+                self.log_message("\n⚠️ 以下のフィールドはINTEGER型です（Access連携時に注意）:")
+                for field in integer_fields:
+                    self.log_message(f"  - {field}")
+                    
+                self.log_message("\n💡 「データ型統一」ボタンで文字列型に統一できます")
+            
+            self.log_message("=== データ型整合性分析完了 ===")
+            
+        except Exception as e:
+            self.log_message(f"データ型整合性分析エラー: {e}")
+            import traceback
+            self.log_message(traceback.format_exc())

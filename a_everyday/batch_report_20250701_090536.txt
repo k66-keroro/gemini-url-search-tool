@@ -1,0 +1,21 @@
+z01_excel_close.py	成功	2.80秒
+a1_app_open_edge.py	成功	8.72秒
+a1_app_open_a.py	成功	25.83秒
+z900_filecopy_txt.py	成功	134.62秒
+z090_zp138_txt.py	タイムアウト	300.00秒
+z090_zp138_field_mapping.py	成功	484.30秒
+zm87.py	成功	527.78秒
+zp02.py	成功	559.30秒
+zt_zm87_code.py	成功	569.33秒
+zs65.py	成功	597.02秒
+zs61_all.py	成功	627.95秒
+zs58.py	成功	636.90秒
+zm29.py	成功	645.42秒
+zp70.py	成功	662.02秒
+ZP51.py	成功	678.79秒
+ZP58.py	成功	785.56秒
+z_mala_dl.py	タイムアウト	300.00秒
+z_mala_dl2.py	失敗	1159.64秒
+z_view_pcmaster.py	失敗	1191.83秒
+z_Parsed Pc Master Diff Logger.py	成功	1222.63秒
+a1_app_open_ac.py	成功	1228.14秒
