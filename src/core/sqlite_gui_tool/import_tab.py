@@ -276,12 +276,9 @@ class ImportTab:
             if encoding == "自動検出":
                 encoding = self._detect_encoding_robust(file_path)
             
-            # 区切り文字の自動検出
+            # 区切り文字の自動検出（改良版）
             if delimiter == "自動検出":
-                if file_type == "TSV":
-                    delimiter = "\t"
-                else:
-                    delimiter = ","
+                delimiter = self._detect_delimiter_robust(file_path, encoding)
             elif delimiter == "\\t":
                 delimiter = "\t"
             
@@ -396,6 +393,72 @@ class ImportTab:
         
         # デフォルトはcp932
         return 'cp932'
+    
+    def _detect_delimiter_robust(self, file_path, encoding):
+        """より確実な区切り文字検出"""
+        import csv
+        
+        # 区切り文字の候補
+        delimiters = [',', '\t', ';', '|', ' ']
+        
+        try:
+            # ファイルの最初の数行を読み込み
+            with open(file_path, 'r', encoding=encoding) as f:
+                sample_lines = []
+                for i, line in enumerate(f):
+                    if i >= 10:  # 最初の10行まで
+                        break
+                    sample_lines.append(line.strip())
+                
+                if not sample_lines:
+                    return ','
+                
+                # 各区切り文字での分割結果を評価
+                best_delimiter = ','
+                max_columns = 1
+                
+                for delimiter in delimiters:
+                    # 各行での分割数をチェック
+                    column_counts = []
+                    for line in sample_lines:
+                        if line:  # 空行をスキップ
+                            parts = line.split(delimiter)
+                            column_counts.append(len(parts))
+                    
+                    if column_counts:
+                        # 分割数の一貫性をチェック
+                        avg_columns = sum(column_counts) / len(column_counts)
+                        max_count = max(column_counts)
+                        
+                        # 2列以上で、かつ一貫性がある場合
+                        if max_count > 1 and avg_columns > max_columns:
+                            # 分割数のばらつきをチェック
+                            variance = sum((count - avg_columns) ** 2 for count in column_counts) / len(column_counts)
+                            if variance < 2:  # ばらつきが小さい場合
+                                max_columns = avg_columns
+                                best_delimiter = delimiter
+                
+                # CSV Snifferも試行
+                try:
+                    sample_text = '\n'.join(sample_lines[:5])
+                    sniffer = csv.Sniffer()
+                    dialect = sniffer.sniff(sample_text, delimiters=',\t;|')
+                    detected_delimiter = dialect.delimiter
+                    
+                    # Snifferの結果も考慮
+                    if detected_delimiter in delimiters:
+                        # Snifferの結果での分割数をチェック
+                        test_columns = len(sample_lines[0].split(detected_delimiter)) if sample_lines else 1
+                        if test_columns > max_columns:
+                            best_delimiter = detected_delimiter
+                except:
+                    pass
+                
+                return best_delimiter
+                
+        except Exception as e:
+            print(f"区切り文字検出エラー: {e}")
+            return ','
         
     def execute_import(self):
         """インポートを実行"""
