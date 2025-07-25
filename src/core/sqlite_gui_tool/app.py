@@ -565,8 +565,8 @@ class SQLiteGUITool:
                 col_name = col_info[1]
                 col_type = col_info[2]
                 
-                # サンプルデータを取得
-                self.cursor.execute(f"SELECT DISTINCT {col_name} FROM '{table_name}' WHERE {col_name} IS NOT NULL LIMIT 10")
+                # サンプルデータを取得（カラム名をエスケープ）
+                self.cursor.execute(f"SELECT DISTINCT [{col_name}] FROM [{table_name}] WHERE [{col_name}] IS NOT NULL LIMIT 10")
                 samples = [str(row[0]) for row in self.cursor.fetchall()]
                 sample_str = ", ".join(samples[:3]) + ("..." if len(samples) > 3 else "")
                 
@@ -585,8 +585,8 @@ class SQLiteGUITool:
     def _analyze_code_field(self, table_name, col_name, col_type):
         """個別のフィールドがコードフィールドかどうかを分析"""
         try:
-            # サンプルデータを取得（最大1000行）
-            self.cursor.execute(f"SELECT {col_name} FROM '{table_name}' WHERE {col_name} IS NOT NULL LIMIT 1000")
+            # サンプルデータを取得（最大1000行）（カラム名をエスケープ）
+            self.cursor.execute(f"SELECT [{col_name}] FROM [{table_name}] WHERE [{col_name}] IS NOT NULL LIMIT 1000")
             values = [str(row[0]) for row in self.cursor.fetchall()]
             
             if not values:
@@ -664,23 +664,99 @@ class SQLiteGUITool:
             return
             
         try:
-            # バックアップの作成
+            # バックアップの作成（構造も含めて完全コピー）
             if tab.backup_var.get():
                 backup_table = f"{table_name}_backup_{int(time.time())}"
-                self.cursor.execute(f"CREATE TABLE {backup_table} AS SELECT * FROM '{table_name}'")
+                
+                # 元のテーブル構造を取得
+                self.cursor.execute(f"SELECT sql FROM sqlite_master WHERE type='table' AND name='{table_name}'")
+                create_sql = self.cursor.fetchone()[0]
+                
+                # バックアップテーブル用にCREATE文を修正
+                backup_create_sql = create_sql.replace(f'"{table_name}"', f'"{backup_table}"')
+                backup_create_sql = backup_create_sql.replace(f"'{table_name}'", f"'{backup_table}'")
+                backup_create_sql = backup_create_sql.replace(f"[{table_name}]", f"[{backup_table}]")
+                backup_create_sql = backup_create_sql.replace(f" {table_name} ", f" {backup_table} ")
+                
+                # バックアップテーブルを作成
+                self.cursor.execute(backup_create_sql)
+                
+                # データをコピー
+                self.cursor.execute(f"INSERT INTO [{backup_table}] SELECT * FROM [{table_name}]")
+                
+                # ログ出力（admin_tabのlog_messageメソッドを使用）
+                if 'admin' in self.tabs:
+                    self.tabs['admin'].log_message(f"バックアップテーブルを作成しました: {backup_table}")
                 self.conn.commit()
                 
             converted_count = 0
             
-            for field in convert_fields:
-                col_name = field['column']
-                code_type = field['code_type']
+            # テーブル再作成による型変換
+            if convert_fields:
+                # 元のテーブル構造を取得
+                self.cursor.execute(f"PRAGMA table_info([{table_name}])")
+                original_columns = self.cursor.fetchall()
                 
-                if code_type in ["ゼロパディングコード", "固定長コード", "非連続コード"]:
-                    # 数値から文字列への変換
-                    # SQLiteでは直接カラム型変更ができないため、値の更新のみ行う
-                    self.cursor.execute(f"UPDATE '{table_name}' SET {col_name} = CAST({col_name} AS TEXT)")
-                    converted_count += 1
+                # 新しいテーブル構造を作成
+                new_columns = []
+                for col_info in original_columns:
+                    col_id, col_name, col_type, not_null, default_val, pk = col_info
+                    
+                    # 変換対象のカラムかチェック
+                    should_convert = any(field['column'] == col_name and 
+                                       field['code_type'] in ["ゼロパディングコード", "固定長コード", "非連続コード"] 
+                                       for field in convert_fields)
+                    
+                    if should_convert:
+                        # TEXT型に変更
+                        new_type = "TEXT"
+                        converted_count += 1
+                    else:
+                        new_type = col_type
+                    
+                    # カラム定義を作成
+                    col_def = f"[{col_name}] {new_type}"
+                    if not_null:
+                        col_def += " NOT NULL"
+                    if default_val is not None:
+                        col_def += f" DEFAULT {default_val}"
+                    if pk:
+                        col_def += " PRIMARY KEY"
+                    
+                    new_columns.append(col_def)
+                
+                # 新しいテーブルを作成
+                temp_table = f"{table_name}_temp_{int(time.time())}"
+                create_sql = f"CREATE TABLE [{temp_table}] ({', '.join(new_columns)})"
+                self.cursor.execute(create_sql)
+                
+                # データをコピー（型変換を適用）
+                column_names = [col[1] for col in original_columns]
+                select_columns = []
+                
+                for col_name in column_names:
+                    should_convert = any(field['column'] == col_name and 
+                                       field['code_type'] in ["ゼロパディングコード", "固定長コード", "非連続コード"] 
+                                       for field in convert_fields)
+                    
+                    if should_convert:
+                        # ゼロパディングを保持するためにCAST
+                        select_columns.append(f"CAST([{col_name}] AS TEXT) AS [{col_name}]")
+                    else:
+                        select_columns.append(f"[{col_name}]")
+                
+                insert_sql = f"""
+                INSERT INTO [{temp_table}] 
+                SELECT {', '.join(select_columns)} 
+                FROM [{table_name}]
+                """
+                self.cursor.execute(insert_sql)
+                
+                # 元のテーブルを削除
+                self.cursor.execute(f"DROP TABLE [{table_name}]")
+                
+                # 新しいテーブルを元の名前にリネーム
+                self.cursor.execute(f"ALTER TABLE [{temp_table}] RENAME TO [{table_name}]")
             
             self.conn.commit()
             

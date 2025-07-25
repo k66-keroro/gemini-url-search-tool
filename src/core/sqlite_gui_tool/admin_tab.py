@@ -132,6 +132,11 @@ class AdminTab:
         copy_button = ttk.Button(
             button_frame, text="選択行をコピー", command=self.copy_selected_row)
         copy_button.pack(side=tk.LEFT, padx=5)
+        
+        # CSV出力ボタン
+        csv_export_button = ttk.Button(
+            button_frame, text="CSV出力", command=self.export_table_info_csv)
+        csv_export_button.pack(side=tk.LEFT, padx=5)
 
         # ログ表示フレーム
         log_frame = ttk.LabelFrame(admin_frame, text="実行ログ")
@@ -550,7 +555,7 @@ class AdminTab:
             self.log_message(traceback.format_exc())
     
     def copy_selected_row(self):
-        """選択された行をクリップボードにコピー"""
+        """選択された行をクリップボードにコピー（複数選択対応）"""
         # 選択された行を取得
         selected = self.table_tree.selection()
         if not selected:
@@ -561,14 +566,18 @@ class AdminTab:
             # pyperclipのインポートを試みる
             import pyperclip
             
-            # 選択された行の値を取得
-            values = self.table_tree.item(selected[0], "values")
+            # 複数行の値を取得
+            lines = []
+            for item in selected:
+                values = self.table_tree.item(item, "values")
+                line = "\t".join(str(v) for v in values)
+                lines.append(line)
             
-            # タブ区切りのテキストとしてコピー
-            text = "\t".join(str(v) for v in values)
+            # 改行で結合
+            text = "\n".join(lines)
             pyperclip.copy(text)
             
-            self.log_message("選択行をクリップボードにコピーしました。")
+            self.log_message(f"{len(selected)} 行をクリップボードにコピーしました。")
             
         except ImportError:
             self.app.show_message(
@@ -576,6 +585,44 @@ class AdminTab:
                 "pip install pyperclipでインストールしてください。",
                 "warning"
             )
+    
+    def export_table_info_csv(self):
+        """テーブル情報をCSVファイルに出力"""
+        try:
+            from tkinter import filedialog
+            import csv
+            from datetime import datetime
+            
+            # 保存先ファイルを選択
+            file_path = filedialog.asksaveasfilename(
+                title="CSV出力先を選択",
+                defaultextension=".csv",
+                filetypes=[("CSVファイル", "*.csv"), ("すべてのファイル", "*.*")],
+                initialname=f"table_info_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+            )
+            
+            if not file_path:
+                return
+            
+            # CSVファイルに書き込み
+            with open(file_path, 'w', newline='', encoding='utf-8-sig') as csvfile:
+                writer = csv.writer(csvfile)
+                
+                # ヘッダー行を書き込み
+                headers = ["テーブル名", "元ファイル名", "行数", "カラム数", "推定サイズ"]
+                writer.writerow(headers)
+                
+                # データ行を書き込み
+                for item in self.table_tree.get_children():
+                    values = self.table_tree.item(item, "values")
+                    writer.writerow(values)
+            
+            self.log_message(f"テーブル情報をCSVファイルに出力しました: {file_path}")
+            self.app.show_message(f"CSVファイルに出力しました:\n{file_path}", "info")
+            
+        except Exception as e:
+            self.log_message(f"CSV出力エラー: {e}")
+            self.app.show_message(f"CSV出力エラー: {e}", "error")
             
     def log_message(self, message):
         """ログメッセージを表示"""
@@ -811,6 +858,9 @@ class AdminTab:
             
             # その他の列の自動判定
             else:
+                # SAP後ろマイナス処理を適用
+                df[col] = df[col].apply(self._process_sap_trailing_minus)
+                
                 # 数値として解釈できるかチェック
                 try:
                     # サンプルの90%以上が数値として変換可能な場合
@@ -862,6 +912,12 @@ class AdminTab:
         
         self.log_message("データ型最適化完了")
         return df
+    
+    def _process_sap_trailing_minus(self, value):
+        """SAP後ろマイナス表記を処理する"""
+        if isinstance(value, str) and value.endswith('-'):
+            return f"-{value[:-1]}"
+        return value
     
     def _process_zp138_file(self, file_path):
         """ZP138.txtファイルの特殊処理（引当計算付き）"""
