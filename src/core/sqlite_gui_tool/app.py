@@ -592,6 +592,13 @@ class SQLiteGUITool:
             if not values:
                 return "データなし", False
             
+            # カラム名を小文字に変換して分析
+            col_name_lower = col_name.lower()
+            
+            # 品目コード系のカラムかチェック
+            item_code_patterns = ['品目', 'item', 'material', '部品', 'part', '製品', 'product']
+            is_item_code = any(pattern in col_name_lower for pattern in item_code_patterns)
+            
             # 数値として格納されているが、実際はコードの可能性をチェック
             numeric_values = []
             for val in values:
@@ -606,21 +613,32 @@ class SQLiteGUITool:
                 zero_padded_count = sum(1 for val in values if val.startswith('0') and len(val) > 1)
                 
                 if zero_padded_count > len(values) * 0.1:  # 10%以上が先頭ゼロ
-                    return "ゼロパディングコード", True
+                    if is_item_code:
+                        # 品目コードの場合は文字列として保持
+                        return "品目コード（先頭0保持）", True
+                    else:
+                        # その他の場合はSAPゼロパディング（先頭0除去）
+                        return "SAPゼロパディング（先頭0除去）", True
                 
                 # 固定長の可能性をチェック
                 lengths = [len(val) for val in values]
                 if len(set(lengths)) <= 2:  # 長さが1-2種類のみ
                     avg_length = sum(lengths) / len(lengths)
                     if avg_length >= 4:  # 平均4文字以上
-                        return "固定長コード", True
+                        if is_item_code:
+                            return "品目コード（固定長）", True
+                        else:
+                            return "固定長ID（数値変換可）", False
                 
                 # 連続性のチェック
                 sorted_nums = sorted(numeric_values)
                 gaps = [sorted_nums[i+1] - sorted_nums[i] for i in range(len(sorted_nums)-1)]
                 if gaps and max(gaps) > 1000:  # 大きなギャップがある
-                    return "非連続コード", True
-                    
+                    if is_item_code:
+                        return "品目コード（非連続）", True
+                    else:
+                        return "非連続ID（数値変換可）", False
+                        
                 return "数値", False
             
             # 文字列の場合
@@ -703,13 +721,23 @@ class SQLiteGUITool:
                     col_id, col_name, col_type, not_null, default_val, pk = col_info
                     
                     # 変換対象のカラムかチェック
-                    should_convert = any(field['column'] == col_name and 
-                                       field['code_type'] in ["ゼロパディングコード", "固定長コード", "非連続コード"] 
-                                       for field in convert_fields)
+                    convert_field = None
+                    for field in convert_fields:
+                        if field['column'] == col_name:
+                            convert_field = field
+                            break
                     
-                    if should_convert:
-                        # TEXT型に変更
-                        new_type = "TEXT"
+                    if convert_field:
+                        code_type = convert_field['code_type']
+                        if code_type in ["品目コード（先頭0保持）", "品目コード（固定長）", "品目コード（非連続）"]:
+                            # 品目コードは文字列として保持
+                            new_type = "TEXT"
+                        elif code_type in ["SAPゼロパディング（先頭0除去）"]:
+                            # ゼロパディング除去して数値型
+                            new_type = "INTEGER"
+                        else:
+                            # その他のコード変換
+                            new_type = "TEXT"
                         converted_count += 1
                     else:
                         new_type = col_type
@@ -735,13 +763,23 @@ class SQLiteGUITool:
                 select_columns = []
                 
                 for col_name in column_names:
-                    should_convert = any(field['column'] == col_name and 
-                                       field['code_type'] in ["ゼロパディングコード", "固定長コード", "非連続コード"] 
-                                       for field in convert_fields)
+                    convert_field = None
+                    for field in convert_fields:
+                        if field['column'] == col_name:
+                            convert_field = field
+                            break
                     
-                    if should_convert:
-                        # ゼロパディングを保持するためにCAST
-                        select_columns.append(f"CAST([{col_name}] AS TEXT) AS [{col_name}]")
+                    if convert_field:
+                        code_type = convert_field['code_type']
+                        if code_type in ["品目コード（先頭0保持）", "品目コード（固定長）", "品目コード（非連続）"]:
+                            # 品目コードは文字列として保持（ゼロパディング保持）
+                            select_columns.append(f"CAST([{col_name}] AS TEXT) AS [{col_name}]")
+                        elif code_type in ["SAPゼロパディング（先頭0除去）"]:
+                            # ゼロパディング除去して数値変換（空文字対策）
+                            select_columns.append(f"CAST(CASE WHEN LTRIM([{col_name}], '0') = '' THEN '0' ELSE LTRIM([{col_name}], '0') END AS INTEGER) AS [{col_name}]")
+                        else:
+                            # その他のコード変換
+                            select_columns.append(f"CAST([{col_name}] AS TEXT) AS [{col_name}]")
                     else:
                         select_columns.append(f"[{col_name}]")
                 

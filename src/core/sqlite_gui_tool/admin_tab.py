@@ -806,6 +806,9 @@ class AdminTab:
             'code', 'コード', 'cd', 'id', '番号', '品目', '部品', '製品', 'no', 'num'
         ]
         
+        # 品目コード系のパターン（先頭0保持が必要）
+        item_code_patterns = ['品目', 'item', 'material', '部品', 'part', '製品', 'product']
+        
         for col in df.columns:
             col_lower = str(col).lower()
             
@@ -852,9 +855,22 @@ class AdminTab:
             
             # コード列の処理
             elif any(pattern in col_lower for pattern in code_column_patterns):
-                self.log_message(f"コード列として処理: {col}")
-                # コード列は文字列として保持
-                df[col] = df[col].astype(str)
+                # 品目コードかどうかをチェック
+                is_item_code = any(pattern in col_lower for pattern in item_code_patterns)
+                
+                if is_item_code:
+                    self.log_message(f"品目コード列として処理（先頭0保持）: {col}")
+                    # 品目コードは文字列として保持
+                    df[col] = df[col].astype(str)
+                else:
+                    self.log_message(f"コード列として処理: {col}")
+                    # その他のコードは数値変換を試行
+                    try:
+                        # ゼロパディングを除去して数値変換
+                        df[col] = df[col].apply(self._remove_zero_padding).astype(int)
+                    except:
+                        # 変換に失敗した場合は文字列として保持
+                        df[col] = df[col].astype(str)
             
             # その他の列の自動判定
             else:
@@ -917,6 +933,14 @@ class AdminTab:
         """SAP後ろマイナス表記を処理する"""
         if isinstance(value, str) and value.endswith('-'):
             return f"-{value[:-1]}"
+        return value
+    
+    def _remove_zero_padding(self, value):
+        """ゼロパディングを除去する（品目コード以外用）"""
+        if isinstance(value, str) and value.isdigit():
+            # 先頭の0を除去（ただし、すべて0の場合は0を返す）
+            stripped = value.lstrip('0')
+            return stripped if stripped else '0'
         return value
     
     def _process_zp138_file(self, file_path):
