@@ -1,0 +1,7 @@
+{
+  "reset_hour": 9,
+  "reset_minute": 0,
+  "theme": "light",
+  "always_on_top": true,
+  "show_seconds": true
+}

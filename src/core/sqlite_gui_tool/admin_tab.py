@@ -31,6 +31,9 @@ class AdminTab:
         # Create the tab UI
         self._create_ui()
         
+        # ファイル名とテーブル名のマッピングを保存
+        self.file_table_mapping = {}
+        
     def _create_ui(self):
         """Create the admin tab UI"""
         # メインフレーム
@@ -51,20 +54,22 @@ class AdminTab:
         table_frame.pack(fill=tk.BOTH, expand=True, pady=5)
 
         # テーブル情報ツリービュー
-        columns = ("table", "rows", "columns", "size")
+        columns = ("table", "source_file", "rows", "columns", "size")
         self.table_tree = ttk.Treeview(
             table_frame, columns=columns, show="headings")
 
         # 列の設定
         self.table_tree.heading("table", text="テーブル名")
+        self.table_tree.heading("source_file", text="元ファイル名")
         self.table_tree.heading("rows", text="行数")
         self.table_tree.heading("columns", text="カラム数")
         self.table_tree.heading("size", text="推定サイズ")
 
-        self.table_tree.column("table", width=200)
-        self.table_tree.column("rows", width=100, anchor="center")
-        self.table_tree.column("columns", width=100, anchor="center")
-        self.table_tree.column("size", width=150, anchor="center")
+        self.table_tree.column("table", width=180)
+        self.table_tree.column("source_file", width=200)
+        self.table_tree.column("rows", width=80, anchor="center")
+        self.table_tree.column("columns", width=80, anchor="center")
+        self.table_tree.column("size", width=120, anchor="center")
 
         # スクロールバー
         tree_y_scrollbar = ttk.Scrollbar(
@@ -97,6 +102,11 @@ class AdminTab:
         update_all_button = ttk.Button(
             button_frame, text="全件データ更新", command=self.update_all_data)
         update_all_button.pack(side=tk.LEFT, padx=5)
+        
+        # ZP138個別処理ボタン
+        zp138_button = ttk.Button(
+            button_frame, text="ZP138個別処理", command=self.process_zp138_individual)
+        zp138_button.pack(side=tk.LEFT, padx=5)
         
         # データベース診断ボタン
         diagnose_button = ttk.Button(
@@ -186,11 +196,15 @@ class AdminTab:
                     estimated_size_bytes = row_count * column_count * 50  # 1セルあたり約50バイトと仮定
                     estimated_size_mb = estimated_size_bytes / (1024 * 1024)
                     
+                    # 元ファイル名を取得
+                    source_file = self.file_table_mapping.get(name, "不明")
+                    
                     # テーブル情報を追加
-                    self.table_tree.insert("", "end", values=(name, row_count, column_count, f"{estimated_size_mb:.2f} MB"))
+                    self.table_tree.insert("", "end", values=(name, source_file, row_count, column_count, f"{estimated_size_mb:.2f} MB"))
                     
                 except Exception as e:
-                    self.table_tree.insert("", "end", values=(name, "Error", "Error", "Error"))
+                    source_file = self.file_table_mapping.get(name, "不明")
+                    self.table_tree.insert("", "end", values=(name, source_file, "Error", "Error", "Error"))
                     self.log_message(f"テーブル {name} の情報取得エラー: {e}")
                     
             self.log_message(f"{len(tables)} 個のテーブル情報を更新しました。")
@@ -397,83 +411,143 @@ class AdminTab:
         self.app.connect_database()
     
     def update_all_data(self):
-        """全件データ更新処理"""
+        """全件データ更新処理（洗い替え）"""
         if not self.app.conn:
             self.app.show_message("データベースに接続されていません。", "warning")
             return
             
         # 確認ダイアログ
-        if not messagebox.askyesno("確認", "全件データ更新を実行しますか？\nこの処理には時間がかかる場合があります。"):
+        if not messagebox.askyesno("確認", 
+            "全件データ更新（洗い替え）を実行しますか？\n"
+            "・すべてのテーブルが削除されます\n"
+            "・data/rawフォルダのファイルから再作成されます\n"
+            "・この処理には時間がかかる場合があります"):
             return
             
         try:
-            # デバッグ: データベース接続状態を確認
-            self.log_message("データベース接続状態を確認中...")
-            
-            # すべてのオブジェクトを確認
-            self.app.cursor.execute("SELECT type, name FROM sqlite_master ORDER BY type, name;")
-            all_objects = self.app.cursor.fetchall()
-            self.log_message(f"データベース内のオブジェクト数: {len(all_objects)}")
-            
-            for obj_type, obj_name in all_objects:
-                self.log_message(f"  {obj_type}: {obj_name}")
-            
-            # テーブル一覧を取得（削除されていないテーブルのみ）
-            self.app.cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%';")
-            tables = self.app.cursor.fetchall()
-            
-            self.log_message(f"検出されたテーブル数: {len(tables)}")
-            
-            if not tables:
-                self.log_message("処理対象のテーブルがありません。")
-                self.log_message("データベースにテーブルが存在しない可能性があります。")
+            # SQLiteManagerが利用可能かチェック
+            if not self.app.sqlite_manager:
+                self.app.show_message("SQLiteManagerが利用できません。", "error")
                 return
             
-            total_rows = 0
-            processed_tables = 0
+            self.log_message("=== 全件データ更新（洗い替え）開始 ===")
             
-            self.log_message(f"{len(tables)} 個のテーブルの処理を開始します...")
+            # 1. 既存テーブルをすべて削除
+            self.log_message("既存テーブルの削除を開始...")
+            self.app.cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%';")
+            existing_tables = self.app.cursor.fetchall()
             
-            for table in tables:
+            deleted_count = 0
+            for table in existing_tables:
                 name = table[0]
                 try:
-                    # テーブルが実際に存在するか確認
-                    self.app.cursor.execute(f"SELECT name FROM sqlite_master WHERE type='table' AND name=?", (name,))
-                    if not self.app.cursor.fetchone():
-                        self.log_message(f"テーブル {name} は存在しません。スキップします。")
-                        continue
+                    self.app.cursor.execute(f"DROP TABLE IF EXISTS [{name}]")
+                    self.log_message(f"テーブル {name} を削除しました")
+                    deleted_count += 1
+                except Exception as e:
+                    self.log_message(f"テーブル {name} の削除エラー: {e}")
+            
+            self.app.conn.commit()
+            self.log_message(f"{deleted_count} 個のテーブルを削除しました")
+            
+            # 2. data/rawフォルダのファイルを処理
+            import sys
+            import os
+            from pathlib import Path
+            
+            # プロジェクトルートを取得
+            gui_tool_dir = Path(os.path.abspath(os.path.dirname(__file__)))
+            project_root = gui_tool_dir.parents[2]  # src/core/sqlite_gui_tool の2つ上
+            raw_data_dir = project_root / 'data' / 'raw'
+            
+            self.log_message(f"データフォルダ: {raw_data_dir}")
+            
+            if not raw_data_dir.exists():
+                self.log_message(f"データフォルダが見つかりません: {raw_data_dir}")
+                self.app.show_message(f"データフォルダが見つかりません: {raw_data_dir}", "error")
+                return
+            
+            # サポートされるファイル拡張子
+            supported_extensions = {'.csv', '.txt', '.tsv', '.xlsx', '.xls'}
+            
+            # ファイル一覧を取得
+            data_files = []
+            for ext in supported_extensions:
+                data_files.extend(raw_data_dir.glob(f'*{ext}'))
+            
+            self.log_message(f"処理対象ファイル数: {len(data_files)}")
+            
+            if not data_files:
+                self.log_message("処理対象のファイルが見つかりません")
+                self.app.show_message("data/rawフォルダに処理対象のファイルが見つかりません", "warning")
+                return
+            
+            # 3. 各ファイルを処理
+            processed_files = 0
+            total_rows = 0
+            
+            for file_path in data_files:
+                try:
+                    self.log_message(f"ファイル処理開始: {file_path.name}")
                     
-                    # 行数を取得
-                    self.app.cursor.execute(f"SELECT COUNT(*) FROM [{name}]")
-                    row_count = self.app.cursor.fetchone()[0]
-                    total_rows += row_count
+                    # ZP138.txtの特殊処理
+                    if file_path.name.upper() == 'ZP138.TXT':
+                        success, table_name, row_count = self._process_zp138_file(file_path)
+                    else:
+                        # 通常ファイル処理
+                        success, table_name, row_count = self._process_single_file(file_path)
                     
-                    # データの統計情報を取得（実際のデータ処理の代わり）
-                    self.app.cursor.execute(f"PRAGMA table_info([{name}])")
-                    columns = self.app.cursor.fetchall()
-                    column_count = len(columns)
+                    if success:
+                        processed_files += 1
+                        total_rows += row_count
+                        # ファイル名とテーブル名のマッピングを保存
+                        self.file_table_mapping[table_name] = file_path.name
+                        self.log_message(f"ファイル処理完了: {file_path.name} → テーブル {table_name}: {row_count:,} 行")
+                    else:
+                        self.log_message(f"ファイル処理失敗: {file_path.name}")
                     
-                    # テーブルの最初の数行を読み込み（データ更新のシミュレーション）
-                    self.app.cursor.execute(f"SELECT * FROM [{name}] LIMIT 100")
-                    sample_data = self.app.cursor.fetchall()
-                    
-                    processed_tables += 1
-                    self.log_message(f"テーブル {name}: {row_count} 行, {column_count} カラム, サンプル {len(sample_data)} 行を処理しました。")
-                    
-                    # UIの更新のために少し待機
+                    # UIの更新
                     self.parent.update()
-                    time.sleep(0.01)
                     
                 except Exception as e:
-                    self.log_message(f"テーブル {name} の処理エラー: {e}")
+                    self.log_message(f"ファイル {file_path.name} の処理エラー: {e}")
+                    import traceback
+                    self.log_message(traceback.format_exc())
             
-            self.log_message(f"全件データ更新が完了しました。{processed_tables} テーブル、合計 {total_rows} 行を処理しました。")
+            # 4. インデックスとキーの設定
+            self.log_message("インデックスとキーの設定を開始...")
+            try:
+                if self.app.sqlite_manager and hasattr(self.app.sqlite_manager, 'finalize_database'):
+                    self.app.sqlite_manager.finalize_database()
+                    self.log_message("インデックスとキーの設定が完了しました")
+                else:
+                    self.log_message("SQLiteManagerが利用できないため、インデックス設定をスキップします")
+            except Exception as e:
+                self.log_message(f"インデックス設定エラー: {e}")
+            
+            # 5. 完了処理
+            self.log_message(f"=== 全件データ更新完了 ===")
+            self.log_message(f"処理ファイル数: {processed_files}/{len(data_files)}")
+            self.log_message(f"総行数: {total_rows:,} 行")
             
             # テーブル情報を更新
             self.refresh_table_info()
             
+            # 他のタブも更新
+            self._update_all_tabs()
+            
+            self.app.show_message(
+                f"全件データ更新が完了しました。\n"
+                f"処理ファイル数: {processed_files}/{len(data_files)}\n"
+                f"総行数: {total_rows:,} 行", 
+                "info"
+            )
+            
         except Exception as e:
+            self.log_message(f"全件データ更新エラー: {e}")
             self.app.show_message(f"全件データ更新エラー: {e}", "error")
+            import traceback
+            self.log_message(traceback.format_exc())
     
     def copy_selected_row(self):
         """選択された行をクリップボードにコピー"""
@@ -542,6 +616,342 @@ class AdminTab:
         if 'analyze' in self.app.tabs and hasattr(self.app.tabs['analyze'], 'refresh_table_list'):
             self.app.tabs['analyze'].refresh_table_list()
             
+    def _process_single_file(self, file_path):
+        """単一ファイルを処理してSQLiteに保存"""
+        try:
+            import pandas as pd
+            import chardet
+            import re
+            
+            # ファイル拡張子を取得
+            ext = file_path.suffix.lower()
+            
+            # テーブル名を生成
+            table_name = self._sanitize_table_name(file_path.stem)
+            
+            # ファイルタイプに応じて読み込み
+            if ext in ['.csv', '.txt', '.tsv']:
+                # エンコーディング検出
+                with open(file_path, 'rb') as f:
+                    raw_data = f.read(10000)  # 最初の10KBを読み込み
+                    encoding_result = chardet.detect(raw_data)
+                    encoding = encoding_result['encoding'] or 'utf-8'
+                
+                # 区切り文字を推定
+                delimiter = ','
+                if ext == '.tsv' or '\t' in file_path.name.lower():
+                    delimiter = '\t'
+                elif ext == '.txt':
+                    # ファイルの最初の数行を読んで区切り文字を推定
+                    try:
+                        with open(file_path, 'r', encoding=encoding) as f:
+                            first_line = f.readline()
+                            if '\t' in first_line:
+                                delimiter = '\t'
+                            elif '|' in first_line:
+                                delimiter = '|'
+                            elif ';' in first_line:
+                                delimiter = ';'
+                    except:
+                        pass
+                
+                # 特殊ファイル処理
+                if file_path.name.lower() == 'zm37.txt':
+                    # zm37.txtの特殊処理
+                    try:
+                        df = pd.read_csv(
+                            file_path, 
+                            encoding='cp932',
+                            sep=delimiter,
+                            quoting=3,  # QUOTE_NONE
+                            engine='python',
+                            on_bad_lines='skip',
+                            dtype=str
+                        )
+                    except:
+                        df = pd.read_csv(file_path, encoding=encoding, sep=delimiter, dtype=str)
+                else:
+                    # 通常のCSV/TXT処理
+                    try:
+                        df = pd.read_csv(file_path, encoding=encoding, sep=delimiter, dtype=str)
+                    except UnicodeDecodeError:
+                        # UTF-8で失敗した場合はCP932を試す
+                        df = pd.read_csv(file_path, encoding='cp932', sep=delimiter, dtype=str)
+                        
+            elif ext in ['.xlsx', '.xls']:
+                # Excel処理
+                if file_path.name.lower() == 'pp_summary_ztbp080_kojozisseki_d_0.xlsx':
+                    # 特殊なExcelファイル（ヘッダーが7行）
+                    df = pd.read_excel(file_path, header=7, dtype=str)
+                else:
+                    # 通常のExcelファイル
+                    df = pd.read_excel(file_path, header=0, dtype=str)
+            else:
+                self.log_message(f"サポートされていないファイル形式: {ext}")
+                return False, None, 0
+            
+            # データが空の場合
+            if df is None or df.empty:
+                self.log_message(f"ファイルが空またはデータがありません: {file_path.name}")
+                return False, None, 0
+            
+            # データ型の最適化
+            df = self._optimize_dataframe_dtypes(df)
+            
+            # SQLiteに保存
+            df.to_sql(table_name, self.app.conn, if_exists='replace', index=False)
+            self.app.conn.commit()
+            
+            return True, table_name, len(df)
+            
+        except Exception as e:
+            self.log_message(f"ファイル処理エラー: {e}")
+            import traceback
+            self.log_message(traceback.format_exc())
+            return False, None, 0
+    
+    def _sanitize_table_name(self, table_name):
+        """テーブル名を適切に変換"""
+        import re
+        
+        # 日本語文字を含むかチェック
+        has_japanese = re.search(r'[ぁ-んァ-ン一-龥]', table_name)
+        
+        if has_japanese:
+            # 日本語を含む場合はハッシュ値を使用
+            sanitized = f"t_{hash(table_name) % 10000:04d}"
+        else:
+            # 英数字以外の文字を_に置換
+            sanitized = re.sub(r'[^a-zA-Z0-9]', '_', table_name)
+            sanitized = re.sub(r'_+', '_', sanitized)
+            
+            # 先頭が数字の場合、t_を付ける
+            if sanitized and sanitized[0].isdigit():
+                sanitized = f"t_{sanitized}"
+                
+            # 先頭と末尾の_を削除
+            sanitized = sanitized.strip('_')
+            
+        return sanitized
+    
+    def _optimize_dataframe_dtypes(self, df):
+        """DataFrameのデータ型を最適化"""
+        import pandas as pd
+        import numpy as np
+        
+        # 日付列の名前パターン
+        date_column_patterns = [
+            'date', '日付', 'day', '年月日', '登録日', '有効開始日', '有効終了日', 
+            '作成日', '更新日', '開始日', '終了日', '期限', '期日'
+        ]
+        
+        for col in df.columns:
+            col_lower = str(col).lower()
+            
+            # 空の列はスキップ
+            if df[col].empty:
+                continue
+            
+            # 日付列の処理
+            is_date_column = any(pattern in col_lower for pattern in date_column_patterns)
+            
+            if is_date_column:
+                try:
+                    # 標準的な日付形式で変換
+                    df[col] = pd.to_datetime(df[col], errors='coerce')
+                    
+                    # 8桁数値形式（YYYYMMDD）で再試行
+                    if df[col].isna().any():
+                        mask = df[col].isna()
+                        str_values = df.loc[mask, col].astype(str)
+                        date_values = pd.to_datetime(str_values, format='%Y%m%d', errors='coerce')
+                        df.loc[mask, col] = date_values
+                        
+                        # 特殊な値（99991231など）を処理
+                        special_mask = df[col].isna() & df[col].astype(str).str.contains('9999', na=False)
+                        if special_mask.any():
+                            df.loc[special_mask, col] = pd.Timestamp.max
+                except:
+                    pass
+            
+            # コード列の処理
+            elif 'code' in col_lower or 'コード' in col_lower:
+                df[col] = df[col].astype(str)
+        
+        return df
+    
+    def _process_zp138_file(self, file_path):
+        """ZP138.txtファイルの特殊処理（引当計算付き）"""
+        try:
+            import pandas as pd
+            from decimal import Decimal, InvalidOperation, getcontext
+            
+            # 小数点以下の桁数を設定
+            getcontext().prec = 10
+            
+            self.log_message(f"ZP138特殊処理開始: {file_path.name}")
+            
+            # ファイル読み込み
+            df = pd.read_csv(file_path, delimiter='\t', encoding='cp932', header=0, dtype=str)
+            
+            # カラム名のマッピング
+            column_mapping = {
+                '連続行番号': '連続行番号',
+                '品目': '品目',
+                '名称': '名称',
+                'MRP エリア': 'MRPエリア',
+                'プラント': 'プラント',
+                '所要日付': '所要日付',
+                'MRP 要素': 'MRP要素',
+                'MRP 要素データ': 'MRP要素データ',
+                '再日程計画日付': '再日程計画日付',
+                '例外Msg': '例外Msg',
+                '入庫/所要量': '入庫_所要量',
+                '利用可能数量': '利用可能数量',
+                '保管場所': '保管場所',
+                '入出庫予定': '入出庫予定',
+                'Itm': 'Itm'
+            }
+            
+            # カラム名を変更
+            df = df.rename(columns=column_mapping)
+            
+            # 引当と過不足カラムを追加
+            df['引当'] = None
+            df['過不足'] = None
+            
+            # 日付列処理
+            df['所要日付'] = pd.to_datetime(df['所要日付'], format='%Y%m%d', errors='coerce')
+            df['再日程計画日付'] = pd.to_datetime(df['再日程計画日付'], format='%Y%m%d', errors='coerce')
+            
+            # 数値列処理
+            df['入庫_所要量'] = df['入庫_所要量'].apply(self._safe_decimal_conversion)
+            df['利用可能数量'] = df['利用可能数量'].apply(self._safe_decimal_conversion)
+            
+            # 引当計算
+            self.log_message("引当計算処理開始...")
+            df = self._calculate_zp138_inventory(df)
+            self.log_message("引当計算処理完了")
+            
+            # テーブル名
+            table_name = "t_zp138引当"
+            
+            # SQLiteに保存
+            df.to_sql(table_name, self.app.conn, if_exists='replace', index=False)
+            self.app.conn.commit()
+            
+            return True, table_name, len(df)
+            
+        except Exception as e:
+            self.log_message(f"ZP138処理エラー: {e}")
+            import traceback
+            self.log_message(traceback.format_exc())
+            return False, None, 0
+    
+    def _safe_decimal_conversion(self, value):
+        """安全にDecimal型に変換する"""
+        from decimal import Decimal, InvalidOperation
+        
+        # SAPの後ろマイナス表記を処理
+        if isinstance(value, str) and value.endswith('-'):
+            value = f"-{value[:-1]}"
+        
+        try:
+            if value in [None, '', '']:
+                return Decimal(0)
+            return float(Decimal(str(value)).quantize(Decimal('0.001')))
+        except (InvalidOperation, ValueError, TypeError):
+            return 0.0
+    
+    def _calculate_zp138_inventory(self, df):
+        """ZP138の引当計算を行う"""
+        from decimal import Decimal
+        
+        df_result = df.copy()
+        grouped = df_result.sort_values(by=['品目', '連続行番号']).groupby('品目')
+        
+        for item, group in grouped:
+            actual_stock = Decimal(0).quantize(Decimal('0.001'))
+            shortage = Decimal(0).quantize(Decimal('0.001'))
+            
+            for index, row in group.iterrows():
+                row_quantity = Decimal(str(row['入庫_所要量'])).quantize(Decimal('0.001'))
+                
+                if row['MRP要素'] == '在庫':
+                    actual_stock = row_quantity
+                    shortage = Decimal(0)
+                    allocation = Decimal(0)
+                    excess_shortage = actual_stock
+                    df_result.loc[index, '引当'] = float(allocation)
+                    df_result.loc[index, '過不足'] = float(excess_shortage)
+                elif row['MRP要素'] in ['外注依', '受注', '従所要', '入出予', '出荷']:
+                    required_qty = abs(row_quantity)
+                    
+                    if actual_stock >= required_qty:
+                        allocation = required_qty
+                        actual_stock -= allocation
+                    else:
+                        allocation = actual_stock
+                        shortage += (required_qty - actual_stock)
+                        actual_stock = Decimal(0)
+                    
+                    excess_shortage = actual_stock - shortage
+                    df_result.loc[index, '引当'] = float(allocation)
+                    df_result.loc[index, '過不足'] = float(excess_shortage)
+                else:
+                    df_result.loc[index, '引当'] = 0.0
+                    df_result.loc[index, '過不足'] = None
+        
+        return df_result
+    
+    def process_zp138_individual(self):
+        """ZP138ファイルの個別処理"""
+        if not self.app.conn:
+            self.app.show_message("データベースに接続されていません。", "warning")
+            return
+            
+        # 確認ダイアログ
+        if not messagebox.askyesno("確認", "ZP138ファイルの個別処理を実行しますか？"):
+            return
+            
+        try:
+            # ZP138.txtファイルのパスを取得
+            gui_tool_dir = Path(os.path.abspath(os.path.dirname(__file__)))
+            project_root = gui_tool_dir.parents[2]
+            zp138_file = project_root / 'data' / 'raw' / 'ZP138.txt'
+            
+            if not zp138_file.exists():
+                self.app.show_message(f"ZP138.txtファイルが見つかりません: {zp138_file}", "error")
+                return
+            
+            self.log_message("=== ZP138個別処理開始 ===")
+            
+            # ZP138処理を実行
+            success, table_name, row_count = self._process_zp138_file(zp138_file)
+            
+            if success:
+                # ファイル名とテーブル名のマッピングを保存
+                self.file_table_mapping[table_name] = zp138_file.name
+                
+                self.log_message(f"ZP138処理完了: {table_name} ({row_count:,} 行)")
+                
+                # テーブル情報を更新
+                self.refresh_table_info()
+                
+                # 他のタブも更新
+                self._update_all_tabs()
+                
+                self.app.show_message(f"ZP138処理が完了しました。\nテーブル: {table_name}\n行数: {row_count:,} 行", "info")
+            else:
+                self.log_message("ZP138処理に失敗しました")
+                self.app.show_message("ZP138処理に失敗しました。", "error")
+                
+        except Exception as e:
+            self.log_message(f"ZP138個別処理エラー: {e}")
+            self.app.show_message(f"ZP138個別処理エラー: {e}", "error")
+            import traceback
+            self.log_message(traceback.format_exc())
+
     def diagnose_database(self):
         """データベースの診断情報を表示"""
         if not self.app.conn:

@@ -1,0 +1,44 @@
+Table Name	Field Name	Field Name2	重複要因ホカ
+getplmitmplntinfo_p100	品目コード		
+getsekkeiwbsjisseki	DSGN_WBS_NO		
+kansei_jisseki	指図番号		分納完成
+kousu_jisseki	指図番号	確認番号	複数人
+koutei_jisseki	指図番号		分納完成
+mara_dl	品目	プラント	
+plm_資料依頼_sheet1	資料依頼番号		
+pp_dl_csv_seisan_yotei	ネットワーク番号_指図番号		WBS番号こっちが主だがブランクある
+pp_dl_csv_ztbp110	ネットワーク番号_指図番号		WBS番号こっちが主だがブランクある
+pp_summary_ztbp080_kojozisseki_d_0_pp_summary_ztbp080_kojozisseki_	#N/A		営業引き渡しを完成と定義している、適切なフィールド無い
+sasizu_jisseki	指図番号	確認番号	複数人
+v_sagyo_time	製造指示番号/ネットワーク番号	確認番号	複数人
+zf26	得意先コード		
+zm114	品目コード	入出庫予定番号	
+zm122_p100_1220	MARA_MATNR		
+zm122_p100_1230	MARA_MATNR		
+zm122_p100_1240	MARA_MATNR		
+zm21	購買依頼		
+zm29	ネットワーク・指図番号		分納完成
+zm37	購買情報		
+zm87n	購買伝票		
+zp02	指図番号		
+zp128_p100	品目コード		
+zp128_p300	品目コード		
+zp138	連続行番号	品目	
+zp160	見積書番号		
+zp170	内部指図番号		
+zp173	指図		分納完成
+zp173_meisai	指図		分納完成
+zp35	zp35		
+zp51n	子指図番号	連番1	
+zp58	指図／ネットワーク	BOM明細	
+zp70	品目コード	伝票番号	伝票番号にはnullあり
+zpf01802_未完了分	ＷＢＳ番号		
+zs191	品目		価格表、得意先別、品目別
+zs45	WBS要素		
+zs58month	請求伝票番号	請求明細番号	
+zs61kday	受注伝票番号	受注明細番号	
+zs65	品目コード	保管場所	
+zs65_sss	品目コード	保管場所	
+品目入出庫_dbo_提出用_経理_滞留在庫資料_通常	プラント品目		
+払出明細（滋賀）_zpr01201	製造指図/ネットワーク	品目コード	
+払出明細（大阪）_zpr01201	製造指図/ネットワーク	品目コード	

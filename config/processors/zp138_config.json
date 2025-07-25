@@ -1,0 +1,9 @@
+{
+    "input_file": "\\\\fssha01\\common\\HOST\\ZP138\\ZP138.txt",
+    "table_name": "t_zp138引当",
+    "db_path": "data/sqlite/main.db",
+    "raw_data_dir": "data/raw",
+    "copy_to_local": true,
+    "create_indexes": true,
+    "batch_size": 1000
+}

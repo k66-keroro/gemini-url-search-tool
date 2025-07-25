@@ -163,10 +163,15 @@ def convert_table_column(conn, table, column):
         
         # 主キー制約
         pk_columns = [columns_info[i][1] for i in range(len(columns_info)) if columns_info[i][5]]
+        pk_str = ""
         if pk_columns:
-            pk_str = f", PRIMARY KEY ({', '.join([f'"{col}"' for col in pk_columns])})"
-        else:
-            pk_str = ""
+            # 単純な文字列連結を使用
+            pk_str = ", PRIMARY KEY ("
+            for i, col in enumerate(pk_columns):
+                if i > 0:
+                    pk_str += ", "
+                pk_str += '"' + col + '"'
+            pk_str += ")"
         
         # 新しいテーブルを作成
         create_sql = f'CREATE TABLE "{table}" ({", ".join(column_defs)}{pk_str})'

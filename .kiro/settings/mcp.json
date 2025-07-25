@@ -1,7 +1,9 @@
 {
   "mcpServers": {
     "python-server": {
-      "disabled": true
+      "args": [],
+      "disabled": true,
+      "autoApprove": []
     },
     "filesystem": {
       "command": "node",
@@ -13,7 +15,9 @@
       "autoApprove": [
         "readFile",
         "writeFile",
-        "listDirectory"
+        "listDirectory",
+        "create_directory",
+        "get_file_info"
       ]
     }
   }

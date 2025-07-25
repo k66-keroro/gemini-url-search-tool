@@ -107,7 +107,11 @@ class SQLiteGUITool:
         self.default_db_path = Paths().PROJECT_ROOT / 'data' / 'sqlite' / 'main.db'
         
         # SQLiteManagerのインスタンス
-        self.sqlite_manager = SQLiteManager() if SQLiteManager else None
+        try:
+            self.sqlite_manager = SQLiteManager(str(self.default_db_path)) if SQLiteManager else None
+        except Exception as e:
+            print(f"SQLiteManager初期化エラー: {e}")
+            self.sqlite_manager = None
         
         # 前回のデータベースパスを読み込み
         last_db_path = self._load_db_path()
