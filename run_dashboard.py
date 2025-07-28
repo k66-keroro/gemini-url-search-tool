@@ -74,7 +74,13 @@ def main():
     
     # ダッシュボード実行
     print("\n3️⃣ ダッシュボードの起動...")
-    run_dashboard()
+    try:
+        run_dashboard()
+    except KeyboardInterrupt:
+        print("\n\n✅ ダッシュボードを正常に停止しました")
+        print("👋 お疲れさまでした！")
+    except Exception as e:
+        print(f"\n❌ エラーが発生しました: {e}")
 
 if __name__ == "__main__":
     main()
