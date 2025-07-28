@@ -82,7 +82,12 @@ try:
         sys.path.insert(0, str(project_root))
     
     # Import the real SQLiteManager
-    from src.core.sqlite_manager import SQLiteManager as RealSQLiteManager
+    try:
+        from src.core.sqlite_manager import SQLiteManager as RealSQLiteManager
+        REAL_MANAGER_AVAILABLE = True
+    except ImportError as import_error:
+        REAL_MANAGER_AVAILABLE = False
+        import_error_msg = str(import_error)
     
     class SQLiteManager:
         """SQLiteデータベース管理クラス（ラッパー）"""
@@ -100,8 +105,12 @@ try:
             
             # 実際のSQLiteManagerを初期化
             try:
-                self.real_manager = RealSQLiteManager(db_path)
-                self.logger.info(f"SQLiteManager初期化完了: {db_path}")
+                if REAL_MANAGER_AVAILABLE:
+                    self.real_manager = RealSQLiteManager()  # 引数なしで初期化
+                    self.logger.info(f"SQLiteManager初期化完了: {db_path}")
+                else:
+                    self.logger.warning(f"実際のSQLiteManagerが利用できません: {import_error_msg}")
+                    self.real_manager = None
             except Exception as e:
                 self.logger.error(f"SQLiteManager初期化エラー: {e}")
                 self.real_manager = None

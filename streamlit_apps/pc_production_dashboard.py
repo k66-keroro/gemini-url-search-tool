@@ -107,7 +107,7 @@ def load_data():
         df['年'] = df['転記日付'].dt.year
         df['月'] = df['転記日付'].dt.month
         df['週番号'] = df['転記日付'].dt.isocalendar().week
-        df['週区分'] = df['転記日付'].dt.isocalendar().week % 4 + 1  # 1-4の週区分
+        df['週区分'] = (df['転記日付'].dt.isocalendar().week % 4 + 1).astype(str)  # 1-4の週区分を文字列として保存
         
         # 曜日情報
         df['曜日'] = df['転記日付'].dt.day_name()
@@ -132,7 +132,7 @@ def create_calendar_data(df):
     date_range = pd.date_range(start=start_date, end=end_date, freq='D')
     calendar_df = pd.DataFrame({
         'DateColumn': date_range,
-        '週区分': (date_range.isocalendar().week % 4) + 1,
+        '週区分': ((date_range.isocalendar().week % 4) + 1).astype(str),  # 文字列として保存
         '曜日': date_range.day_name(),
         '平日フラグ': date_range.weekday < 5
     })
@@ -156,6 +156,9 @@ def aggregate_daily_data(df):
         aggfunc='sum',
         fill_value=0
     ).reset_index()
+    
+    # 週区分を文字列型に明示的に変換（Arrowエラー対策）
+    daily_pivot['週区分'] = daily_pivot['週区分'].astype(str)
     
     # 日別合計を追加
     mrp_columns = [col for col in daily_pivot.columns if col.startswith('PC')]
@@ -196,6 +199,9 @@ def aggregate_weekly_data(df):
     else:
         weekly_pivot['合計'] = 0
     
+    # 週区分を文字列型に明示的に変換（Arrowエラー対策）
+    weekly_pivot['週区分'] = weekly_pivot['週区分'].astype(str)
+    
     # 数値列を明示的に数値型に変換
     for col in mrp_columns + ['合計']:
         if col in weekly_pivot.columns:
@@ -210,6 +216,8 @@ def aggregate_weekly_data(df):
                 total_row[col] = weekly_pivot[col].sum()
         
         total_df = pd.DataFrame([total_row])
+        # 週区分を文字列型に変換
+        total_df['週区分'] = total_df['週区分'].astype(str)
         weekly_pivot = pd.concat([weekly_pivot, total_df], ignore_index=True)
     
     return weekly_pivot
@@ -300,13 +308,17 @@ def main():
                 if col != '週区分' and pd.api.types.is_numeric_dtype(weekly_data[col]):
                     format_dict[col] = "¥{:,.0f}"
             
+            # データ型を明示的に設定してArrowエラーを回避
+            display_weekly = weekly_data.copy()
+            display_weekly['週区分'] = display_weekly['週区分'].astype(str)
+            
             if format_dict:
                 st.dataframe(
-                    weekly_data.style.format(format_dict),
+                    display_weekly.style.format(format_dict),
                     use_container_width=True
                 )
             else:
-                st.dataframe(weekly_data, use_container_width=True)
+                st.dataframe(display_weekly, use_container_width=True)
             
             # 週別グラフ
             if len(weekly_data) > 1:  # 合計行を除く
@@ -334,13 +346,17 @@ def main():
                 if col not in ['転記日付', '週区分'] and pd.api.types.is_numeric_dtype(daily_data[col]):
                     format_dict[col] = "¥{:,.0f}"
             
+            # データ型を明示的に設定してArrowエラーを回避
+            display_daily = daily_data.copy()
+            display_daily['週区分'] = display_daily['週区分'].astype(str)
+            
             if format_dict:
                 st.dataframe(
-                    daily_data.style.format(format_dict),
+                    display_daily.style.format(format_dict),
                     use_container_width=True
                 )
             else:
-                st.dataframe(daily_data, use_container_width=True)
+                st.dataframe(display_daily, use_container_width=True)
             
             # 日別トレンドグラフ
             fig = px.line(
@@ -409,6 +425,9 @@ def main():
                 format_dict['計画数'] = "{:,.0f}"
             if '完成数' in display_df.columns and pd.api.types.is_numeric_dtype(display_df['完成数']):
                 format_dict['完成数'] = "{:,.0f}"
+            
+            # データ型を明示的に設定してArrowエラーを回避
+            display_df['週区分'] = display_df['週区分'].astype(str)
             
             if format_dict:
                 st.dataframe(

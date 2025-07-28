@@ -244,3 +244,7 @@ class LauncherTab:
             del self.scripts_config[script_name]
             self.refresh_script_buttons()
             self.log_message(f"スクリプト '{script_name}' を削除しました")
+    
+    def on_db_connect(self, conn, cursor):
+        """データベース接続時の処理（LauncherTabでは特に何もしない）"""
+        pass

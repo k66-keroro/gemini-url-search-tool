@@ -1,44 +1,44 @@
-﻿コピー元ファイルパス	ファイル名	概要	コピー先ファイルパス	テーブル名	重要度	master
-\\fssha01\common\HOST\ZP128\GetPLMItmPlntInfo_P100.txt	GetPLMItmPlntInfo_P100.txt	品目マスタ	C:\Projects_workspace\02_access\テキスト\	GetPLMItmPlntInfo_P100		x
-\\fssha01\common\HOST\SEKKEI\GetSekkeiWBSJisseki.txt	GetSekkeiWBSJisseki.txt	設計	C:\Projects_workspace\02_access\テキスト\	GetSekkeiWBSJisseki		
-\\fssha01\common\HOST\MES\KANSEI_JISSEKI.txt	KANSEI_JISSEKI.txt	MES	C:\Projects_workspace\02_access\テキスト\	KANSEI_JISSEKI		
-\\fssha01\common\HOST\MES\KOUSU_JISSEKI.txt	KOUSU_JISSEKI.txt	MES	C:\Projects_workspace\02_access\テキスト\	KOUSU_JISSEKI		
-\\fssha01\common\HOST\MES\KOUTEI_JISSEKI.txt	KOUTEI_JISSEKI.txt	MES	C:\Projects_workspace\02_access\テキスト\	KOUTEI_JISSEKI		
-\\fssha01\common\HOST\JOHODBDL\TEIKEI\MASTER\HINMOKU\MARA_DL.csv	MARA_DL.csv	品目マスタ	C:\Projects_workspace\02_access\テキスト\	MARA_DL	z	x
-\\fssha01\common\HOST\JOHODBDL\TEIKEI\設計\PP_DL_CSV_SEISAN_YOTEI.csv	PP_DL_CSV_SEISAN_YOTEI.csv	設計	C:\Projects_workspace\02_access\テキスト\	PP_DL_CSV_SEISAN_YOTEI		
-\\fssha01\common\HOST\JOHODBDL\TEIKEI\設計\PP_DL_CSV_ZTBP110.csv	PP_DL_CSV_ZTBP110.csv	設計	C:\Projects_workspace\02_access\テキスト\	PP_DL_CSV_ZTBP110		
-\\fssha01\common\HOST\JOHODBDL\TEIKEI\生産\PP_SUMMARY_ZTBP080_KOJOZISSEKI_D_0.xlsx	PP_SUMMARY_ZTBP080_KOJOZISSEKI_D_0.xlsx	完成	C:\Projects_workspace\02_access\テキスト\	PP_SUMMARY_ZTBP080_KOJOZISSEKI_D_0		
-\\fssha01\common\HOST\MES\SASIZU_JISSEKI.txt	SASIZU_JISSEKI.txt	MES	C:\Projects_workspace\02_access\テキスト\	SASIZU_JISSEKI		
-\\fssha01\common\HOST\MES\V_SAGYO_TIME.txt	V_SAGYO_TIME.txt	MES	C:\Projects_workspace\02_access\テキスト\	V_SAGYO_TIME		
-\\fssha01\common\HOST\zf26\zf26.csv	zf26.csv	得意先	C:\Projects_workspace\02_access\テキスト\	zf26		x
-\\fssha01\common\HOST\zm114\zm114.txt	zm114.txt	原価センタ出庫	C:\Projects_workspace\02_access\テキスト\	zm114		
-\\fssha01\common\HOST\zm21\zm21.txt	zm21.txt	購買依頼残	C:\Projects_workspace\02_access\テキスト\	zm21	z	
-\\fssha01\common\HOST\ZM29\ZM29.txt	ZM29.txt	完成	C:\Projects_workspace\02_access\テキスト\	ZM29	z	
-\\fssha01\common\HOST\zm37\zm37.txt	zm37.txt	購買情報	C:\Projects_workspace\02_access\テキスト\	zm37	z	x
-\\fssha01\common\HOST\zm87\zm87n.txt	zm87n.txt	購買発注残	C:\Projects_workspace\02_access\テキスト\	zm87n	z	
-\\fssha01\common\HOST\zp02\zp02.txt	zp02.txt	生産表	C:\Projects_workspace\02_access\テキスト\	zp02	z	
-\\fssha01\common\HOST\ZP128\ZP128_P100.txt	ZP128_P100.txt	品目マスタ	C:\Projects_workspace\02_access\テキスト\	ZP128_P100	z	x
-\\fssha01\common\HOST\ZP128\ZP128_P300.txt	ZP128_P300.txt	品目マスタ	C:\Projects_workspace\02_access\テキスト\	ZP128_P300	z	x
-\\fssha01\common\HOST\ZP138\ZP138.txt	ZP138.txt	MD04	C:\Projects_workspace\02_access\テキスト\	ZP138	z	
-\\fssha01\common\HOST\zp160\zp160.txt	zp160.txt	サービス残	C:\Projects_workspace\02_access\テキスト\	zp160		
-\\fssha01\common\HOST\ZP170\ZP170.TXT	ZP170.TXT	内部指図_資料依頼	C:\Projects_workspace\02_access\テキスト\	ZP170		
-\\fssha01\common\HOST\zp35\zp35.txt	zp35.txt	作業手順一覧	C:\Projects_workspace\02_access\テキスト\	zp35	z	x
-\\fssha01\common\HOST\ZP51N\ZP51N.TXT	ZP51N.TXT	PC引当	C:\Projects_workspace\02_access\テキスト\	ZP51N	z	
-\\fssha01\common\HOST\zp58\zp58.txt	zp58.txt	未払い出し	C:\Projects_workspace\02_access\テキスト\	zp58	z	
-\\fssha01\common\HOST\zp70\zp70.txt	zp70.txt	例外メッセージ	C:\Projects_workspace\02_access\テキスト\	zp70	z	
-\\fssha01\common\HOST\ZP81\ZPF01802_未完了分.TXT	ZPF01802_未完了分.TXT	ZP81_未完了	C:\Projects_workspace\02_access\テキスト\	ZPF01802_未完了分	zz	
-\\fssha01\common\HOST\zs191\zs191.txt	zs191.txt	最低販売価格	C:\Projects_workspace\02_access\テキスト\	zs191		x
-\\fssha01\common\HOST\zs45\zs45.txt	zs45.txt	WBS_CMPL対象	C:\Projects_workspace\02_access\テキスト\	zs45		
-\\fssha01\common\HOST\ZS58\ZS58MONTH.csv	ZS58MONTH.csv	売上	C:\Projects_workspace\02_access\テキスト\	ZS58MONTH	z	
-\\fssha01\common\HOST\ZS61\ZS61KDAY.csv	ZS61KDAY.csv	受注残	C:\Projects_workspace\02_access\テキスト\	ZS61KDAY	z	
-\\fssha01\common\HOST\zs65\zs65.txt	zs65.txt	在庫	C:\Projects_workspace\02_access\テキスト\	zs65	z	
-\\fssha01\common\HOST\zs65\zs65_sss.txt	zs65_sss.txt	在庫	C:\Projects_workspace\02_access\テキスト\	zs65_sss	z	
-\\fssha01\common\HOST\SEKKEI\資料依頼\資料依頼未完了一覧.xlsx	資料依頼未完了一覧.xlsx	PLM資料依頼残	C:\Projects_workspace\02_access\テキスト\	plm_資料依頼		
-\\fssha01\common\HOST\ZPR01201\払出明細（滋賀）_ZPR01201.txt	払出明細（滋賀）_ZPR01201.txt	払出明細	C:\Projects_workspace\02_access\テキスト\	払出明細（滋賀）_ZPR01201	z	
-\\fssha01\common\HOST\ZPR01201\払出明細（大阪）_ZPR01201.txt	払出明細（大阪）_ZPR01201.txt	払出明細	C:\Projects_workspace\02_access\テキスト\	払出明細（大阪）_ZPR01201	z	
-\\fssha01\全社共有\経営企画部　経理課\情ｼｽ在庫ﾃﾞｰﾀ\滞留在庫\dbo_提出用_経理_滞留在庫資料_通常.xlsx	dbo_提出用_経理_滞留在庫資料_通常.xlsx	sap入出庫	C:\Projects_workspace\02_access\テキスト\	品目入出庫		
-\\fssha01\common\HOST\ZM122\ZM122_P100_1220.TXT	ZM122_P100_1220.TXT	MD04	C:\Projects_workspace\02_access\テキスト\	ZM122_P100_1220		
-\\fssha01\common\HOST\ZM122\ZM122_P100_1230.TXT	ZM122_P100_1230.TXT	MD04	C:\Projects_workspace\02_access\テキスト\	ZM122_P100_1230		
-\\fssha01\common\HOST\ZM122\ZM122_P100_1240.TXT	ZM122_P100_1240.TXT	MD04	C:\Projects_workspace\02_access\テキスト\	ZM122_P100_1240		
-\\fssha01\common\HOST\ZP173\ZP173.TXT	ZP173.TXT	生産高	C:\Projects_workspace\02_access\テキスト\	ZP173		
-\\fssha01\common\HOST\ZP173\ZP173_MEISAI.TXT	ZP173_MEISAI.TXT	生産高明細	C:\Projects_workspace\02_access\テキスト\	ZP173_MEISAI		
+﻿コピー元ファイルパス,ファイル名,概要,コピー先ファイルパス,テーブル名,重要度,master,テーブル名修正
+\\fssha01\common\HOST\ZP128\GetPLMItmPlntInfo_P100.txt,GetPLMItmPlntInfo_P100.txt,品目マスタ,C:\Projects_workspace\02_access\テキスト\,GetPLMItmPlntInfo_P100,x,,
+\\fssha01\common\HOST\SEKKEI\GetSekkeiWBSJisseki.txt,GetSekkeiWBSJisseki.txt,設計,C:\Projects_workspace\02_access\テキスト\,GetSekkeiWBSJisseki,,,
+\\fssha01\common\HOST\MES\KANSEI_JISSEKI.txt,KANSEI_JISSEKI.txt,MES,C:\Projects_workspace\02_access\テキスト\,KANSEI_JISSEKI,,,
+\\fssha01\common\HOST\MES\KOUSU_JISSEKI.txt,KOUSU_JISSEKI.txt,MES,C:\Projects_workspace\02_access\テキスト\,KOUSU_JISSEKI,,,
+\\fssha01\common\HOST\MES\KOUTEI_JISSEKI.txt,KOUTEI_JISSEKI.txt,MES,C:\Projects_workspace\02_access\テキスト\,KOUTEI_JISSEKI,,,
+\\fssha01\common\HOST\JOHODBDL\TEIKEI\MASTER\HINMOKU\MARA_DL.csv,MARA_DL.csv,品目マスタ,C:\Projects_workspace\02_access\テキスト\,MARA_DL,z,x,
+\\fssha01\common\HOST\JOHODBDL\TEIKEI\設計\PP_DL_CSV_SEISAN_YOTEI.csv,PP_DL_CSV_SEISAN_YOTEI.csv,設計,C:\Projects_workspace\02_access\テキスト\,PP_DL_CSV_SEISAN_YOTEI,,,
+\\fssha01\common\HOST\JOHODBDL\TEIKEI\設計\PP_DL_CSV_ZTBP110.csv,PP_DL_CSV_ZTBP110.csv,設計,C:\Projects_workspace\02_access\テキスト\,PP_DL_CSV_ZTBP110,,,
+\\fssha01\common\HOST\JOHODBDL\TEIKEI\生産\PP_SUMMARY_ZTBP080_KOJOZISSEKI_D_0.xlsx,PP_SUMMARY_ZTBP080_KOJOZISSEKI_D_0.xlsx,完成,C:\Projects_workspace\02_access\テキスト\,PP_SUMMARY_ZTBP080_KOJOZISSEKI_D_0,,,
+\\fssha01\common\HOST\MES\SASIZU_JISSEKI.txt,SASIZU_JISSEKI.txt,MES,C:\Projects_workspace\02_access\テキスト\,SASIZU_JISSEKI,,,
+\\fssha01\common\HOST\MES\V_SAGYO_TIME.txt,V_SAGYO_TIME.txt,MES,C:\Projects_workspace\02_access\テキスト\,V_SAGYO_TIME,,,
+\\fssha01\common\HOST\zf26\zf26.csv,zf26.csv,得意先,C:\Projects_workspace\02_access\テキスト\,zf26,x,,
+\\fssha01\common\HOST\zm114\zm114.txt,zm114.txt,原価センタ出庫,C:\Projects_workspace\02_access\テキスト\,zm114,,,
+\\fssha01\common\HOST\zm21\zm21.txt,zm21.txt,購買依頼残,C:\Projects_workspace\02_access\テキスト\,zm21,z,,
+\\fssha01\common\HOST\ZM29\ZM29.txt,ZM29.txt,完成,C:\Projects_workspace\02_access\テキスト\,ZM29,z,,
+\\fssha01\common\HOST\zm37\zm37.txt,zm37.txt,購買情報,C:\Projects_workspace\02_access\テキスト\,zm37,z,x,
+\\fssha01\common\HOST\zm87\zm87n.txt,zm87n.txt,購買発注残,C:\Projects_workspace\02_access\テキスト\,zm87n,z,,
+\\fssha01\common\HOST\zp02\zp02.txt,zp02.txt,生産表,C:\Projects_workspace\02_access\テキスト\,zp02,z,,
+\\fssha01\common\HOST\ZP128\ZP128_P100.txt,ZP128_P100.txt,品目マスタ,C:\Projects_workspace\02_access\テキスト\,ZP128_P100,z,x,
+\\fssha01\common\HOST\ZP128\ZP128_P300.txt,ZP128_P300.txt,品目マスタ,C:\Projects_workspace\02_access\テキスト\,ZP128_P300,z,x,
+\\fssha01\common\HOST\ZP138\ZP138.txt,ZP138.txt,MD04,C:\Projects_workspace\02_access\テキスト\,ZP138,z,,
+\\fssha01\common\HOST\zp160\zp160.txt,zp160.txt,サービス残,C:\Projects_workspace\02_access\テキスト\,zp160,,,
+\\fssha01\common\HOST\ZP170\ZP170.TXT,ZP170.TXT,内部指図_資料依頼,C:\Projects_workspace\02_access\テキスト\,ZP170,,,
+\\fssha01\common\HOST\zp35\zp35.txt,zp35.txt,作業手順一覧,C:\Projects_workspace\02_access\テキスト\,zp35,z,x,
+\\fssha01\common\HOST\ZP51N\ZP51N.TXT,ZP51N.TXT,PC引当,C:\Projects_workspace\02_access\テキスト\,ZP51N,z,,
+\\fssha01\common\HOST\zp58\zp58.txt,zp58.txt,未払い出し,C:\Projects_workspace\02_access\テキスト\,zp58,z,,
+\\fssha01\common\HOST\zp70\zp70.txt,zp70.txt,例外メッセージ,C:\Projects_workspace\02_access\テキスト\,zp70,z,,
+\\fssha01\common\HOST\ZP81\ZPF01802_未完了分.TXT,ZPF01802_未完了分.TXT,ZP81_未完了,C:\Projects_workspace\02_access\テキスト\,zp81,zz,,x
+\\fssha01\common\HOST\zs191\zs191.txt,zs191.txt,最低販売価格,C:\Projects_workspace\02_access\テキスト\,zs191,x,,
+\\fssha01\common\HOST\zs45\zs45.txt,zs45.txt,WBS_CMPL対象,C:\Projects_workspace\02_access\テキスト\,zs45,,,
+\\fssha01\common\HOST\ZS58\ZS58MONTH.csv,ZS58MONTH.csv,売上,C:\Projects_workspace\02_access\テキスト\,ZS58MONTH,z,,
+\\fssha01\common\HOST\ZS61\ZS61KDAY.csv,ZS61KDAY.csv,受注残,C:\Projects_workspace\02_access\テキスト\,ZS61KDAY,z,,
+\\fssha01\common\HOST\zs65\zs65.txt,zs65.txt,在庫,C:\Projects_workspace\02_access\テキスト\,zs65,z,,
+\\fssha01\common\HOST\zs65\zs65_sss.txt,zs65_sss.txt,在庫,C:\Projects_workspace\02_access\テキスト\,zs65_sss,z,,
+\\fssha01\common\HOST\SEKKEI\資料依頼\資料依頼未完了一覧.xlsx,資料依頼未完了一覧.xlsx,PLM資料依頼残,C:\Projects_workspace\02_access\テキスト\,plm_siryouirai,,,x
+\\fssha01\common\HOST\ZPR01201\払出明細（滋賀）_ZPR01201.txt,払出明細（滋賀）_ZPR01201.txt,払出明細,C:\Projects_workspace\02_access\テキスト\,ZPR01201_shiga,z,,x
+\\fssha01\common\HOST\ZPR01201\払出明細（大阪）_ZPR01201.txt,払出明細（大阪）_ZPR01201.txt,払出明細,C:\Projects_workspace\02_access\テキスト\,ZPR01201_osaka,z,,x
+\\fssha01\全社共有\経営企画部\経理課\情ｼｽ在庫ﾃﾞｰﾀ\滞留在庫\dbo_提出用_経理_滞留在庫資料_通常.xlsx,dbo_提出用_経理_滞留在庫資料_通常.xlsx,在庫,C:\Projects_workspace\02_access\テキスト\,zaiko_nyusyukko,,,x
+\\fssha01\common\HOST\ZM122\ZM122_P100_1220.TXT,ZM122_P100_1220.TXT,MD04,C:\Projects_workspace\02_access\テキスト\,ZM122_P100_1220,,,
+\\fssha01\common\HOST\ZM122\ZM122_P100_1230.TXT,ZM122_P100_1230.TXT,MD04,C:\Projects_workspace\02_access\テキスト\,ZM122_P100_1230,,,
+\\fssha01\common\HOST\ZM122\ZM122_P100_1240.TXT,ZM122_P100_1240.TXT,MD04,C:\Projects_workspace\02_access\テキスト\,ZM122_P100_1240,,,
+\\fssha01\common\HOST\ZP173\ZP173.TXT,ZP173.TXT,生産高,C:\Projects_workspace\02_access\テキスト\,ZP173,,,
+\\fssha01\common\HOST\ZP173\ZP173_MEISAI.TXT,ZP173_MEISAI.TXT,生産高明細,C:\Projects_workspace\02_access\テキスト\,ZP173_MEISAI,,,

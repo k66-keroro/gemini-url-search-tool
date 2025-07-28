@@ -34,10 +34,10 @@ def main():
         # Tkinterのルートウィンドウを作成
         root = tk.Tk()
         root.title("SQLite GUI Tool v2")
-        
+
         # SQLite GUI Toolのインスタンスを作成
         app = SQLiteGUITool(root)
-        
+
         # イベントループを開始
         root.mainloop()
     except Exception as e:

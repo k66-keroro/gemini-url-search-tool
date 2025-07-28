@@ -1,172 +1,1807 @@
-`|   |
-|---|
-|ファイル処理開始: zf26.csv|
-|ファイル処理エラー: Error tokenizing data. C error: Expected 1 fields in line 46, saw 2|
-||
-|Traceback (most recent call last):|
-|File "C:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py", line 724, in _process_single_file|
-|df = pd.read_csv(file_path, encoding=encoding, sep=delimiter, dtype=str)|
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^|
-|File "C:\Users\sem3171\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\parsers\readers.py", line 948, in read_csv|
-|return _read(filepath_or_buffer, kwds)|
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^|
-|File "C:\Users\sem3171\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\parsers\readers.py", line 611, in _read|
-|parser = TextFileReader(filepath_or_buffer, **kwds)|
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^|
-|File "C:\Users\sem3171\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\parsers\readers.py", line 1448, in __init__|
-|self._engine = self._make_engine(f, self.engine)|
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^|
-|File "C:\Users\sem3171\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\parsers\readers.py", line 1723, in _make_engine|
-|return mapping[engine](f, **self.options)|
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^|
-|File "C:\Users\sem3171\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\parsers\c_parser_wrapper.py", line 93, in __init__|
-|self._reader = parsers.TextReader(src, **kwds)|
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^|
-|File "parsers.pyx", line 579, in pandas._libs.parsers.TextReader.__cinit__|
-|File "parsers.pyx", line 668, in pandas._libs.parsers.TextReader._get_header|
-|File "parsers.pyx", line 879, in pandas._libs.parsers.TextReader._tokenize_rows|
-|File "parsers.pyx", line 890, in pandas._libs.parsers.TextReader._check_tokenize_status|
-|File "parsers.pyx", line 2050, in pandas._libs.parsers.raise_parser_error|
-|UnicodeDecodeError: 'shift_jis' codec can't decode byte 0x87 in position 59787: illegal multibyte sequence|
-||
-|During handling of the above exception, another exception occurred:|
-||
-|Traceback (most recent call last):|
-|File "C:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py", line 727, in _process_single_file|
-|df = pd.read_csv(file_path, encoding='cp932', sep=delimiter, dtype=str)|
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^|
-|File "C:\Users\sem3171\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\parsers\readers.py", line 948, in read_csv|
-|return _read(filepath_or_buffer, kwds)|
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^|
-|File "C:\Users\sem3171\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\parsers\readers.py", line 617, in _read|
-|return parser.read(nrows)|
-|^^^^^^^^^^^^^^^^^^|
-|File "C:\Users\sem3171\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\parsers\readers.py", line 1748, in read|
-|) = self._engine.read(  # type: ignore[attr-defined]|
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^|
-|File "C:\Users\sem3171\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\parsers\c_parser_wrapper.py", line 234, in read|
-|chunks = self._reader.read_low_memory(nrows)|
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^|
-|File "parsers.pyx", line 843, in pandas._libs.parsers.TextReader.read_low_memory|
-|File "parsers.pyx", line 904, in pandas._libs.parsers.TextReader._read_rows|
-|File "parsers.pyx", line 879, in pandas._libs.parsers.TextReader._tokenize_rows|
-|File "parsers.pyx", line 890, in pandas._libs.parsers.TextReader._check_tokenize_status|
-|File "parsers.pyx", line 2058, in pandas._libs.parsers.raise_parser_error|
-|pandas.errors.ParserError: Error tokenizing data. C error: Expected 1 fields in line 46, saw 2|
-||
-||
-|ファイル処理失敗: zf26.csv|
-|   |
-|---|
-|ファイル処理開始: ZS58MONTH.csv|
-|ファイル処理エラー: Error tokenizing data. C error: Expected 1 fields in line 106, saw 7|
-||
-|Traceback (most recent call last):|
-|File "C:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py", line 724, in _process_single_file|
-|df = pd.read_csv(file_path, encoding=encoding, sep=delimiter, dtype=str)|
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^|
-|File "C:\Users\sem3171\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\parsers\readers.py", line 948, in read_csv|
-|return _read(filepath_or_buffer, kwds)|
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^|
-|File "C:\Users\sem3171\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\parsers\readers.py", line 611, in _read|
-|parser = TextFileReader(filepath_or_buffer, **kwds)|
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^|
-|File "C:\Users\sem3171\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\parsers\readers.py", line 1448, in __init__|
-|self._engine = self._make_engine(f, self.engine)|
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^|
-|File "C:\Users\sem3171\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\parsers\readers.py", line 1723, in _make_engine|
-|return mapping[engine](f, **self.options)|
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^|
-|File "C:\Users\sem3171\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\parsers\c_parser_wrapper.py", line 93, in __init__|
-|self._reader = parsers.TextReader(src, **kwds)|
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^|
-|File "parsers.pyx", line 579, in pandas._libs.parsers.TextReader.__cinit__|
-|File "parsers.pyx", line 668, in pandas._libs.parsers.TextReader._get_header|
-|File "parsers.pyx", line 879, in pandas._libs.parsers.TextReader._tokenize_rows|
-|File "parsers.pyx", line 890, in pandas._libs.parsers.TextReader._check_tokenize_status|
-|File "parsers.pyx", line 2050, in pandas._libs.parsers.raise_parser_error|
-|UnicodeDecodeError: 'shift_jis' codec can't decode byte 0x87 in position 60726: illegal multibyte sequence|
-||
-|During handling of the above exception, another exception occurred:|
-||
-|Traceback (most recent call last):|
-|File "C:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py", line 727, in _process_single_file|
-|df = pd.read_csv(file_path, encoding='cp932', sep=delimiter, dtype=str)|
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^|
-|File "C:\Users\sem3171\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\parsers\readers.py", line 948, in read_csv|
-|return _read(filepath_or_buffer, kwds)|
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^|
-|File "C:\Users\sem3171\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\parsers\readers.py", line 617, in _read|
-|return parser.read(nrows)|
-|^^^^^^^^^^^^^^^^^^|
-|File "C:\Users\sem3171\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\parsers\readers.py", line 1748, in read|
-|) = self._engine.read(  # type: ignore[attr-defined]|
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^|
-|File "C:\Users\sem3171\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\parsers\c_parser_wrapper.py", line 234, in read|
-|chunks = self._reader.read_low_memory(nrows)|
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^|
-|File "parsers.pyx", line 843, in pandas._libs.parsers.TextReader.read_low_memory|
-|File "parsers.pyx", line 904, in pandas._libs.parsers.TextReader._read_rows|
-|File "parsers.pyx", line 879, in pandas._libs.parsers.TextReader._tokenize_rows|
-|File "parsers.pyx", line 890, in pandas._libs.parsers.TextReader._check_tokenize_status|
-|File "parsers.pyx", line 2058, in pandas._libs.parsers.raise_parser_error|
-|pandas.errors.ParserError: Error tokenizing data. C error: Expected 1 fields in line 106, saw 7|
-||
-||
-|ファイル処理失敗: ZS58MONTH.csv|
-|ファイル処理開始: ZS61KDAY.csv|
-|ファイル処理エラー: Error tokenizing data. C error: Expected 1 fields in line 23, saw 4|
-||
-|Traceback (most recent call last):|
-|File "C:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py", line 724, in _process_single_file|
-|df = pd.read_csv(file_path, encoding=encoding, sep=delimiter, dtype=str)|
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^|
-|File "C:\Users\sem3171\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\parsers\readers.py", line 948, in read_csv|
-|return _read(filepath_or_buffer, kwds)|
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^|
-|File "C:\Users\sem3171\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\parsers\readers.py", line 611, in _read|
-|parser = TextFileReader(filepath_or_buffer, **kwds)|
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^|
-|File "C:\Users\sem3171\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\parsers\readers.py", line 1448, in __init__|
-|self._engine = self._make_engine(f, self.engine)|
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^|
-|File "C:\Users\sem3171\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\parsers\readers.py", line 1723, in _make_engine|
-|return mapping[engine](f, **self.options)|
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^|
-|File "C:\Users\sem3171\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\parsers\c_parser_wrapper.py", line 93, in __init__|
-|self._reader = parsers.TextReader(src, **kwds)|
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^|
-|File "parsers.pyx", line 579, in pandas._libs.parsers.TextReader.__cinit__|
-|File "parsers.pyx", line 668, in pandas._libs.parsers.TextReader._get_header|
-|File "parsers.pyx", line 879, in pandas._libs.parsers.TextReader._tokenize_rows|
-|File "parsers.pyx", line 890, in pandas._libs.parsers.TextReader._check_tokenize_status|
-|File "parsers.pyx", line 2050, in pandas._libs.parsers.raise_parser_error|
-|UnicodeDecodeError: 'shift_jis' codec can't decode byte 0x87 in position 53279: illegal multibyte sequence|
-||
-|During handling of the above exception, another exception occurred:|
-||
-|Traceback (most recent call last):|
-|File "C:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py", line 727, in _process_single_file|
-|df = pd.read_csv(file_path, encoding='cp932', sep=delimiter, dtype=str)|
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^|
-|File "C:\Users\sem3171\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\parsers\readers.py", line 948, in read_csv|
-|return _read(filepath_or_buffer, kwds)|
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^|
-|File "C:\Users\sem3171\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\parsers\readers.py", line 617, in _read|
-|return parser.read(nrows)|
-|^^^^^^^^^^^^^^^^^^|
-|File "C:\Users\sem3171\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\parsers\readers.py", line 1748, in read|
-|) = self._engine.read(  # type: ignore[attr-defined]|
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^|
-|File "C:\Users\sem3171\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\parsers\c_parser_wrapper.py", line 234, in read|
-|chunks = self._reader.read_low_memory(nrows)|
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^|
-|File "parsers.pyx", line 843, in pandas._libs.parsers.TextReader.read_low_memory|
-|File "parsers.pyx", line 904, in pandas._libs.parsers.TextReader._read_rows|
-|File "parsers.pyx", line 879, in pandas._libs.parsers.TextReader._tokenize_rows|
-|File "parsers.pyx", line 890, in pandas._libs.parsers.TextReader._check_tokenize_status|
-|File "parsers.pyx", line 2058, in pandas._libs.parsers.raise_parser_error|
-|pandas.errors.ParserError: Error tokenizing data. C error: Expected 1 fields in line 23, saw 4|
-||
-||
-|ファイル処理失敗: ZS61KDAY.csv|`
+[Running] python -u "c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool_v2_fixed_modular.py"
+2025-07-28 09:16:08,790 - src.core.sqlite_manager_wrapper - ERROR - SQLiteManager初期化エラー: SQLiteManager.__init__() takes 1 positional argument but 2 were given
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "C:\Users\sem3171\AppData\Local\Programs\Python\Python311\Lib\tkinter\__init__.py", line 1948, in __call__
+    return self.func(*args)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\sem3171\AppData\Local\Programs\Python\Python311\Lib\tkinter\__init__.py", line 861, in callit
+    func(*args)
+  File "c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\app.py", line 121, in <lambda>
+    self.root.after(500, lambda: self._connect_to_db(last_db_path))
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\app.py", line 201, in _connect_to_db
+    tab.on_db_connect(self.conn, self.cursor)
+    ^^^^^^^^^^^^^^^^^
+AttributeError: 'LauncherTab' object has no attribute 'on_db_connect'
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:973: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  df[col] = pd.to_datetime(df[col], errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:973: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  df[col] = pd.to_datetime(df[col], errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:893: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  df[col] = pd.to_datetime(df[col], errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:893: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  df[col] = pd.to_datetime(df[col], errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:893: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  df[col] = pd.to_datetime(df[col], errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:893: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  df[col] = pd.to_datetime(df[col], errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:893: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  df[col] = pd.to_datetime(df[col], errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:893: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  df[col] = pd.to_datetime(df[col], errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:893: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  df[col] = pd.to_datetime(df[col], errors='coerce')
+2025-07-28 09:26:02,937 - src.core.sqlite_manager_wrapper - WARNING - SQLiteManagerが初期化されていません
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:973: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  df[col] = pd.to_datetime(df[col], errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:973: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  df[col] = pd.to_datetime(df[col], errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:893: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  df[col] = pd.to_datetime(df[col], errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:893: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  df[col] = pd.to_datetime(df[col], errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:893: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  df[col] = pd.to_datetime(df[col], errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:893: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  df[col] = pd.to_datetime(df[col], errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:893: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  df[col] = pd.to_datetime(df[col], errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:893: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  df[col] = pd.to_datetime(df[col], errors='coerce')
+c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\admin_tab.py:968: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  timestamp_sample = pd.to_datetime(sample.head(10), errors='coerce')
+2025-07-28 09:43:21,463 - src.core.sqlite_manager_wrapper - WARNING - SQLiteManagerが初期化されていません
+
+[Done] exited with code=0 in 1874.261 seconds
+
+[Running] python -u "c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool_v2_fixed_modular.py"
+2025-07-28 09:47:34,192 - src.core.sqlite_manager_wrapper - ERROR - SQLiteManager初期化エラー: SQLiteManager.__init__() takes 1 positional argument but 2 were given
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "C:\Users\sem3171\AppData\Local\Programs\Python\Python311\Lib\tkinter\__init__.py", line 1948, in __call__
+    return self.func(*args)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\sem3171\AppData\Local\Programs\Python\Python311\Lib\tkinter\__init__.py", line 861, in callit
+    func(*args)
+  File "c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\app.py", line 121, in <lambda>
+    self.root.after(500, lambda: self._connect_to_db(last_db_path))
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\sem3171\claude-test\src\core\sqlite_gui_tool\app.py", line 201, in _connect_to_db
+    tab.on_db_connect(self.conn, self.cursor)
+    ^^^^^^^^^^^^^^^^^
+AttributeError: 'LauncherTab' object has no attribute 'on_db_connect'

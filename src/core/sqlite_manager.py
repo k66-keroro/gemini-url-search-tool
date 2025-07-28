@@ -140,6 +140,12 @@ class SQLiteManager:
     def _detect_encoding(self, file_path: Path) -> str:
         """ファイルのエンコーディングを検出"""
         try:
+            # 特定のファイルは強制的にcp932を使用
+            special_files = ['zm37.txt', 'zs58month.csv', 'zs61kday.csv', 'zf26.csv']
+            if file_path.name.lower() in special_files:
+                self.logger.info(f"特殊ファイル {file_path.name} にcp932エンコーディングを適用")
+                return 'cp932'
+            
             # ファイルの先頭部分を読み込み
             with open(file_path, 'rb') as f:
                 raw_data = f.read(10000)  # 最初の10000バイトを読み込み
@@ -166,6 +172,12 @@ class SQLiteManager:
     def _detect_separator(self, file_path: Path, encoding: str) -> str:
         """ファイルの区切り文字を検出"""
         try:
+            # 特定のファイルは強制的にタブ区切りを使用
+            tab_separated_files = ['zs58month.csv', 'zs61kday.csv', 'zf26.csv']
+            if file_path.name.lower() in tab_separated_files:
+                self.logger.info(f"特殊ファイル {file_path.name} にタブ区切りを適用")
+                return '\t'
+            
             # ファイルの先頭数行を読み込み
             lines = []
             with open(file_path, 'r', encoding=encoding, errors='replace') as f:
@@ -290,9 +302,25 @@ class SQLiteManager:
                         # 数値として変換
                         df[col] = pd.to_numeric(df[col], errors='ignore')
                 
-                # コード列の処理
+                # コード列の処理（数値として読み込まれた場合も文字列に変換）
                 elif 'code' in col_lower or 'コード' in col_lower:
-                    df[col] = df[col].astype(str)
+                    # 数値型の場合は整数部分のみを取得して文字列に変換
+                    if df[col].dtype in ['float64', 'int64']:
+                        df[col] = df[col].fillna(0).astype(int).astype(str)
+                    else:
+                        df[col] = df[col].astype(str)
+                
+                # 数値列だが固定長コードの可能性がある列の処理
+                elif df[col].dtype in ['float64', 'int64']:
+                    # サンプルデータで固定長コードかチェック
+                    sample = df[col].dropna().head(100)
+                    if len(sample) > 0:
+                        # 整数値で固定長の場合はコードとして扱う
+                        str_sample = sample.astype(int).astype(str)
+                        lengths = str_sample.str.len()
+                        if len(lengths.unique()) <= 2 and lengths.mean() >= 4:  # 固定長で4桁以上
+                            self.logger.info(f"固定長コードとして検出: {col}")
+                            df[col] = df[col].fillna(0).astype(int).astype(str)
                     
         return df
         
@@ -368,3 +396,99 @@ class SQLiteManager:
         except Exception as e:
             self.logger.error(f"インデックス作成エラー: {e}")
             # インデックス作成エラーは無視して処理を続行
+    
+    def finalize_database(self, db_path: str = None):
+        """データベースの最終化処理（主キー・インデックス設定）"""
+        if not db_path:
+            self.logger.warning("データベースパスが指定されていません")
+            return
+            
+        try:
+            conn = sqlite3.connect(db_path)
+            cursor = conn.cursor()
+            
+            self.logger.info("データベース最終化処理を開始...")
+            
+            # 全テーブル一覧を取得
+            cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'")
+            tables = cursor.fetchall()
+            
+            processed_tables = 0
+            created_indexes = 0
+            
+            for table_tuple in tables:
+                table_name = table_tuple[0]
+                
+                try:
+                    # テーブル情報を取得
+                    cursor.execute(f"PRAGMA table_info(`{table_name}`)")
+                    columns = cursor.fetchall()
+                    
+                    # 主キー候補を探す
+                    primary_key_candidates = []
+                    index_candidates = []
+                    
+                    for col_info in columns:
+                        col_name = col_info[1]
+                        col_type = col_info[2]
+                        is_pk = col_info[5]  # PRIMARY KEY フラグ
+                        
+                        # 既に主キーが設定されている場合はスキップ
+                        if is_pk:
+                            continue
+                            
+                        col_lower = col_name.lower()
+                        
+                        # 主キー候補のパターン
+                        pk_patterns = ['id', '_id', 'key', '_key', 'no', '_no', 'code', '_code', 
+                                     'コード', '番号', 'キー']
+                        
+                        if any(pattern in col_lower for pattern in pk_patterns):
+                            primary_key_candidates.append(col_name)
+                            
+                        # インデックス候補のパターン
+                        idx_patterns = ['date', '日付', 'time', '時刻', 'created', 'updated', 
+                                      '作成', '更新', '登録', 'status', '状態']
+                        
+                        if any(pattern in col_lower for pattern in idx_patterns):
+                            index_candidates.append(col_name)
+                    
+                    # 主キーを設定（_rowid_を追加）
+                    if not any(col[5] for col in columns):  # 主キーが設定されていない場合
+                        try:
+                            # _rowid_カラムを追加
+                            cursor.execute(f"ALTER TABLE `{table_name}` ADD COLUMN _rowid_ INTEGER PRIMARY KEY AUTOINCREMENT")
+                            self.logger.info(f"主キー追加: {table_name}._rowid_")
+                        except sqlite3.OperationalError as e:
+                            if "duplicate column name" not in str(e).lower():
+                                self.logger.warning(f"主キー追加失敗: {table_name} - {e}")
+                    
+                    # インデックスを作成
+                    for col_name in primary_key_candidates + index_candidates:
+                        index_name = f"idx_{table_name}_{col_name}".replace(' ', '_').replace('-', '_')
+                        
+                        try:
+                            # 既存インデックスをチェック
+                            cursor.execute("SELECT name FROM sqlite_master WHERE type='index' AND name=?", (index_name,))
+                            if not cursor.fetchone():
+                                cursor.execute(f"CREATE INDEX `{index_name}` ON `{table_name}`(`{col_name}`)")
+                                created_indexes += 1
+                                self.logger.info(f"インデックス作成: {index_name}")
+                        except Exception as e:
+                            self.logger.warning(f"インデックス作成失敗: {index_name} - {e}")
+                    
+                    processed_tables += 1
+                    
+                except Exception as e:
+                    self.logger.error(f"テーブル {table_name} の処理エラー: {e}")
+            
+            # データベース最適化
+            cursor.execute("PRAGMA optimize")
+            conn.commit()
+            conn.close()
+            
+            self.logger.info(f"データベース最終化完了: {processed_tables}テーブル処理, {created_indexes}インデックス作成")
+            
+        except Exception as e:
+            self.logger.error(f"データベース最終化エラー: {e}")
+            raise

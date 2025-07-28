@@ -287,7 +287,11 @@ class SQLiteGUITool:
     def refresh_all_tabs(self):
         """すべてのタブを更新"""
         for tab in self.tabs.values():
-            tab.refresh()
+            if hasattr(tab, 'refresh'):
+                try:
+                    tab.refresh()
+                except Exception as e:
+                    print(f"タブ更新エラー: {e}")
     
     def get_table_list(self):
         """
@@ -938,6 +942,10 @@ class SQLiteGUITool:
             item_code_patterns = ['品目', 'item', 'material', '部品', 'part', '製品', 'product']
             is_item_code = any(pattern in col_name_lower for pattern in item_code_patterns)
             
+            # 金額系フィールドかチェック（ゼロパディング判定を避ける）
+            amount_patterns = ['金額', '費', '価格', '単価', '原価', 'amount', 'price', 'cost', '予算']
+            is_amount_field = any(pattern in col_name_lower for pattern in amount_patterns)
+            
             # 数値として格納されているが、実際はコードの可能性をチェック
             numeric_values = []
             for val in values:
@@ -952,7 +960,10 @@ class SQLiteGUITool:
                 zero_padded_count = sum(1 for val in values if val.startswith('0') and len(val) > 1)
                 
                 if zero_padded_count > len(values) * 0.1:  # 10%以上が先頭ゼロ
-                    if is_item_code:
+                    if is_amount_field:
+                        # 金額系フィールドは先頭ゼロがあっても数値として扱う
+                        return "金額フィールド（数値変換）", False
+                    elif is_item_code:
                         # 品目コードの場合は文字列として保持
                         return "品目コード（先頭0保持）", True
                     else:
