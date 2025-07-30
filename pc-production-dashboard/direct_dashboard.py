@@ -1,39 +1,36 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
-PC製造専用ダッシュボード - 直接起動
-
-既存データでダッシュボードを直接起動
+直接ダッシュボードを起動するスクリプト
 """
 
 import subprocess
 import sys
+import os
 from pathlib import Path
 
-def main():
-    """ダッシュボード直接起動"""
-    print("🏭 PC製造専用ダッシュボード - 直接起動")
-    print("=" * 60)
+def start_dashboard():
+    """ダッシュボードを直接起動"""
+    print("🚀 PC製造専用ダッシュボードを起動中...")
     print("📊 ブラウザが自動で開きます")
-    print("🔗 手動アクセス: http://localhost:8503")
-    print("⏹️  停止: Ctrl+C")
+    print("🔗 手動でアクセスする場合: http://localhost:8506")
+    print("⏹️  停止するには Ctrl+C を押してください")
     print("-" * 60)
     
     try:
-        dashboard_path = Path(__file__).parent / "app" / "dashboard.py"
+        # 作業ディレクトリを設定
+        os.chdir(Path(__file__).parent)
         
-        # Streamlitダッシュボードを起動（ポート8503を使用）
-        subprocess.run([
-            sys.executable, '-m', 'streamlit', 'run', 
-            str(dashboard_path),
-            '--server.port=8503',
-            '--server.address=localhost',
-            '--server.headless=false'
-        ])
+        # Streamlitを起動
+        cmd = [sys.executable, "-m", "streamlit", "run", "app/dashboard.py", "--server.port", "8506"]
+        subprocess.run(cmd)
         
     except KeyboardInterrupt:
-        print("\n\n✅ ダッシュボードを正常に停止しました")
-        print("👋 お疲れさまでした！")
+        print("\n⏹️  ダッシュボードを停止しました")
     except Exception as e:
-        print(f"\n❌ ダッシュボード起動エラー: {e}")
+        print(f"❌ ダッシュボード起動エラー: {e}")
+        import traceback
+        traceback.print_exc()
 
 if __name__ == "__main__":
-    main()
+    start_dashboard()

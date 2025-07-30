@@ -424,54 +424,88 @@ class SQLiteManager:
                     cursor.execute(f"PRAGMA table_info(`{table_name}`)")
                     columns = cursor.fetchall()
                     
-                    # 主キー候補を探す
-                    primary_key_candidates = []
+                    if not columns:
+                        continue
+                    
+                    # 既存の主キーをチェック
+                    has_primary_key = any(col[5] for col in columns)  # col[5] is pk flag
+                    
+                    # 主キーが設定されていない場合、_rowid_を追加
+                    if not has_primary_key:
+                        # _rowid_カラムが既に存在するかチェック
+                        rowid_exists = any(col[1] == '_rowid_' for col in columns)
+                        
+                        if not rowid_exists:
+                            try:
+                                # 新しいテーブルを作成して主キーを追加
+                                temp_table = f"{table_name}_temp"
+                                
+                                # 既存のカラム定義を取得
+                                column_defs = []
+                                for col in columns:
+                                    col_name = col[1]
+                                    col_type = col[2] if col[2] else 'TEXT'
+                                    not_null = ' NOT NULL' if col[3] else ''
+                                    default_val = f' DEFAULT {col[4]}' if col[4] is not None else ''
+                                    column_defs.append(f'`{col_name}` {col_type}{not_null}{default_val}')
+                                
+                                # _rowid_を先頭に追加
+                                column_defs.insert(0, '_rowid_ INTEGER PRIMARY KEY AUTOINCREMENT')
+                                
+                                # 新しいテーブルを作成
+                                create_sql = f"CREATE TABLE `{temp_table}` ({', '.join(column_defs)})"
+                                cursor.execute(create_sql)
+                                
+                                # データをコピー
+                                original_columns = [col[1] for col in columns]
+                                columns_str = ', '.join(f'`{col}`' for col in original_columns)
+                                cursor.execute(f"INSERT INTO `{temp_table}` ({columns_str}) SELECT {columns_str} FROM `{table_name}`")
+                                
+                                # 元のテーブルを削除して新しいテーブルをリネーム
+                                cursor.execute(f"DROP TABLE `{table_name}`")
+                                cursor.execute(f"ALTER TABLE `{temp_table}` RENAME TO `{table_name}`")
+                                
+                                self.logger.info(f"主キー追加: {table_name}._rowid_")
+                                
+                            except Exception as e:
+                                self.logger.warning(f"主キー追加失敗: {table_name} - {e}")
+                                # 失敗した場合は一時テーブルを削除
+                                try:
+                                    cursor.execute(f"DROP TABLE IF EXISTS `{temp_table}`")
+                                except:
+                                    pass
+                    
+                    # インデックス候補を探す
                     index_candidates = []
                     
-                    for col_info in columns:
+                    # 最新のテーブル情報を再取得
+                    cursor.execute(f"PRAGMA table_info(`{table_name}`)")
+                    updated_columns = cursor.fetchall()
+                    
+                    for col_info in updated_columns:
                         col_name = col_info[1]
-                        col_type = col_info[2]
-                        is_pk = col_info[5]  # PRIMARY KEY フラグ
-                        
-                        # 既に主キーが設定されている場合はスキップ
-                        if is_pk:
-                            continue
-                            
                         col_lower = col_name.lower()
                         
-                        # 主キー候補のパターン
-                        pk_patterns = ['id', '_id', 'key', '_key', 'no', '_no', 'code', '_code', 
-                                     'コード', '番号', 'キー']
-                        
-                        if any(pattern in col_lower for pattern in pk_patterns):
-                            primary_key_candidates.append(col_name)
-                            
                         # インデックス候補のパターン
-                        idx_patterns = ['date', '日付', 'time', '時刻', 'created', 'updated', 
-                                      '作成', '更新', '登録', 'status', '状態']
+                        idx_patterns = [
+                            'code', 'コード', '番号', 'id', 'key', 'キー',
+                            'date', '日付', 'time', '時刻', 
+                            'created', 'updated', '作成', '更新', '登録',
+                            'status', '状態', 'type', 'タイプ', '種類'
+                        ]
                         
                         if any(pattern in col_lower for pattern in idx_patterns):
                             index_candidates.append(col_name)
                     
-                    # 主キーを設定（_rowid_を追加）
-                    if not any(col[5] for col in columns):  # 主キーが設定されていない場合
-                        try:
-                            # _rowid_カラムを追加
-                            cursor.execute(f"ALTER TABLE `{table_name}` ADD COLUMN _rowid_ INTEGER PRIMARY KEY AUTOINCREMENT")
-                            self.logger.info(f"主キー追加: {table_name}._rowid_")
-                        except sqlite3.OperationalError as e:
-                            if "duplicate column name" not in str(e).lower():
-                                self.logger.warning(f"主キー追加失敗: {table_name} - {e}")
-                    
                     # インデックスを作成
-                    for col_name in primary_key_candidates + index_candidates:
-                        index_name = f"idx_{table_name}_{col_name}".replace(' ', '_').replace('-', '_')
+                    for col_name in index_candidates:
+                        index_name = f"idx_{table_name}_{col_name}".replace(' ', '_').replace('-', '_').replace('(', '').replace(')', '')
                         
                         try:
                             # 既存インデックスをチェック
                             cursor.execute("SELECT name FROM sqlite_master WHERE type='index' AND name=?", (index_name,))
                             if not cursor.fetchone():
-                                cursor.execute(f"CREATE INDEX `{index_name}` ON `{table_name}`(`{col_name}`)")
+                                cursor.execute(f"CREATE INDEX IF NOT EXISTS `{index_name}` ON `{table_name}`(`{col_name}`)")
                                 created_indexes += 1
                                 self.logger.info(f"インデックス作成: {index_name}")
                         except Exception as e:
@@ -483,7 +517,12 @@ class SQLiteManager:
                     self.logger.error(f"テーブル {table_name} の処理エラー: {e}")
             
             # データベース最適化
-            cursor.execute("PRAGMA optimize")
+            try:
+                cursor.execute("PRAGMA optimize")
+                cursor.execute("ANALYZE")
+            except Exception as e:
+                self.logger.warning(f"データベース最適化エラー: {e}")
+            
             conn.commit()
             conn.close()
             
@@ -491,4 +530,10 @@ class SQLiteManager:
             
         except Exception as e:
             self.logger.error(f"データベース最終化エラー: {e}")
+            if 'conn' in locals():
+                try:
+                    conn.rollback()
+                    conn.close()
+                except:
+                    pass
             raise

@@ -1,0 +1,60 @@
+# Python関連
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# データベース
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+
+# ログ
+logs/
+*.log
+
+# 一時ファイル
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 環境設定
+.env
+.venv
+venv/
+ENV/
+
+# データファイル
+data/current/*
+data/sqlite/*
+data/zm29_Monthly_performance/*
+!data/current/.gitkeep
+!data/sqlite/.gitkeep
+!data/zm29_Monthly_performance/.gitkeep
+
+# Streamlit関連
+.streamlit/
+
+# Windows関連
+Thumbs.db
+ehthumbs.db
+Desktop.ini

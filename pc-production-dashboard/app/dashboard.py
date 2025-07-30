@@ -91,7 +91,7 @@ def load_pc_production_data():
         FROM pc_production_zm29
         WHERE MRP管理者 LIKE 'PC%'
         AND 転記日付 IS NOT NULL
-        AND 完成数 > 0
+        AND (完成数 > 0 OR 金額 > 0)
         ORDER BY 転記日付 DESC, MRP管理者
         """
         
@@ -111,10 +111,14 @@ def load_pc_production_data():
             if col in df.columns:
                 # 文字列の場合は数値に変換、変換できない場合は0
                 df[col] = pd.to_numeric(df[col].astype(str).str.replace(',', ''), errors='coerce').fillna(0)
+                # 月別週区分は整数に変換
+                if col == '月別週区分':
+                    df[col] = df[col].astype(int)
         
-        # 金額が0の場合は完成数×単価で再計算
+        # ZM29の金額フィールドを優先使用（金額が0または空の場合のみ再計算）
         if '完成数' in df.columns and '単価' in df.columns:
-            mask = (df['金額'] == 0) & (df['完成数'] > 0) & (df['単価'] > 0)
+            # 金額が0またはNaNの場合のみ再計算
+            mask = ((df['金額'] == 0) | df['金額'].isna()) & (df['完成数'] > 0) & (df['単価'] > 0)
             df.loc[mask, '金額'] = df.loc[mask, '完成数'] * df.loc[mask, '単価']
         
         # 年月情報を追加
@@ -125,6 +129,13 @@ def load_pc_production_data():
         # 曜日情報
         df['曜日'] = df['転記日付'].dt.day_name()
         df['平日フラグ'] = df['転記日付'].dt.weekday < 5
+        
+        # 内製・外注分類を追加
+        df['生産区分'] = df['MRP管理者'].apply(lambda x: 
+            '内製(PC1-3)' if x in ['PC1', 'PC2', 'PC3'] else 
+            '外注(PC4-6)' if x in ['PC4', 'PC5', 'PC6'] else 
+            'その他'
+        )
         
         return df, True
         
@@ -188,29 +199,46 @@ def main():
     if not success or df is None:
         st.stop()
     
-    # データソース情報の表示
+    # データ更新ボタン
     col1, col2 = st.columns([3, 1])
-    with col1:
-        st.subheader("📊 データ概要")
     with col2:
         if st.button("🔄 データ更新", help="最新データを再読み込み"):
             st.cache_data.clear()
             st.rerun()
     
-    # データソース別サマリー
-    data_source_summary = create_data_source_summary(df)
-    if not data_source_summary.empty:
-        st.dataframe(data_source_summary, use_container_width=True)
-    
     # サイドバー - フィルター
     st.sidebar.header("🔍 フィルター")
     
-    # 年月選択
+    # 当月を取得
+    current_month = datetime.datetime.now().strftime('%Y-%m')
     available_months = sorted(df['年月'].unique(), reverse=True)
-    selected_months = st.sidebar.multiselect(
-        "年月を選択",
-        available_months,
-        default=available_months[:6]  # 直近6ヶ月をデフォルト
+    
+    # 表示モード選択
+    display_mode = st.sidebar.radio(
+        "表示モード",
+        ["当月+当日重視", "期間選択"],
+        index=0,
+        help="当月+当日重視: 現在の実績に注力\n期間選択: 過去データとの比較"
+    )
+    
+    if display_mode == "当月+当日重視":
+        # 当月データのみ表示
+        selected_months = [current_month] if current_month in available_months else [available_months[0]]
+        show_current_focus = True
+    else:
+        # 期間選択モード
+        selected_months = st.sidebar.multiselect(
+            "年月を選択",
+            available_months,
+            default=available_months[:3]
+        )
+        show_current_focus = False
+    
+    # 生産区分選択
+    production_types = st.sidebar.multiselect(
+        "生産区分を選択",
+        ['内製(PC1-3)', '外注(PC4-6)', 'その他'],
+        default=['内製(PC1-3)', '外注(PC4-6)']
     )
     
     # MRP管理者選択
@@ -232,8 +260,22 @@ def main():
     # データフィルタリング
     df_filtered = df.copy()
     
-    if selected_months:
+    # 表示モードに応じたフィルタリング
+    if show_current_focus:
+        # 当月+当日重視モード
+        current_month = datetime.datetime.now().strftime('%Y-%m')
+        if current_month in df['年月'].values:
+            df_filtered = df_filtered[df_filtered['年月'] == current_month]
+        else:
+            # 当月データがない場合は最新月を表示
+            latest_month = df['年月'].max()
+            df_filtered = df_filtered[df_filtered['年月'] == latest_month]
+    elif selected_months:
+        # 期間選択モード
         df_filtered = df_filtered[df_filtered['年月'].isin(selected_months)]
+    
+    if production_types:
+        df_filtered = df_filtered[df_filtered['生産区分'].isin(production_types)]
     
     if selected_mrp:
         df_filtered = df_filtered[df_filtered['MRP管理者'].isin(selected_mrp)]
@@ -250,7 +292,7 @@ def main():
     with col1:
         total_amount = df_filtered['金額'].sum()
         if total_amount >= 1_000_000:
-            st.metric("総生産金額", f"¥{total_amount/1_000_000:.1f}M")
+            st.metric("総生産金額", f"¥{total_amount/1_000_000:,.1f}M")
         else:
             st.metric("総生産金額", f"¥{total_amount:,.0f}")
     
@@ -279,22 +321,22 @@ def main():
     ])
     
     with tab1:
-        st.subheader("月別週区分別生産実績")
+        if show_current_focus:
+            st.subheader("当月生産実績（週区分別）")
+        else:
+            st.subheader("月別週区分別生産実績")
         
         if not monthly_week_summary.empty:
-            # 月別週区分集計テーブル
-            format_dict = {}
-            for col in monthly_week_summary.columns:
-                if col not in ['年月', '月別週区分'] and pd.api.types.is_numeric_dtype(monthly_week_summary[col]):
-                    format_dict[col] = "¥{:,.0f}"
+            # 月別週区分集計テーブル（金額にカンマ追加）
+            display_summary = monthly_week_summary.copy()
             
-            if format_dict:
-                st.dataframe(
-                    monthly_week_summary.style.format(format_dict),
-                    use_container_width=True
-                )
-            else:
-                st.dataframe(monthly_week_summary, use_container_width=True)
+            # 金額列にカンマ区切りを適用
+            for col in display_summary.columns:
+                if col not in ['年月', '月別週区分'] and pd.api.types.is_numeric_dtype(display_summary[col]):
+                    if '金額' in col or col == '合計':
+                        display_summary[col] = display_summary[col].apply(lambda x: f"¥{x:,.0f}" if pd.notna(x) and x != 0 else "¥0")
+            
+            st.dataframe(display_summary, use_container_width=True)
             
             # 月別週区分グラフ
             if len(monthly_week_summary) > 0:
@@ -304,7 +346,8 @@ def main():
                     monthly_week_summary['月別週区分'].astype(str)
                 )
                 
-                fig = px.bar(
+                # MRP管理者別グラフ
+                fig1 = px.bar(
                     monthly_week_summary.melt(
                         id_vars=['年月週'], 
                         value_vars=[col for col in monthly_week_summary.columns if col.startswith('PC')],
@@ -312,14 +355,37 @@ def main():
                         value_name='金額'
                     ),
                     x='年月週', y='金額', color='MRP管理者',
-                    title="月別週区分別生産実績（MRP管理者別）",
-                    labels={'金額': '生産金額 (¥)', '年月週': '年月-週区分'}
+                    title="週区分別生産実績（MRP管理者別）",
+                    labels={'金額': '生産金額 (円)', '年月週': '年月-週区分'}
                 )
-                fig.update_layout(height=500, xaxis_tickangle=-45)
-                st.plotly_chart(fig, use_container_width=True)
+                fig1.update_layout(height=400, xaxis_tickangle=-45)
+                st.plotly_chart(fig1, use_container_width=True)
+                
+                # 内製・外注合算グラフ
+                production_summary = df_filtered.groupby(['年月', '月別週区分', '生産区分']).agg({
+                    '金額': 'sum'
+                }).reset_index()
+                
+                if not production_summary.empty:
+                    production_summary['年月週'] = (
+                        production_summary['年月'] + '-W' + 
+                        production_summary['月別週区分'].astype(str)
+                    )
+                    
+                    fig2 = px.bar(
+                        production_summary,
+                        x='年月週', y='金額', color='生産区分',
+                        title="週区分別生産実績（内製・外注別）",
+                        labels={'金額': '生産金額 (円)', '年月週': '年月-週区分'}
+                    )
+                    fig2.update_layout(height=400, xaxis_tickangle=-45)
+                    st.plotly_chart(fig2, use_container_width=True)
     
     with tab2:
-        st.subheader("日別生産推移")
+        if show_current_focus:
+            st.subheader("当月日別生産推移")
+        else:
+            st.subheader("日別生産推移")
         
         # 日別集計
         daily_data = df_filtered.groupby(['転記日付', 'データソース']).agg({
@@ -332,7 +398,7 @@ def main():
             fig = px.line(
                 daily_data, x='転記日付', y='金額', color='データソース',
                 title="日別生産実績推移（データソース別）",
-                labels={'金額': '生産金額 (¥)', '転記日付': '日付'}
+                labels={'金額': '生産金額 (円)', '転記日付': '日付'}
             )
             fig.update_layout(height=400)
             st.plotly_chart(fig, use_container_width=True)
@@ -345,13 +411,48 @@ def main():
             fig2 = px.line(
                 daily_mrp, x='転記日付', y='金額', color='MRP管理者',
                 title="MRP管理者別日別推移",
-                labels={'金額': '生産金額 (¥)', '転記日付': '日付'}
+                labels={'金額': '生産金額 (円)', '転記日付': '日付'}
             )
             fig2.update_layout(height=400)
             st.plotly_chart(fig2, use_container_width=True)
+            
+            # 内製・外注別日別推移（積上げ棒グラフ）
+            daily_production = df_filtered.groupby(['転記日付', '生産区分']).agg({
+                '金額': 'sum'
+            }).reset_index()
+            
+            fig3 = px.bar(
+                daily_production, x='転記日付', y='金額', color='生産区分',
+                title="日別生産実績（内製・外注別積上げ）",
+                labels={'金額': '生産金額 (円)', '転記日付': '日付'}
+            )
+            fig3.update_layout(height=400, xaxis_tickangle=-45)
+            st.plotly_chart(fig3, use_container_width=True)
+            
+            # MRP管理者別日別積上げ棒グラフ
+            daily_mrp_bar = df_filtered.groupby(['転記日付', 'MRP管理者']).agg({
+                '金額': 'sum'
+            }).reset_index()
+            
+            fig4 = px.bar(
+                daily_mrp_bar, x='転記日付', y='金額', color='MRP管理者',
+                title="日別生産実績（MRP管理者別積上げ）",
+                labels={'金額': '生産金額 (円)', '転記日付': '日付'}
+            )
+            fig4.update_layout(height=400, xaxis_tickangle=-45)
+            st.plotly_chart(fig4, use_container_width=True)
     
     with tab3:
         st.subheader("生産実績明細")
+        
+        # 概要（データソース別サマリー）を明細タブに移動
+        st.subheader("📊 データ概要")
+        data_source_summary = create_data_source_summary(df_filtered)
+        if not data_source_summary.empty:
+            # 金額合計にカンマを追加
+            display_summary = data_source_summary.copy()
+            display_summary['金額合計'] = display_summary['金額合計'].apply(lambda x: f"¥{x:,.0f}")
+            st.dataframe(display_summary, use_container_width=True)
         
         # 検索機能
         col1, col2, col3 = st.columns(3)
@@ -416,7 +517,10 @@ def main():
             st.info("条件に一致するデータがありません")
     
     with tab4:
-        st.subheader("生産分析")
+        if show_current_focus:
+            st.subheader("当月生産分析")
+        else:
+            st.subheader("生産分析")
         
         col1, col2 = st.columns(2)
         
@@ -430,11 +534,11 @@ def main():
             st.plotly_chart(fig_pie, use_container_width=True)
         
         with col2:
-            # データソース別構成比
-            source_summary = df_filtered.groupby('データソース')['金額'].sum().reset_index()
+            # 内製・外注別構成比
+            production_summary = df_filtered.groupby('生産区分')['金額'].sum().reset_index()
             fig_pie2 = px.pie(
-                source_summary, values='金額', names='データソース',
-                title="データソース別生産金額構成比"
+                production_summary, values='金額', names='生産区分',
+                title="内製・外注別生産金額構成比"
             )
             st.plotly_chart(fig_pie2, use_container_width=True)
         
@@ -446,7 +550,7 @@ def main():
             top_items, x='金額', y='品目コード',
             orientation='h',
             title="生産金額上位10品目",
-            labels={'金額': '生産金額 (¥)', '品目コード': '品目コード'}
+            labels={'金額': '生産金額 (円)', '品目コード': '品目コード'}
         )
         fig_bar.update_layout(height=400)
         st.plotly_chart(fig_bar, use_container_width=True)
@@ -499,8 +603,14 @@ def main():
     
     # 最終更新時刻の表示
     if '更新時刻' in df.columns and not df['更新時刻'].isna().all():
-        latest_update = df['更新時刻'].max()
-        st.markdown(f"**最終データ更新**: {latest_update}")
+        try:
+            # 文字列型の更新時刻を datetime に変換してから最大値を取得
+            update_times = pd.to_datetime(df['更新時刻'], errors='coerce')
+            if not update_times.isna().all():
+                latest_update = update_times.max()
+                st.markdown(f"**最終データ更新**: {latest_update}")
+        except Exception as e:
+            st.warning(f"更新時刻の表示でエラーが発生しました: {e}")
     
     st.markdown(
         f"**表示データ**: {len(df_filtered):,} 件 / 総データ: {len(df):,} 件 | "

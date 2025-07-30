@@ -583,8 +583,13 @@ class AdminTab:
             try:
                 if self.app.sqlite_manager and hasattr(self.app.sqlite_manager, 'finalize_database'):
                     # データベースパスを取得
-                    db_path = self.app.conn.execute(
-                        "PRAGMA database_list").fetchone()[2]
+                    db_path = self.app.db_path if hasattr(self.app, 'db_path') else None
+                    if not db_path and self.app.conn:
+                        try:
+                            db_path = self.app.conn.execute("PRAGMA database_list").fetchone()[2]
+                        except:
+                            db_path = "data/sqlite/main.db"  # デフォルトパス
+                    
                     self.app.sqlite_manager.finalize_database(db_path)
                     finalize_time = time.time() - finalize_start
                     self.log_message(

@@ -36,12 +36,22 @@ class PCProductionDataLoaderSimple:
             'KOUTEI_JISSEKI': r'\\fssha01\common\HOST\MES\KOUTEI_JISSEKI.txt',
             'SASIZU_JISSEKI': r'\\fssha01\common\HOST\MES\SASIZU_JISSEKI.txt',
             'ZP51N': r'\\fssha01\common\HOST\ZP51N\ZP51N.TXT'
+            # 問題のあるパスは削除
+            # 'PC_SEISAN_KANRI': r'\\fsshi01\電源機器製造本部共有\39　部材管理課⇒他部署共有\01     PC工程進捗管理\2020.5月～PC生産_生産管理_20250724.xlsx'
         }
     
     def safe_print(self, message):
         """安全な文字列出力"""
         try:
-            print(message)
+            # Windowsコンソールでの文字化け対策
+            if hasattr(message, 'encode'):
+                # 日本語文字を含む場合の処理
+                try:
+                    print(message.encode('cp932', errors='replace').decode('cp932'))
+                except:
+                    print(message.encode('utf-8', errors='replace').decode('utf-8', errors='replace'))
+            else:
+                print(message)
         except UnicodeEncodeError:
             ascii_message = message.encode('ascii', 'replace').decode('ascii')
             print(ascii_message)
@@ -90,13 +100,62 @@ class PCProductionDataLoaderSimple:
                 self.logger.info(f"過去データ読み込み中: {file_path.name}")
                 
                 encoding = self.detect_encoding(file_path)
-                df = pd.read_csv(
-                    file_path,
-                    delimiter='\t',
-                    encoding=encoding,
-                    dtype=str,
-                    on_bad_lines='skip'
-                )
+                self.logger.info(f"エンコーディング検出: {file_path.name} -> {encoding} (信頼度: {chardet.detect(open(file_path, 'rb').read(10000))['confidence']:.2f})")
+                
+                # エンコーディングエラー対策
+                df = None
+                encodings_to_try = [encoding, 'shift_jis', 'cp932', 'utf-8', 'latin-1', 'iso-2022-jp']
+                
+                for try_encoding in encodings_to_try:
+                    try:
+                        df = pd.read_csv(
+                            file_path,
+                            delimiter='\t',
+                            encoding=try_encoding,
+                            dtype=str,
+                            on_bad_lines='skip',
+                            errors='replace'  # 文字化けを?に置換
+                        )
+                        self.logger.info(f"成功したエンコーディング: {try_encoding}")
+                        break
+                    except (UnicodeDecodeError, UnicodeError) as e:
+                        self.logger.warning(f"エンコーディング {try_encoding} 失敗: {e}")
+                        continue
+                
+                if df is None:
+                    # 最後の手段: バイナリ読み込みで強制変換
+                    try:
+                        with open(file_path, 'rb') as f:
+                            content = f.read()
+                        
+                        # バイナリデータを強制的にUTF-8に変換
+                        text_content = content.decode('utf-8', errors='replace')
+                        
+                        # 一時ファイルに書き込み
+                        import tempfile
+                        with tempfile.NamedTemporaryFile(mode='w', encoding='utf-8', delete=False, suffix='.txt') as temp_file:
+                            temp_file.write(text_content)
+                            temp_path = temp_file.name
+                        
+                        df = pd.read_csv(
+                            temp_path,
+                            delimiter='\t',
+                            encoding='utf-8',
+                            dtype=str,
+                            on_bad_lines='skip'
+                        )
+                        
+                        # 一時ファイルを削除
+                        os.unlink(temp_path)
+                        self.logger.info("バイナリ強制変換で読み込み成功")
+                        
+                    except Exception as final_e:
+                        self.logger.error(f"全てのエンコーディング試行が失敗: {final_e}")
+                        continue
+                
+                if df is None:
+                    self.logger.error(f"すべてのエンコーディングで読み込み失敗: {file_path.name}")
+                    continue
                 
                 year_month = file_path.stem.split('_')[1]
                 df['データ年月'] = year_month
@@ -150,9 +209,9 @@ class PCProductionDataLoaderSimple:
         
         zm29_df = pd.DataFrame()
         
-        # 正しいカラムマッピング
+        # 正しいカラムマッピング（計画終了日を転記日付として使用）
         column_mapping = {
-            '転記日付': '計画終了日',
+            '転記日付': '計画終了日',  # SAP製造指図の基準日付の終了日
             'ネットワーク・指図番号': '指図番号',
             '品目コード': '品目コード',
             '品目テキスト': '品目テキスト',
@@ -342,18 +401,20 @@ class PCProductionDataLoaderSimple:
             self.logger.info("Step 3: 当日データ読み込み")
             current_data = self.load_current_zm29_data()
             
-            # 4. データの統合
-            self.logger.info("Step 4: データ統合")
+            # 4. データの統合（重複除去対応）
+            self.logger.info("Step 4: データ統合（重複除去処理）")
             all_zm29_data = []
             
             if not historical_data.empty:
                 processed_historical = self.process_zm29_data(historical_data)
+                processed_historical['データソース'] = '過去データ(ZM29)'
                 if not processed_historical.empty:
                     all_zm29_data.append(processed_historical)
                     self.logger.info(f"過去データ処理完了: {len(processed_historical)}行")
             
             if not current_data.empty:
                 processed_current = self.process_zm29_data(current_data)
+                processed_current['データソース'] = '当日データ(KANSEI_JISSEKI)'
                 if not processed_current.empty:
                     all_zm29_data.append(processed_current)
                     self.logger.info(f"当日データ処理完了: {len(processed_current)}行")
@@ -362,20 +423,92 @@ class PCProductionDataLoaderSimple:
                 # データ統合
                 integrated_data = pd.concat(all_zm29_data, ignore_index=True)
                 
-                # 重複除去
+                # 重複除去（KANSEI_JISSEKIを優先）
                 if 'データソース' in integrated_data.columns:
-                    integrated_data = integrated_data.sort_values('データソース', ascending=False)
+                    # KANSEI_JISSEKIを優先するためにソート（当日データが先頭に来る）
+                    integrated_data = integrated_data.sort_values(
+                        ['データソース', '転記日付'], 
+                        ascending=[False, True]  # 当日データを優先、日付は昇順
+                    )
                     
-                    dedup_keys = []
+                    # 段階的重複除去
+                    before_count = len(integrated_data)
+                    
+                    # 1. 完全一致の重複除去（転記日付+品目コード+指図番号）
+                    dedup_keys_full = []
                     for key in ['転記日付', '品目コード', 'ネットワーク・指図番号']:
                         if key in integrated_data.columns:
-                            dedup_keys.append(key)
+                            dedup_keys_full.append(key)
                     
-                    if dedup_keys:
-                        before_count = len(integrated_data)
-                        integrated_data = integrated_data.drop_duplicates(subset=dedup_keys, keep='first')
-                        after_count = len(integrated_data)
-                        self.logger.info(f"重複除去: {before_count}行 -> {after_count}行")
+                    if dedup_keys_full:
+                        integrated_data = integrated_data.drop_duplicates(subset=dedup_keys_full, keep='first')
+                        after_full = len(integrated_data)
+                        self.logger.info(f"完全一致重複除去: {before_count}行 -> {after_full}行")
+                    
+                    # 2. 指図番号のみでの重複除去（より積極的）
+                    if 'ネットワーク・指図番号' in integrated_data.columns:
+                        # 同じ指図番号で複数のデータソースがある場合、KANSEI_JISSEKIを優先
+                        order_duplicates = integrated_data.groupby('ネットワーク・指図番号').size()
+                        multi_source_orders = order_duplicates[order_duplicates > 1].index
+                        
+                        if len(multi_source_orders) > 0:
+                            self.logger.info(f"複数データソースを持つ指図番号: {len(multi_source_orders)}件")
+                            
+                            # 各指図番号について、KANSEI_JISSEKIがあればそれを優先
+                            final_data = []
+                            processed_orders = set()
+                            
+                            for _, row in integrated_data.iterrows():
+                                order_no = row['ネットワーク・指図番号']
+                                
+                                if order_no in processed_orders:
+                                    continue
+                                
+                                if order_no in multi_source_orders:
+                                    # この指図番号のすべてのレコードを取得
+                                    order_records = integrated_data[
+                                        integrated_data['ネットワーク・指図番号'] == order_no
+                                    ].copy()
+                                    
+                                    # KANSEI_JISSEKIがあるかチェック
+                                    kansei_records = order_records[
+                                        order_records['データソース'].str.contains('KANSEI_JISSEKI', na=False)
+                                    ]
+                                    
+                                    if not kansei_records.empty:
+                                        # KANSEI_JISSEKIを優先（最新の転記日付）
+                                        selected = kansei_records.sort_values('転記日付', ascending=False).iloc[0]
+                                        final_data.append(selected)
+                                        self.logger.debug(f"指図番号 {order_no}: KANSEI_JISSEKIを選択")
+                                    else:
+                                        # KANSEI_JISSEKIがない場合は最新のZM29データ
+                                        selected = order_records.sort_values('転記日付', ascending=False).iloc[0]
+                                        final_data.append(selected)
+                                        self.logger.debug(f"指図番号 {order_no}: ZM29データを選択")
+                                    
+                                    processed_orders.add(order_no)
+                                else:
+                                    # 重複のない指図番号はそのまま追加
+                                    final_data.append(row)
+                                    processed_orders.add(order_no)
+                            
+                            integrated_data = pd.DataFrame(final_data)
+                            after_order = len(integrated_data)
+                            
+                            self.logger.info(f"指図番号重複除去: {after_full}行 -> {after_order}行")
+                    
+                    # 最終結果
+                    final_count = len(integrated_data)
+                    removed_count = before_count - final_count
+                    
+                    self.logger.info(f"重複除去完了: {before_count}行 -> {final_count}行 (除去: {removed_count}行)")
+                    
+                    # データソース別の残存データ数
+                    source_counts = integrated_data['データソース'].value_counts()
+                    for source, count in source_counts.items():
+                        self.logger.info(f"  {source}: {count}行")
+                    
+                    self.safe_print(f"重複除去: KANSEI_JISSEKIを優先して{removed_count}行の重複を除去")
                 
                 # 5. データベースに保存
                 self.logger.info("Step 5: データベース保存")

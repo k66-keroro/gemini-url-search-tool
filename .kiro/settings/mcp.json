@@ -21,7 +21,8 @@
         "list_allowed_directories",
         "write_file",
         "read_file",
-        "search_files"
+        "search_files",
+        "list_directory"
       ]
     }
   }
