@@ -16,7 +16,12 @@ from ..models.data_models import (
     SearchRecord, SearchResult, ContentAnalysis, UserEvaluation,
     SearchMetrics, SearchFilters, AppSetting, SearchType, ContentType
 )
-from .cache_service import get_cache_service
+try:
+    from src.core.cache_service import get_cache_service
+except ImportError:
+    # Fallback if cache service is not available
+    def get_cache_service():
+        return None
 
 logger = logging.getLogger(__name__)
 

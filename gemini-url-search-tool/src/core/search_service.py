@@ -12,7 +12,12 @@ import re
 from .gemini_client import GeminiClient
 from .component_search import ComponentSearchEngine
 from .result_processor import ResultProcessor
-from .cache_service import get_cache_service
+try:
+    from src.core.cache_service import get_cache_service
+except ImportError:
+    # Fallback if cache service is not available
+    def get_cache_service():
+        return None
 from ..models.data_models import (
     SearchResult, SearchRecord, SearchType, SearchFilters
 )

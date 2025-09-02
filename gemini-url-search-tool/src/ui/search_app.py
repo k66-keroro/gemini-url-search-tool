@@ -8,18 +8,20 @@ import os
 from pathlib import Path
 import sys
 
-# Add src directory to path for imports
-sys.path.append(str(Path(__file__).parent.parent))
+# Add project root to path for imports
+project_root = Path(__file__).parent.parent.parent
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
 
-from ui.components.search_interface import render_search_interface, SearchInterface
-from ui.components.results_display import render_search_results
-from ui.components.content_analysis_display import render_content_analysis, create_sample_content_analysis
-from ui.components.evaluation_dashboard import EvaluationDashboard
-from ui.components.settings_interface import render_settings_page
-from evaluation.evaluation_service import EvaluationService
-from models.database import DatabaseManager
-from core.settings_service import SettingsService
-from core.storage_service import StorageService
+from src.ui.components.search_interface import render_search_interface, SearchInterface
+from src.ui.components.results_display import render_search_results
+from src.ui.components.content_analysis_display import render_content_analysis, create_sample_content_analysis
+from src.ui.components.evaluation_dashboard import EvaluationDashboard
+from src.ui.components.settings_interface import render_settings_page
+from src.evaluation.evaluation_service import EvaluationService
+from src.models.database import DatabaseManager
+from src.core.settings_service import SettingsService
+from src.core.storage_service import StorageService
 
 def load_config():
     """Load application configuration"""

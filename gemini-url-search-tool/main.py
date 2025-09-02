@@ -13,10 +13,14 @@ import logging
 from pathlib import Path
 from dotenv import load_dotenv
 
-# Add src directory to Python path
+# Add current directory to Python path for absolute imports
 current_dir = Path(__file__).parent
 src_dir = current_dir / "src"
-sys.path.insert(0, str(src_dir))
+sys.path.insert(0, str(current_dir))
+
+# Ensure we can import from src
+if str(src_dir) not in sys.path:
+    sys.path.insert(0, str(src_dir))
 
 # Load environment variables
 load_dotenv()
@@ -98,7 +102,7 @@ def main():
     
     # Import and run the Streamlit app
     try:
-        from ui.search_app import run_app
+        from src.ui.search_app import run_app
         logger.info("Launching Streamlit application")
         run_app()
         

@@ -1,9 +1,45 @@
-﻿ファイル名,テーブル名,備考
-ZP138.txt,t_zp138引当,引当計算付き
-zm37.txt,zm37,CP932エンコーディング
-PP_SUMMARY_ZTBP080_KOJOZISSEKI_D_0.xlsx,PP_SUMMARY_ZTBP080_KOJOZISSEKI_D_0,ヘッダー7行
-dbo_提出用_経理_滞留在庫資料_通常.xlsx,t_6640,日本語ファイル名
-資料依頼未完了一覧.xlsx,t_8557,日本語ファイル名
-払出明細（大阪）_ZPR01201.txt,t_3059,日本語ファイル名
-払出明細（滋賀）_ZPR01201.txt,t_8549,日本語ファイル名
-ZPF01802_未完了分.TXT,t_3840,日本語ファイル名
+﻿ファイル名,テーブル名,備考,更新タイミング
+ZP138.txt,t_zp138引当,引当計算付き,夜間処理
+zm37.txt,zm37,CP932エンコーディング,夜間処理
+PP_SUMMARY_ZTBP080_KOJOZISSEKI_D_0.xlsx,PP_SUMMARY_ZTBP080_KOJOZISSEKI_D_0,ヘッダー7行,夜間処理
+dbo_提出用_経理_滞留在庫資料_通常.xlsx,t_6640,日本語ファイル名,月初のみ（12:00くらい）
+資料依頼未完了一覧.xlsx,t_8557,日本語ファイル名,夜間処理
+払出明細（大阪）_ZPR01201.txt,t_3059,日本語ファイル名,夜間処理
+払出明細（滋賀）_ZPR01201.txt,t_8549,日本語ファイル名,夜間処理
+ZPF01802_未完了分.TXT,t_3840,日本語ファイル名,夜間処理
+GetPLMItmPlntInfo_P100.txt ,GetPLMItmPlntInfo_P100,,夜間処理
+GetSekkeiWBSJisseki.txt ,GetSekkeiWBSJisseki,,夜間処理
+KANSEI_JISSEKI.txt ,KANSEI_JISSEKI,,毎時（最終23:00)
+KOUSU_JISSEKI.txt ,KOUSU_JISSEKI,,毎時（最終23:00)
+KOUTEI_JISSEKI.txt ,KOUTEI_JISSEKI,,毎時（最終23:00)
+SASIZU_JISSEKI.txt ,SASIZU_JISSEKI,,毎時（最終23:00)
+V_SAGYO_TIME.txt ,V_SAGYO_TIME,,毎時（最終23:00)
+zm114.txt ,zm114,,夜間処理
+ZM122_P100_1220.txt ,ZM122_P100_1220,,夜間処理
+ZM122_P100_1240.txt ,ZM122_P100_1240,,夜間処理
+zm21.txt ,zm21,,夜間処理
+ZM29.txt ,ZM29,,夜間処理
+zm87n.txt ,zm87n,,夜間処理
+zp02.txt ,zp02,,夜間処理
+ZP128_P100.txt ,ZP128_P100,,夜間処理
+ZP128_P300.txt ,ZP128_P300,,夜間処理
+zp160.txt ,zp160,,夜間処理
+ZP170.txt ,ZP170,,夜間処理
+ZP173.txt ,ZP173,,夜間処理
+ZP173_MEISAI.txt ,ZP173_MEISAI,,夜間処理
+zp35.txt ,zp35,,夜間処理
+ZP51N.txt ,ZP51N,,夜間処理
+zp58.txt ,zp58,,夜間処理
+zp70.txt ,zp70,,夜間処理
+zs191.txt ,zs191,,夜間処理
+zs45.txt ,zs45,,夜間処理
+zs65.txt ,zs65,,夜間処理
+zs65_sss.txt ,zs65_sss,,夜間処理
+MARA_DL.csv ,MARA_DL,,夜間処理
+PP_DL_CSV_SEISAN_YOTEI.txt ,PP_DL_CSV_SEISAN_YOTEI,,夜間処理
+PP_DL_CSV_ZTBP110.txt ,PP_DL_CSV_ZTBP110,,夜間処理
+zf26.txt ,zf26,,夜間処理
+ZS58MONTH.txt ,ZS58MONTH,,夜間処理
+ZS61KDAY.txt ,ZS61KDAY,,夜間処理
+MARA_DL,view_pc_master,,
+view_pc_master ,parsed_pc_master,,
