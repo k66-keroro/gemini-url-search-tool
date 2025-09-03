@@ -42,25 +42,44 @@ def search_with_multiple_sources(query, num_results=10):
     except:
         pass
     
-    # GitHub検索
+    # GitHub検索（制限付き）
     try:
-        github_url = f"https://api.github.com/search/repositories?q={quote_plus(query)}&sort=stars&order=desc&per_page=3"
-        response = requests.get(github_url, timeout=10)
-        data = response.json()
-        
-        if 'items' in data:
-            for repo in data['items'][:3]:
-                results.append({
-                    'title': f"{repo['name']} - GitHub",
-                    'url': repo['html_url'],
-                    'description': repo.get('description', 'GitHub repository'),
-                    'source': 'GitHub',
-                    'confidence': 0.8
-                })
+        # GitHubは検索キーワードが技術関連の場合のみ
+        tech_keywords = ['python', 'javascript', 'react', 'vue', 'angular', 'node', 'docker', 'kubernetes', 'aws', 'api', 'framework', 'library']
+        if any(keyword in query.lower() for keyword in tech_keywords):
+            github_url = f"https://api.github.com/search/repositories?q={quote_plus(query)}&sort=stars&order=desc&per_page=2"
+            response = requests.get(github_url, timeout=10)
+            data = response.json()
+            
+            if 'items' in data:
+                for repo in data['items'][:2]:  # 2個に制限
+                    results.append({
+                        'title': f"{repo['name']} - GitHub",
+                        'url': repo['html_url'],
+                        'description': repo.get('description', 'GitHub repository'),
+                        'source': 'GitHub',
+                        'confidence': 0.7  # 少し下げる
+                    })
     except:
         pass
     
-    # 手動で高品質サイトを追加
+    # Stack Overflow検索（技術関連のみ）
+    try:
+        tech_keywords = ['python', 'javascript', 'react', 'vue', 'angular', 'node', 'docker', 'kubernetes', 'aws', 'api', 'error', 'bug', 'how to']
+        if any(keyword in query.lower() for keyword in tech_keywords):
+            # Stack Overflowの検索結果を追加（実際のAPIは有料なので、直接URLを生成）
+            so_url = f"https://stackoverflow.com/search?q={quote_plus(query)}"
+            results.append({
+                'title': f'Stack Overflow - {query}',
+                'url': so_url,
+                'description': f'Stack Overflow discussions about {query}',
+                'source': 'Stack Overflow',
+                'confidence': 0.8
+            })
+    except:
+        pass
+    
+    # 手動で高品質サイトを追加（多様なソース）
     manual_sites = {
         'python': [
             {'title': 'Python.org - Official Site', 'url': 'https://www.python.org/', 'description': 'Official Python programming language website', 'confidence': 1.0},
@@ -70,6 +89,7 @@ def search_with_multiple_sources(query, num_results=10):
         'machine learning': [
             {'title': 'Scikit-learn', 'url': 'https://scikit-learn.org/', 'description': 'Machine learning library for Python', 'confidence': 0.9},
             {'title': 'TensorFlow', 'url': 'https://www.tensorflow.org/', 'description': 'Open source machine learning platform', 'confidence': 0.9},
+            {'title': 'Kaggle Learn', 'url': 'https://www.kaggle.com/learn', 'description': 'Free machine learning courses', 'confidence': 0.8},
         ],
         'javascript': [
             {'title': 'MDN Web Docs - JavaScript', 'url': 'https://developer.mozilla.org/en-US/docs/Web/JavaScript', 'description': 'Comprehensive JavaScript documentation', 'confidence': 1.0},
@@ -77,6 +97,24 @@ def search_with_multiple_sources(query, num_results=10):
         ],
         'react': [
             {'title': 'React Official Docs', 'url': 'https://react.dev/', 'description': 'Official React documentation', 'confidence': 1.0},
+        ],
+        'aws': [
+            {'title': 'AWS Documentation', 'url': 'https://docs.aws.amazon.com/', 'description': 'Official AWS documentation', 'confidence': 1.0},
+            {'title': 'AWS Architecture Center', 'url': 'https://aws.amazon.com/architecture/', 'description': 'AWS architecture best practices', 'confidence': 0.9},
+        ],
+        'docker': [
+            {'title': 'Docker Official Docs', 'url': 'https://docs.docker.com/', 'description': 'Official Docker documentation', 'confidence': 1.0},
+        ],
+        'kubernetes': [
+            {'title': 'Kubernetes Documentation', 'url': 'https://kubernetes.io/docs/', 'description': 'Official Kubernetes documentation', 'confidence': 1.0},
+        ],
+        'web development': [
+            {'title': 'MDN Web Docs', 'url': 'https://developer.mozilla.org/', 'description': 'Web development documentation', 'confidence': 1.0},
+            {'title': 'W3Schools', 'url': 'https://www.w3schools.com/', 'description': 'Web development tutorials', 'confidence': 0.8},
+        ],
+        'データベース': [
+            {'title': 'PostgreSQL Documentation', 'url': 'https://www.postgresql.org/docs/', 'description': 'PostgreSQL database documentation', 'confidence': 0.9},
+            {'title': 'MySQL Documentation', 'url': 'https://dev.mysql.com/doc/', 'description': 'MySQL database documentation', 'confidence': 0.9},
         ]
     }
     
