@@ -42,10 +42,15 @@ def search_with_multiple_sources(query, num_results=10):
     except:
         pass
     
-    # GitHub検索（制限付き）
+    # GitHub検索（技術関連の場合のみ - 関連性が低い場合はスキップ）
     try:
-        # GitHubは検索キーワードが技術関連の場合のみ
-        tech_keywords = ['python', 'javascript', 'react', 'vue', 'angular', 'node', 'docker', 'kubernetes', 'aws', 'api', 'framework', 'library']
+        tech_keywords = [
+            'python', 'javascript', 'react', 'vue', 'angular', 'node', 'docker', 'kubernetes', 'aws', 'api', 'framework', 'library',
+            'vba', 'visual basic', 'excel', 'access', 'macro', 'office', 'c#', 'java', 'php', 'ruby', 'go', 'rust', 'swift',
+            'html', 'css', 'sql', 'database', 'web development', 'programming', 'coding', 'development', 'software', 'code',
+            'tutorial', 'learn', 'guide', 'example', 'sample', 'project', 'app', 'application', 'tool', 'script'
+        ]
+        # 技術関連キーワードがある場合のみGitHub検索（無関係な結果を避けるため）
         if any(keyword in query.lower() for keyword in tech_keywords):
             github_url = f"https://api.github.com/search/repositories?q={quote_plus(query)}&sort=stars&order=desc&per_page=2"
             response = requests.get(github_url, timeout=10)
@@ -58,24 +63,65 @@ def search_with_multiple_sources(query, num_results=10):
                         'url': repo['html_url'],
                         'description': repo.get('description', 'GitHub repository'),
                         'source': 'GitHub',
-                        'confidence': 0.7  # 少し下げる
+                        'confidence': 0.7
                     })
     except:
         pass
     
-    # Stack Overflow検索（技術関連のみ）
+    # 汎用検索サイトを追加（どんなキーワードでも対応）
     try:
-        tech_keywords = ['python', 'javascript', 'react', 'vue', 'angular', 'node', 'docker', 'kubernetes', 'aws', 'api', 'error', 'bug', 'how to']
+        # 技術関連の場合はStack Overflow
+        tech_keywords = [
+            'python', 'javascript', 'react', 'vue', 'angular', 'node', 'docker', 'kubernetes', 'aws', 'api', 'error', 'bug', 'how to',
+            'vba', 'visual basic', 'excel', 'access', 'macro', 'office', 'c#', 'java', 'php', 'ruby', 'go', 'rust', 'swift',
+            'html', 'css', 'sql', 'database', 'web development', 'programming', 'coding', 'development', 'software', 'code'
+        ]
         if any(keyword in query.lower() for keyword in tech_keywords):
-            # Stack Overflowの検索結果を追加（実際のAPIは有料なので、直接URLを生成）
             so_url = f"https://stackoverflow.com/search?q={quote_plus(query)}"
             results.append({
                 'title': f'Stack Overflow - {query}',
                 'url': so_url,
-                'description': f'Stack Overflow discussions about {query}',
+                'description': f'Technical discussions about {query}',
                 'source': 'Stack Overflow',
                 'confidence': 0.8
             })
+        
+        # 学習関連の場合はYouTube
+        learning_keywords = ['学習', '勉強', 'learn', 'tutorial', 'guide', 'course', '入門', '基礎', 'beginner']
+        if any(keyword in query.lower() for keyword in learning_keywords):
+            youtube_url = f"https://www.youtube.com/results?search_query={quote_plus(query)}"
+            results.append({
+                'title': f'YouTube - {query}',
+                'url': youtube_url,
+                'description': f'Video tutorials and courses about {query}',
+                'source': 'YouTube',
+                'confidence': 0.7
+            })
+        
+        # 一般的なキーワードの場合はQiita（日本語技術記事）
+        if any(char in query for char in 'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん'):
+            qiita_url = f"https://qiita.com/search?q={quote_plus(query)}"
+            results.append({
+                'title': f'Qiita - {query}',
+                'url': qiita_url,
+                'description': f'Japanese technical articles about {query}',
+                'source': 'Qiita',
+                'confidence': 0.6
+            })
+    except:
+        pass
+    
+    # 汎用検索エンジンを追加（どんなキーワードでも）
+    try:
+        # DuckDuckGo検索（プライバシー重視）
+        duckduckgo_url = f"https://duckduckgo.com/?q={quote_plus(query)}"
+        results.append({
+            'title': f'DuckDuckGo - {query}',
+            'url': duckduckgo_url,
+            'description': f'Privacy-focused search results for {query}',
+            'source': 'DuckDuckGo',
+            'confidence': 0.5
+        })
     except:
         pass
     
@@ -115,6 +161,34 @@ def search_with_multiple_sources(query, num_results=10):
         'データベース': [
             {'title': 'PostgreSQL Documentation', 'url': 'https://www.postgresql.org/docs/', 'description': 'PostgreSQL database documentation', 'confidence': 0.9},
             {'title': 'MySQL Documentation', 'url': 'https://dev.mysql.com/doc/', 'description': 'MySQL database documentation', 'confidence': 0.9},
+        ],
+        'vba': [
+            {'title': 'Microsoft VBA Documentation', 'url': 'https://docs.microsoft.com/en-us/office/vba/', 'description': 'Official Microsoft VBA documentation', 'confidence': 1.0},
+            {'title': 'Excel VBA Tutorial', 'url': 'https://www.excel-easy.com/vba.html', 'description': 'Excel VBA tutorial and examples', 'confidence': 0.9},
+        ],
+        'visual basic': [
+            {'title': 'Visual Basic .NET Documentation', 'url': 'https://docs.microsoft.com/en-us/dotnet/visual-basic/', 'description': 'Official Visual Basic .NET documentation', 'confidence': 1.0},
+            {'title': 'VB.NET Tutorial', 'url': 'https://www.tutorialspoint.com/vb.net/', 'description': 'Visual Basic .NET tutorial', 'confidence': 0.8},
+        ],
+        'excel': [
+            {'title': 'Microsoft Excel Help', 'url': 'https://support.microsoft.com/en-us/excel', 'description': 'Official Microsoft Excel support', 'confidence': 1.0},
+            {'title': 'ExcelJet', 'url': 'https://exceljet.net/', 'description': 'Excel tips, tricks, and tutorials', 'confidence': 0.9},
+        ],
+        '料理': [
+            {'title': 'クックパッド', 'url': 'https://cookpad.com/', 'description': '日本最大の料理レシピサイト', 'confidence': 0.9},
+            {'title': 'クラシル', 'url': 'https://www.kurashiru.com/', 'description': '動画で学べる料理レシピ', 'confidence': 0.8},
+        ],
+        'レシピ': [
+            {'title': 'クックパッド', 'url': 'https://cookpad.com/', 'description': '日本最大の料理レシピサイト', 'confidence': 0.9},
+            {'title': 'Delish Kitchen', 'url': 'https://delishkitchen.tv/', 'description': '動画レシピサイト', 'confidence': 0.8},
+        ],
+        '健康': [
+            {'title': '厚生労働省', 'url': 'https://www.mhlw.go.jp/', 'description': '公式健康情報', 'confidence': 1.0},
+            {'title': 'ヘルスケア大学', 'url': 'https://www.skincare-univ.com/', 'description': '医師監修の健康情報', 'confidence': 0.8},
+        ],
+        '旅行': [
+            {'title': 'じゃらん', 'url': 'https://www.jalan.net/', 'description': '国内旅行予約サイト', 'confidence': 0.9},
+            {'title': '楽天トラベル', 'url': 'https://travel.rakuten.co.jp/', 'description': '旅行予約・ホテル検索', 'confidence': 0.9},
         ]
     }
     
