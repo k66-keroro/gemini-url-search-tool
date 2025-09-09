@@ -1,9 +1,12 @@
 @echo off
+chcp 65001 >nul
+cd /d "%~dp0"
+
 echo Gemini URL Search Tool - Starting...
 echo.
 
 REM 仮想環境の確認
-if exist "venv\Scripts\activate.bat" (
+if exist "venv" (
     echo Activating virtual environment...
     call venv\Scripts\activate.bat
 ) else (
@@ -17,18 +20,17 @@ if exist "venv\Scripts\activate.bat" (
 REM .envファイルの確認
 if not exist ".env" (
     echo Creating .env file from template...
-    copy .env.example .env
+    copy .env.example .env >nul
     echo.
     echo Please edit .env file and add your GEMINI_API_KEY
     echo Then run this script again.
     pause
-    exit /b
+    exit /b 1
 )
 
 REM アプリケーション起動
-echo Starting Smart Overview Detail Tool...
-echo Open your browser and go to: http://localhost:8510
+echo Starting Advanced Gemini URL Search Tool with Quality Filter...
+echo Open your browser and go to: http://localhost:8512
 echo.
-streamlit run smart_overview_detail.py --server.port 8510
-
+streamlit run advanced_search_with_cache.py --server.port 8512
 pause

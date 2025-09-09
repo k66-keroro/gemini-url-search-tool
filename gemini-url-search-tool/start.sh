@@ -27,7 +27,7 @@ if [ ! -f ".env" ]; then
 fi
 
 # アプリケーション起動
-echo "Starting Smart Overview Detail Tool..."
-echo "Open your browser and go to: http://localhost:8510"
+echo "Starting Advanced Gemini URL Search Tool with Quality Filter..."
+echo "Open your browser and go to: http://localhost:8512"
 echo
-streamlit run smart_overview_detail.py --server.port 8510
+streamlit run advanced_search_with_cache.py --server.port 8512

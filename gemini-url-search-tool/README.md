@@ -138,12 +138,31 @@ CACHE_DURATION_HOURS=24
 
 ## 使用方法
 
-### 基本的な使用手順
+### 🚀 簡単起動（推奨）
+
+1. **ワンクリック起動**
+
+```bash
+# Windows
+start.bat
+
+# Linux/Mac  
+./start.sh
+```
+
+2. **ブラウザでアクセス**
+   - 自動的に http://localhost:8512 が開きます
+
+### 手動起動
 
 1. **アプリケーションの起動**
 
 ```bash
-streamlit run main.py
+# 最新版（品質フィルター付き）
+streamlit run advanced_search_with_cache.py --server.port 8512
+
+# シンプル版
+streamlit run simple_app.py --server.port 8501
 ```
 
 2. **ブラウザでアクセス**
